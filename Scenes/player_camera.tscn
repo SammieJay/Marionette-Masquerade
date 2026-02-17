@@ -1,0 +1,194 @@
+[gd_scene load_steps=22 format=3 uid="uid://d0c41dv2vtves"]
+
+[ext_resource type="Script" uid="uid://dw7kjhpwcm2gq" path="res://Scripts/player_camera.gd" id="1_asj12"]
+[ext_resource type="FontFile" uid="uid://vfxniutek0c8" path="res://Assets/Dracutaz.otf" id="2_cnr7e"]
+[ext_resource type="Shader" uid="uid://dr4qjy4ietmgf" path="res://Assets/Shaders/crt.gdshader" id="2_o3kss"]
+[ext_resource type="Shader" uid="uid://dgwl12y8au85v" path="res://Assets/Shaders/speedline.gdshader" id="2_vhj40"]
+[ext_resource type="Shader" uid="uid://8s4084pmsrb0" path="res://Assets/Shaders/spotlight.gdshader" id="2_wg711"]
+[ext_resource type="Shader" uid="uid://bclnu2m34lbck" path="res://Assets/Shaders/player_camera.gdshader" id="3_na1lm"]
+[ext_resource type="Texture2D" uid="uid://bboqika2vk3ei" path="res://Assets/Textures/blood_txtr_1.png" id="3_o3kss"]
+[ext_resource type="Texture2D" uid="uid://d33ccufnv1h1g" path="res://Assets/Textures/static_noise_map_txtr_1.png" id="3_ragnj"]
+[ext_resource type="Texture2D" uid="uid://bxn7tpqx5oo1r" path="res://icon.svg" id="4_jonfb"]
+[ext_resource type="AudioStream" uid="uid://bql35774tmnjs" path="res://Assets/music/Mask_Combat_High.wav" id="10_qca1e"]
+[ext_resource type="AudioStream" uid="uid://c5pj1n1wxmq7t" path="res://Assets/music/Mask_Switch.wav" id="11_716rv"]
+[ext_resource type="AudioStream" uid="uid://cau5ufta5t6bv" path="res://Assets/music/Mask_Switchmiss.wav" id="12_s6d50"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qca1e"]
+shader = ExtResource("2_vhj40")
+shader_parameter/pulse_alpha = 1.0
+shader_parameter/noise = ExtResource("3_ragnj")
+shader_parameter/line_color = Color(0.14901961, 0, 0, 1)
+shader_parameter/line_count = 1.80000002682216
+shader_parameter/line_density = 0.4430000210425
+shader_parameter/line_faloff = 1.0
+shader_parameter/mask_size = 0.2810000133475
+shader_parameter/mask_edge = 0.4610000218975
+shader_parameter/animation_speed = 20.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ragnj"]
+shader = ExtResource("2_o3kss")
+shader_parameter/scanline_color = Color(0, 0, 0, 1)
+shader_parameter/flicker_color = Color(0, 0, 0, 1)
+shader_parameter/scanlines_count = 10.0
+shader_parameter/scanlines_intensity = 0.05
+shader_parameter/flicker_speed = 30.0
+shader_parameter/flicker_intensity = 0.025
+shader_parameter/color_offset = 1.1
+shader_parameter/blur = 0.11
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vhj40"]
+shader = ExtResource("2_wg711")
+shader_parameter/pixelation = Vector2(64, 64)
+shader_parameter/gradient_steps = 64.0
+shader_parameter/gradient = ExtResource("3_o3kss")
+shader_parameter/spread = 0.29000001307648005
+shader_parameter/size = 0.29600006156
+shader_parameter/speed = 5.0
+shader_parameter/ray1_density = 9.42000044745
+shader_parameter/ray2_density = 6.6610003163975
+shader_parameter/ray2_intensity = -0.1899999140249999
+shader_parameter/core_intensity = 0.1950000567625001
+shader_parameter/hdr = false
+shader_parameter/seed = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wg711"]
+shader = ExtResource("3_na1lm")
+shader_parameter/radius = 0.1970000093575
+shader_parameter/softness = 0.74800003553
+shader_parameter/intensity = 0.46000002185
+shader_parameter/contrast = 3.366000136135
+shader_parameter/vignette_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_n1xto"]
+font = ExtResource("2_cnr7e")
+font_size = 30
+font_color = Color(1, 0, 0, 1)
+shadow_size = 3
+shadow_color = Color(0, 0, 0, 0.827451)
+
+[sub_resource type="LabelSettings" id="LabelSettings_cnr7e"]
+font = ExtResource("2_cnr7e")
+font_size = 25
+font_color = Color(1, 0, 0, 1)
+shadow_color = Color(0, 0, 0, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_716rv"]
+shader = ExtResource("2_wg711")
+shader_parameter/pixelation = Vector2(64, 64)
+shader_parameter/gradient_steps = 64.0
+shader_parameter/gradient = ExtResource("3_ragnj")
+shader_parameter/spread = 0.40000000596046
+shader_parameter/size = 0.5200000722
+shader_parameter/speed = 1.0
+shader_parameter/ray1_density = 8.41200039957
+shader_parameter/ray2_density = 8.5
+shader_parameter/ray2_intensity = 0.5
+shader_parameter/core_intensity = 2.0
+shader_parameter/hdr = false
+shader_parameter/seed = 1.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_na1lm"]
+font = ExtResource("2_cnr7e")
+font_size = 100
+font_color = Color(1, 0, 0, 1)
+shadow_size = 5
+shadow_color = Color(0, 0, 0, 1)
+
+[sub_resource type="Theme" id="Theme_qca1e"]
+default_font = ExtResource("2_cnr7e")
+default_font_size = 50
+
+[node name="PlayerCamera" type="Camera2D"]
+ignore_rotation = false
+script = ExtResource("1_asj12")
+
+[node name="speedLineShader" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_qca1e")
+position = Vector2(-0.50003624, 0.9999924)
+scale = Vector2(9.6328125, 5.9374995)
+texture = ExtResource("4_jonfb")
+metadata/_edit_lock_ = true
+
+[node name="crtShader" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_ragnj")
+position = Vector2(0.50004196, 2.670288e-05)
+scale = Vector2(9.6953125, 5.9375)
+texture = ExtResource("4_jonfb")
+metadata/_edit_lock_ = true
+
+[node name="spotlightShader" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_vhj40")
+position = Vector2(-446.49997, 252)
+scale = Vector2(8.968748, 5.125)
+texture = ExtResource("3_o3kss")
+
+[node name="vinegetteShader" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_wg711")
+position = Vector2(-0.4999671, 0.50002956)
+scale = Vector2(9.6484375, 5.6640625)
+texture = ExtResource("4_jonfb")
+metadata/_edit_lock_ = true
+
+[node name="ammo count" type="Label" parent="."]
+offset_left = -419.0
+offset_top = 238.0
+offset_right = -379.0
+offset_bottom = 270.0
+text = "000"
+label_settings = SubResource("LabelSettings_n1xto")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -493.0
+offset_top = 242.0
+offset_right = -425.0
+offset_bottom = 268.0
+text = "Bullets"
+label_settings = SubResource("LabelSettings_cnr7e")
+
+[node name="gameSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("10_qca1e")
+autoplay = true
+
+[node name="deathShader" type="Sprite2D" parent="."]
+visible = false
+material = SubResource("ShaderMaterial_716rv")
+position = Vector2(-0.49998647, 0.9999969)
+scale = Vector2(35.968746, 20.1875)
+texture = ExtResource("3_o3kss")
+
+[node name="gameOver_lbl" type="Label" parent="."]
+visible = false
+offset_left = -172.0
+offset_top = -114.0
+offset_right = 197.0
+offset_bottom = -10.0
+text = "GAME OVER"
+label_settings = SubResource("LabelSettings_na1lm")
+
+[node name="gameover_btns" type="HBoxContainer" parent="."]
+visible = false
+offset_left = -125.0
+offset_top = 1.0
+offset_right = 159.0
+offset_bottom = 61.0
+theme_override_constants/separation = 40
+
+[node name="menu" type="Button" parent="gameover_btns"]
+visible = false
+layout_mode = 2
+theme = SubResource("Theme_qca1e")
+theme_override_colors/font_color = Color(0.8745098, 0, 0, 1)
+text = "Menu"
+
+[node name="restart" type="Button" parent="gameover_btns"]
+visible = false
+layout_mode = 2
+theme = SubResource("Theme_qca1e")
+theme_override_colors/font_color = Color(0.8745098, 0, 0, 1)
+text = "Restart"
+
+[node name="MaskTrasferAudio" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("11_716rv")
+
+[node name="MaskTrasferAudioMiss" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("12_s6d50")

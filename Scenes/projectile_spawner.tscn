@@ -1,0 +1,34 @@
+[gd_scene load_steps=5 format=3 uid="uid://c7ah02d2ywsso"]
+
+[ext_resource type="Script" uid="uid://dno5kfr0jk6kc" path="res://Scripts/projectile_spawner.gd" id="1_fn4pw"]
+[ext_resource type="AudioStream" uid="uid://d14heo04v25pr" path="res://Assets/Shotgun_Shot.wav" id="3_ossoj"]
+[ext_resource type="AudioStream" uid="uid://c2qkvi4imv1vk" path="res://Assets/Handgun_Shot.wav" id="3_ygls1"]
+[ext_resource type="Texture2D" uid="uid://c5sk3c1ky01p3" path="res://Assets/Textures/muzzle_flash_txtr_1.png" id="4_ygls1"]
+
+[node name="Projectile Spawner" type="Node2D"]
+script = ExtResource("1_fn4pw")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+physics_interpolation_mode = 0
+emitting = false
+amount = 2
+texture = ExtResource("4_ygls1")
+lifetime = 0.04
+one_shot = true
+explosiveness = 1.0
+local_coords = true
+emission_shape = 1
+emission_sphere_radius = 0.01
+gravity = Vector2(0, 0)
+angle_min = 89.4
+angle_max = 89.4
+scale_amount_min = 1.5
+scale_amount_max = 2.0
+
+[node name="ShotgunAudio" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_ossoj")
+metadata/_edit_lock_ = true
+
+[node name="PistolAudio" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_ygls1")
+metadata/_edit_lock_ = true

@@ -1,0 +1,30 @@
+[gd_scene load_steps=3 format=3 uid="uid://dy6o8irkh2qou"]
+
+[ext_resource type="Texture2D" uid="uid://cg5wb5cyg3hrd" path="res://Assets/Textures/story_txtr.png" id="1_pwpkg"]
+[ext_resource type="Script" uid="uid://cjmv206jd30n4" path="res://Scripts/story.gd" id="1_y0hhn"]
+
+[node name="story" type="Node2D"]
+script = ExtResource("1_y0hhn")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(576, 324)
+scale = Vector2(2.4, 2.4)
+texture = ExtResource("1_pwpkg")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_right = 591.0
+offset_bottom = 305.0
+color = Color(0, 0, 0, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="."]
+offset_left = 591.0
+offset_right = 1182.0
+offset_bottom = 305.0
+color = Color(0, 0, 0, 1)
+
+[node name="ColorRect3" type="ColorRect" parent="."]
+offset_left = 1.0
+offset_top = 304.0
+offset_right = 1182.0
+offset_bottom = 657.0
+color = Color(0, 0, 0, 1)

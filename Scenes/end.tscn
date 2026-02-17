@@ -1,0 +1,73 @@
+[gd_scene load_steps=9 format=3 uid="uid://2smm28wilput"]
+
+[ext_resource type="Script" uid="uid://e56ya7dlnh11" path="res://Scripts/end.gd" id="1_xmt8n"]
+[ext_resource type="FontFile" uid="uid://vfxniutek0c8" path="res://Assets/Dracutaz.otf" id="2_02kpm"]
+[ext_resource type="Shader" uid="uid://8s4084pmsrb0" path="res://Assets/Shaders/spotlight.gdshader" id="2_q5l5q"]
+[ext_resource type="Texture2D" uid="uid://d33ccufnv1h1g" path="res://Assets/Textures/static_noise_map_txtr_1.png" id="3_t3us6"]
+[ext_resource type="Texture2D" uid="uid://bboqika2vk3ei" path="res://Assets/Textures/blood_txtr_1.png" id="4_d0yn4"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kx0vo"]
+shader = ExtResource("2_q5l5q")
+shader_parameter/pixelation = Vector2(64, 64)
+shader_parameter/gradient_steps = 64.0
+shader_parameter/gradient = ExtResource("3_t3us6")
+shader_parameter/spread = 0.40000000596046
+shader_parameter/size = 0.5200000722
+shader_parameter/speed = 1.0
+shader_parameter/ray1_density = 8.41200039957
+shader_parameter/ray2_density = 7.9750003788125
+shader_parameter/ray2_intensity = -0.7649999413374999
+shader_parameter/core_intensity = -1.0
+shader_parameter/hdr = false
+shader_parameter/seed = 1.0
+
+[sub_resource type="Theme" id="Theme_ql4ve"]
+default_font = ExtResource("2_02kpm")
+
+[sub_resource type="Theme" id="Theme_q5l5q"]
+default_font = ExtResource("2_02kpm")
+default_font_size = 40
+
+[node name="End" type="Node2D"]
+script = ExtResource("1_xmt8n")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = -74.0
+offset_top = -52.0
+offset_right = 1313.0
+offset_bottom = 710.0
+color = Color(0, 0, 0, 1)
+
+[node name="shader" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_kx0vo")
+position = Vector2(615.50006, 332.50003)
+scale = Vector2(39.468754, 21.781252)
+texture = ExtResource("4_d0yn4")
+
+[node name="Label" type="Label" parent="."]
+offset_left = 231.0
+offset_top = 79.0
+offset_right = 936.0
+offset_bottom = 183.0
+theme = SubResource("Theme_ql4ve")
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_font_sizes/font_size = 100
+text = "THANKS FOR PLAYING"
+
+[node name="Label" type="Label" parent="Label"]
+layout_mode = 0
+offset_left = 13.0
+offset_top = 136.0
+offset_right = 53.0
+offset_bottom = 154.0
+theme_override_font_sizes/font_size = 29
+text = "Made By: Sam Abraham, Austin Rimmer, Elijah Molina, Connor Gaughan"
+
+[node name="menu_btn" type="Button" parent="."]
+offset_left = 82.0
+offset_top = 509.0
+offset_right = 159.0
+offset_bottom = 559.0
+theme = SubResource("Theme_q5l5q")
+theme_override_colors/font_color = Color(0.8745098, 0, 0, 1)
+text = "Menu"

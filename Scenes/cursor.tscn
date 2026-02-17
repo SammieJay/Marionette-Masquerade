@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3 uid="uid://bx5jc6exewmsk"]
+
+[ext_resource type="Texture2D" uid="uid://bhb8p7qf2i750" path="res://Assets/Textures/crosshait_txtr_1.png" id="1_i7fis"]
+[ext_resource type="Script" uid="uid://b7hgw8wkrttbj" path="res://Scripts/Cursor.gd" id="2_i7fis"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hxgmc"]
+atlas = ExtResource("1_i7fis")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_gjojv"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hxgmc")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Cursor" type="Node2D"]
+script = ExtResource("2_i7fis")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+position = Vector2(-1.9999999, -1)
+rotation = -0.7400196
+scale = Vector2(1.163, 1.163)
+sprite_frames = SubResource("SpriteFrames_gjojv")
+offset = Vector2(1.5, 3)

@@ -1,0 +1,83 @@
+[gd_scene load_steps=8 format=3 uid="uid://2hq0p3oydmqx"]
+
+[ext_resource type="Script" uid="uid://cywfth4s0s6ix" path="res://Scripts/level_select.gd" id="1_lx4vd"]
+[ext_resource type="Texture2D" uid="uid://bnp8mnop320j7" path="res://Assets/Textures/title_card_txtr_1.png" id="1_nkys2"]
+[ext_resource type="FontFile" uid="uid://vfxniutek0c8" path="res://Assets/Dracutaz.otf" id="2_lx4vd"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2sqnl"]
+atlas = ExtResource("1_nkys2")
+region = Rect2(0, 0, 480, 270)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_72w8f"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2sqnl")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="Theme" id="Theme_s6o25"]
+default_font = ExtResource("2_lx4vd")
+default_font_size = 50
+
+[sub_resource type="Theme" id="Theme_kb5mc"]
+default_font = ExtResource("2_lx4vd")
+default_font_size = 60
+
+[node name="LevelSelect" type="Node2D"]
+script = ExtResource("1_lx4vd")
+
+[node name="ColorRect" type="AnimatedSprite2D" parent="."]
+position = Vector2(576, 324)
+scale = Vector2(2.4, 2.4)
+sprite_frames = SubResource("SpriteFrames_72w8f")
+
+[node name="Label" type="Label" parent="."]
+offset_left = 7.0
+offset_top = 5.0
+offset_right = 244.0
+offset_bottom = 57.0
+theme = SubResource("Theme_s6o25")
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+text = "Level Select"
+metadata/_edit_lock_ = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+offset_left = 478.0
+offset_top = 235.0
+offset_right = 1104.0
+offset_bottom = 330.0
+theme_override_constants/separation = 150
+
+[node name="one" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+theme = SubResource("Theme_kb5mc")
+theme_override_colors/font_color = Color(0.7534114, 0, 0, 1)
+text = "One"
+metadata/_edit_lock_ = true
+
+[node name="two" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+theme = SubResource("Theme_kb5mc")
+theme_override_colors/font_color = Color(0.7534114, 0, 0, 1)
+text = "Two"
+metadata/_edit_lock_ = true
+
+[node name="three" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+theme = SubResource("Theme_kb5mc")
+theme_override_colors/font_color = Color(0.7534114, 0, 0, 1)
+text = "Three"
+metadata/_edit_lock_ = true
+
+[node name="back" type="Button" parent="."]
+offset_left = 12.0
+offset_top = 563.0
+offset_right = 138.0
+offset_bottom = 634.0
+theme = SubResource("Theme_kb5mc")
+theme_override_colors/font_color = Color(0.7534114, 0, 0, 1)
+text = "BAck"
