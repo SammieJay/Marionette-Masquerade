@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://bjel6vlv74yli"]
 
-[ext_resource type="PackedScene" uid="uid://bk8vitq1k38p1" path="res://Scenes/host.tscn" id="1_0ktf1"]
+[ext_resource type="PackedScene" uid="uid://bk8vitq1k38p1" path="res://Scenes/Host/host.tscn" id="1_0ktf1"]
 [ext_resource type="Script" uid="uid://dymdfu6tebr3h" path="res://Scripts/host_manager.gd" id="1_qe83u"]
-[ext_resource type="PackedScene" uid="uid://bx5jc6exewmsk" path="res://Scenes/cursor.tscn" id="2_aqf1p"]
-[ext_resource type="PackedScene" uid="uid://d0c41dv2vtves" path="res://Scenes/player_camera.tscn" id="3_iwbdy"]
+[ext_resource type="PackedScene" uid="uid://bx5jc6exewmsk" path="res://Scenes/Host/cursor.tscn" id="2_aqf1p"]
+[ext_resource type="PackedScene" uid="uid://d0c41dv2vtves" path="res://Scenes/Host/player_camera.tscn" id="3_iwbdy"]
 
 [node name="Test Gym" type="Node2D"]
 

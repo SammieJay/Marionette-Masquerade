@@ -58,6 +58,7 @@ func _process(delta: float) -> void:
 		offset = Vector2(randf_range(-shake_amnt, shake_amnt), randf_range(-shake_amnt, shake_amnt))
 	else:
 		offset = Vector2.ZERO
+	
 	#shader stuff
 	if shake_amnt > 0:
 		pulse_time += delta * pulse_speed
@@ -70,11 +71,15 @@ func _process(delta: float) -> void:
 		(shader.material as ShaderMaterial)\
 			.set_shader_parameter("pulse_alpha", 0.0)
 	
+	
 	var tempTaget = hostManager.playerHost
 	if tempTaget != null:
 		target = tempTaget
+	
 	trackTarget(delta)
-	updateAmmoLabel()
+	
+	if !hostManager.playerInSlither: 
+		updateAmmoLabel()
 
 func trackTarget(delta:float):
 	var targetPos: Vector2 = target.global_position

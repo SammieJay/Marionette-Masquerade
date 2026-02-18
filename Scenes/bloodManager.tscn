@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://cfg6764i7pimx"]
 
-[ext_resource type="Script" uid="uid://b5x6t2ruku45y" path="res://Scenes/blood_manager.gd" id="1_3mdft"]
+[ext_resource type="Script" uid="uid://b5x6t2ruku45y" path="res://Scripts/blood_manager.gd" id="1_3mdft"]
 [ext_resource type="PackedScene" uid="uid://ckekl5i2o0hdt" path="res://Scenes/blood_sprite.tscn" id="2_wjlfy"]
 
 [node name="bloodManager" type="Node2D"]

@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://dxbc1ik82ffkg"]
 
 [ext_resource type="FontFile" uid="uid://vfxniutek0c8" path="res://Assets/Dracutaz.otf" id="1_b226h"]
-[ext_resource type="Script" uid="uid://dcurf4ts2uttl" path="res://Scenes/intro.gd" id="1_duh1u"]
+[ext_resource type="Script" uid="uid://dcurf4ts2uttl" path="res://Scripts/intro.gd" id="1_duh1u"]
 
 [sub_resource type="Theme" id="Theme_duh1u"]
 default_font = ExtResource("1_b226h")

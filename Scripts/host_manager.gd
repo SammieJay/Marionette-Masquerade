@@ -22,20 +22,70 @@ var cursor:Cursor
 #ui refrence
 @onready var player_camera: PlayerCamera = $PlayerCamera
 
+
+#INTERMEDIATE
+@onready var playerInSlither:bool = false
+@onready var IntermediateScene:PackedScene = preload("res://Scenes/Host/slither_host.tscn")
+@onready var slitherHost:SlitherHost = null
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	enemyConfusionTimer = enemyConfusionDelay
 	cursor = find_child("Cursor")
 	if cursor == null: printerr("Host Manager cannot find cursor")
-	if bloodManager == null:printerr("Host manager cannot find bloor manager")
+	if bloodManager == null:printerr("Host manager cannot find blood manager")
+	
+	## Init Intermediate host
+	slitherHost = IntermediateScene.instantiate()
+	add_child(slitherHost)
+	slitherHost.hide()
+	
+	## For testing slither movement (DELETE LATER)
+	#playerHost = slitherHost
+	#slitherHost.show()
+	#playerInSlither = true
+	#slitherHost.active = true
+	#slitherHost.position = Vector2(-590.0, 180.0)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	if hostArray.size()>1: checkForEligibleHost()
+	#if playerHost!= null: print(playerHost.name)
+	if hostArray.size()>1 or (playerInSlither and hostArray.size()>=1): checkForEligibleHost()
 	enemyConfusionTimer-=delta
 	if enemyConfusionTimer <= 0 and not enemyTarget == playerHost:
 		enemyTarget = playerHost
+
+## INTERMEDIATE FORM FUNCTIONS
+func switchToIntermediateHost():
+	player_camera.playTransferAudio(false)
+	slitherHost.position = playerHost.position + (playerHost.global_transform.x.normalized() * slitherHost.summon_distance)
+	slitherHost.global_rotation = playerHost.global_rotation
+	slitherHost.show()
+	playerHost.doSwitchAnim()
+	playerHost.isPlayerControlled = false
+	playerHost.stun(2.5)
+	playerHost = slitherHost
+	slitherHost.active = true
+	playerInSlither = true
+	enemyTarget = null
+	enemyConfusionTimer = enemyConfusionDelay
 	
+
+func SwitchFromIntermediate():
+	if EligibleHost != null: 
+		#EligibleHost.projectileSpawner.forceReload()
+		playerHost = EligibleHost
+		slitherHost.active = false
+		player_camera.playTransferAudio(true)
+		slitherHost.doSwitchAnim()
+		await slitherHost.possession_animation.animation_finished
+		slitherHost.hide()
+		
+		playerHost.isPlayerControlled = true
+		#enemy targeting
+		enemyTarget = null
+		enemyConfusionTimer = enemyConfusionDelay
+		playerInSlither = false
 
 func registerHost(host:Host):
 	hostArray.append(host)
@@ -46,9 +96,16 @@ func registerHost(host:Host):
 		host.died.connect(_on_host_died)
 
 func switchHost(prev:Host, next:Host):
+	if prev == null:
+		printerr("Attempted Swap FROM null host")
+		return
+	elif next == null: 
+		printerr("Attempted Swap TO null host")
+		return
+	
+	print("Switching from: ", prev.name, " to ", next.name)
 	prev.isPlayerControlled = false
 	prev.stun(2.5)
-	
 	next.projectileSpawner.forceReload()
 	playerHost = next
 	
@@ -64,7 +121,6 @@ func switchToEligibleHost():
 		playerHost.possession_animation.stop()
 		playerHost.possession_animation.hide()
 		switchHost(playerHost, EligibleHost)
-		
 	else:
 		player_camera.playTransferAudio(false)
 		playerHost.possession_animation.show()

@@ -49,7 +49,7 @@ var enemyState:EnemyState = EnemyState.IDLE
 #Chase Behavior
 @onready var enemy_move_speed:float = 200.0
 
-@onready  var target:Host
+@onready  var target:Host = null
 @onready var navAgent:NavigationAgent2D = $"Navigation Agent"
 @onready var visionRay:RayCast2D = $"Vision Ray"
 
@@ -66,7 +66,7 @@ func _ready():
 	if transferMarker == null: printerr("Host cannot find transfer marker")
 	hostManager = get_parent()
 	hostManager.registerHost(self)
-	if isPlayerControlled: 
+	if isPlayerControlled:
 		hostManager.playerHost = self
 		hostManager.enemyTarget = self
 	weaponSetup()
@@ -96,12 +96,18 @@ func _process(delta: float) -> void:
 
 func _input(event: InputEvent) -> void:
 	## PLAYER CONTROLS
-	if isPlayerControlled and alive:
+	if isPlayerControlled and alive and !hostManager.playerInSlither:
 		if event.is_action_pressed("Transfer Hosts"):
-			
-			hostManager.switchToEligibleHost()
+			if !hostManager.playerInSlither: hostManager.switchToEligibleHost()
 		if event.is_action_pressed("Shoot"):
 			shootWeapon()
+		if event.is_action_pressed("Enter Slither State"):
+			enterSlither()
+
+func enterSlither():
+	hostManager.switchToIntermediateHost()
+	doSwitchAnim()
+
 
 func doPlayerMovement(delta: float):
 	var input_vector := Input.get_vector("Move Left","Move Right","Move Up","Move Down")
@@ -174,7 +180,7 @@ func die():
 
 ## ===== AI FUNCTIONS =====
 func doEnemyBehavior(delta:float):
-	if stunnedTimer > 0: 
+	if stunnedTimer > 0:
 		doStunEffect(delta)
 		return
 	match enemyState:
@@ -186,10 +192,13 @@ func doEnemyBehavior(delta:float):
 
 func canSeePlayer()->bool:
 	if target == null: return false
+	if hostManager.playerInSlither: return false ## PLAYER CANNOT BE SEEN IN SLITHER
+	if visionRange == null: return false
+	
 	var to_target = target.global_position - global_position
 	var dist_to_target = to_target.length()
 	
-	if dist_to_target <= visionRange: 
+	if dist_to_target <= visionRange:
 		#print("Player is close enough to see")
 		return true
 	
@@ -284,3 +293,10 @@ func walkingAnim(delta:float):
 	if !footstepAudio.playing: footstepAudio.play()
 	legSprite.look_at(global_position+velocity)
 	legSprite.rotation_degrees+=90
+
+func doSwitchAnim():
+	possession_animation.show()
+	possession_animation.play("default")
+	await possession_animation.animation_finished
+	possession_animation.stop()
+	possession_animation.hide()

@@ -4,9 +4,9 @@
 [ext_resource type="Script" uid="uid://dymdfu6tebr3h" path="res://Scripts/host_manager.gd" id="2_omtrn"]
 [ext_resource type="FontFile" uid="uid://vfxniutek0c8" path="res://Assets/Dracutaz.otf" id="2_p8jf4"]
 [ext_resource type="PackedScene" uid="uid://cfg6764i7pimx" path="res://Scenes/bloodManager.tscn" id="3_h2ono"]
-[ext_resource type="PackedScene" uid="uid://d0c41dv2vtves" path="res://Scenes/player_camera.tscn" id="3_i6t4g"]
-[ext_resource type="PackedScene" uid="uid://bk8vitq1k38p1" path="res://Scenes/host.tscn" id="4_i6t4g"]
-[ext_resource type="PackedScene" uid="uid://bx5jc6exewmsk" path="res://Scenes/cursor.tscn" id="6_on4kn"]
+[ext_resource type="PackedScene" uid="uid://d0c41dv2vtves" path="res://Scenes/Host/player_camera.tscn" id="3_i6t4g"]
+[ext_resource type="PackedScene" uid="uid://bk8vitq1k38p1" path="res://Scenes/Host/host.tscn" id="4_i6t4g"]
+[ext_resource type="PackedScene" uid="uid://bx5jc6exewmsk" path="res://Scenes/Host/cursor.tscn" id="6_on4kn"]
 [ext_resource type="PackedScene" uid="uid://cqgty0jpfoas3" path="res://Scenes/exit.tscn" id="6_ys4pu"]
 [ext_resource type="PackedScene" uid="uid://dy6o8irkh2qou" path="res://Scenes/story.tscn" id="8_on4kn"]
 

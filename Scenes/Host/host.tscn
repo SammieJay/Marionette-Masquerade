@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://cyyclg3kxt5tw" path="res://Scripts/host.gd" id="1_rhxsg"]
 [ext_resource type="Texture2D" uid="uid://8kg26inkmr7s" path="res://Assets/Textures/host_body_legs_txtr_1.png" id="2_ngmrc"]
 [ext_resource type="Texture2D" uid="uid://q0dsysjv6sqs" path="res://Assets/Textures/mask_txtr_1.png" id="3_adm4q"]
-[ext_resource type="PackedScene" uid="uid://c7ah02d2ywsso" path="res://Scenes/projectile_spawner.tscn" id="3_ngmrc"]
+[ext_resource type="PackedScene" uid="uid://c7ah02d2ywsso" path="res://Scenes/Host/projectile_spawner.tscn" id="3_ngmrc"]
 [ext_resource type="Texture2D" uid="uid://l1qlcfv8p4vs" path="res://Assets/Textures/dead_body_txtr_1.png" id="4_hr40e"]
 [ext_resource type="Texture2D" uid="uid://cwitwfw2bxj6l" path="res://Assets/Textures/possession_txtr_1.png" id="4_jooxe"]
 [ext_resource type="Texture2D" uid="uid://cls4cgfujftcs" path="res://Assets/Textures/target_halo_txtr_1.png" id="4_riuya"]

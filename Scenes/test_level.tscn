@@ -6,10 +6,10 @@
 [ext_resource type="Script" uid="uid://dymdfu6tebr3h" path="res://Scripts/host_manager.gd" id="3_7w7ni"]
 [ext_resource type="PackedScene" uid="uid://cfg6764i7pimx" path="res://Scenes/bloodManager.tscn" id="3_akkqd"]
 [ext_resource type="Texture2D" uid="uid://wt053rlnd52" path="res://Assets/Textures/props_txtr_2.png" id="4_akkqd"]
-[ext_resource type="PackedScene" uid="uid://bk8vitq1k38p1" path="res://Scenes/host.tscn" id="4_btda1"]
+[ext_resource type="PackedScene" uid="uid://bk8vitq1k38p1" path="res://Scenes/Host/host.tscn" id="4_btda1"]
 [ext_resource type="Script" uid="uid://bydqcqshdltjo" path="res://Scripts/alarm.gd" id="5_7w7ni"]
-[ext_resource type="PackedScene" uid="uid://d0c41dv2vtves" path="res://Scenes/player_camera.tscn" id="5_xq3o0"]
-[ext_resource type="PackedScene" uid="uid://bx5jc6exewmsk" path="res://Scenes/cursor.tscn" id="9_3ihge"]
+[ext_resource type="PackedScene" uid="uid://d0c41dv2vtves" path="res://Scenes/Host/player_camera.tscn" id="5_xq3o0"]
+[ext_resource type="PackedScene" uid="uid://bx5jc6exewmsk" path="res://Scenes/Host/cursor.tscn" id="9_3ihge"]
 [ext_resource type="PackedScene" uid="uid://cqgty0jpfoas3" path="res://Scenes/exit.tscn" id="11_1rqgg"]
 [ext_resource type="PackedScene" uid="uid://ye7k3v3sx4c7" path="res://Scenes/level_two.tscn" id="12_mwmob"]
 

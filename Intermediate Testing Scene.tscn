@@ -1,17 +1,16 @@
-[gd_scene load_steps=30 format=4 uid="uid://cc4nau5h1mvtq"]
+[gd_scene load_steps=29 format=4 uid="uid://dpie76nd1dek"]
 
-[ext_resource type="Texture2D" uid="uid://bjkrw2uyxy02e" path="res://Assets/Textures/tile_set_1_new.png" id="1_gwi7b"]
-[ext_resource type="Script" uid="uid://kt11asrcfkje" path="res://Scripts/level_three.gd" id="1_whtm6"]
-[ext_resource type="Texture2D" uid="uid://bvacbcvrwa18c" path="res://Assets/Textures/props_txtr_1.png" id="2_rm1v0"]
-[ext_resource type="PackedScene" uid="uid://cfg6764i7pimx" path="res://Scenes/bloodManager.tscn" id="3_hbnvb"]
-[ext_resource type="Texture2D" uid="uid://dmsq3jeqe7cpn" path="res://Assets/Textures/reactor_txtr.png" id="3_rm1v0"]
-[ext_resource type="Script" uid="uid://dymdfu6tebr3h" path="res://Scripts/host_manager.gd" id="4_qfl2u"]
-[ext_resource type="Texture2D" uid="uid://dnlgx4r32od3q" path="res://Assets/Textures/control_pnael_txtr.png" id="5_h1s7m"]
-[ext_resource type="PackedScene" uid="uid://d0c41dv2vtves" path="res://Scenes/Host/player_camera.tscn" id="5_hbnvb"]
-[ext_resource type="PackedScene" uid="uid://bx5jc6exewmsk" path="res://Scenes/Host/cursor.tscn" id="6_5coyv"]
-[ext_resource type="PackedScene" uid="uid://bk8vitq1k38p1" path="res://Scenes/Host/host.tscn" id="6_q5s3g"]
-[ext_resource type="PackedScene" uid="uid://cqgty0jpfoas3" path="res://Scenes/exit.tscn" id="6_xi0j2"]
-[ext_resource type="PackedScene" uid="uid://2smm28wilput" path="res://Scenes/end.tscn" id="10_5coyv"]
+[ext_resource type="Script" uid="uid://dymdfu6tebr3h" path="res://Scripts/host_manager.gd" id="2_asp1q"]
+[ext_resource type="PackedScene" uid="uid://d0c41dv2vtves" path="res://Scenes/Host/player_camera.tscn" id="3_wojw0"]
+[ext_resource type="PackedScene" uid="uid://bk8vitq1k38p1" path="res://Scenes/Host/host.tscn" id="4_oyhdc"]
+[ext_resource type="PackedScene" uid="uid://bx5jc6exewmsk" path="res://Scenes/Host/cursor.tscn" id="5_lvvvd"]
+[ext_resource type="Texture2D" uid="uid://bjkrw2uyxy02e" path="res://Assets/Textures/tile_set_1_new.png" id="6_u8t05"]
+[ext_resource type="Texture2D" uid="uid://dmsq3jeqe7cpn" path="res://Assets/Textures/reactor_txtr.png" id="7_gmmdh"]
+[ext_resource type="Texture2D" uid="uid://dnlgx4r32od3q" path="res://Assets/Textures/control_pnael_txtr.png" id="8_mojx5"]
+[ext_resource type="PackedScene" uid="uid://cqgty0jpfoas3" path="res://Scenes/exit.tscn" id="9_5ct7k"]
+[ext_resource type="PackedScene" uid="uid://2smm28wilput" path="res://Scenes/end.tscn" id="10_37bkc"]
+[ext_resource type="Texture2D" uid="uid://bvacbcvrwa18c" path="res://Assets/Textures/props_txtr_1.png" id="11_n7tpl"]
+[ext_resource type="PackedScene" uid="uid://cfg6764i7pimx" path="res://Scenes/bloodManager.tscn" id="12_sodjs"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_5coyv"]
 vertices = PackedVector2Array(16, 16, -16, 16, -16, -16, 16, -16)
@@ -61,8 +60,8 @@ polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)])
 agent_radius = 0.0
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_whtm6"]
-texture = ExtResource("1_gwi7b")
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_7hoja"]
+texture = ExtResource("6_u8t05")
 texture_region_size = Vector2i(32, 32)
 0:0/0 = 0
 0:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_5coyv")
@@ -226,22 +225,22 @@ texture_region_size = Vector2i(32, 32)
 tile_size = Vector2i(32, 32)
 physics_layer_0/collision_layer = 1
 navigation_layer_0/layers = 1
-sources/1 = SubResource("TileSetAtlasSource_whtm6")
+sources/1 = SubResource("TileSetAtlasSource_7hoja")
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_whtm6"]
-atlas = ExtResource("3_rm1v0")
+atlas = ExtResource("7_gmmdh")
 region = Rect2(0, 0, 128, 128)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_300rn"]
-atlas = ExtResource("3_rm1v0")
+atlas = ExtResource("7_gmmdh")
 region = Rect2(128, 0, 128, 128)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_h1s7m"]
-atlas = ExtResource("3_rm1v0")
+atlas = ExtResource("7_gmmdh")
 region = Rect2(0, 128, 128, 128)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xi0j2"]
-atlas = ExtResource("3_rm1v0")
+atlas = ExtResource("7_gmmdh")
 region = Rect2(128, 128, 128, 128)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_nljgw"]
@@ -265,7 +264,7 @@ animations = [{
 }]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_h1s7m"]
-texture = ExtResource("2_rm1v0")
+texture = ExtResource("11_n7tpl")
 texture_region_size = Vector2i(32, 32)
 0:0/0 = 0
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
@@ -288,107 +287,62 @@ physics_layer_0/collision_layer = 1
 sources/1 = SubResource("TileSetAtlasSource_h1s7m")
 
 [node name="Level_three" type="Node2D"]
-script = ExtResource("1_whtm6")
 
 [node name="HostManager" type="Node" parent="."]
-script = ExtResource("4_qfl2u")
+script = ExtResource("2_asp1q")
 metadata/_custom_type_script = "uid://dymdfu6tebr3h"
 
-[node name="PlayerCamera" parent="HostManager" instance=ExtResource("5_hbnvb")]
+[node name="PlayerCamera" parent="HostManager" instance=ExtResource("3_wojw0")]
 position = Vector2(-77, -42)
 TrackingStrength = 3.0
 
 [node name="Projectile Parent" type="Node2D" parent="HostManager"]
 
-[node name="Host" parent="HostManager" instance=ExtResource("6_q5s3g")]
+[node name="Host" parent="HostManager" instance=ExtResource("4_oyhdc")]
 position = Vector2(80, 78)
 collision_layer = 3
+activeWeapon = 0
 isPlayerControlled = true
+move_speed = 300.0
+look_speed = 10.0
+ShootDistance = 200.0
+shootDelay = 0.3
+visionRange = 450.0
+visionFogAngle = 70
+loseSightDistance = 600.0
+enemyAI_enabled = true
 
-[node name="Host2" parent="HostManager" instance=ExtResource("6_q5s3g")]
+[node name="Host2" parent="HostManager" instance=ExtResource("4_oyhdc")]
 position = Vector2(528, 374.49)
 rotation = 3.1415927
 collision_layer = 3
 activeWeapon = 2
+isPlayerControlled = false
+move_speed = 300.0
+look_speed = 10.0
+ShootDistance = 200.0
+shootDelay = 0.3
+visionRange = 450.0
+visionFogAngle = 70
+loseSightDistance = 600.0
+enemyAI_enabled = true
 
-[node name="Host3" parent="HostManager" instance=ExtResource("6_q5s3g")]
+[node name="Host3" parent="HostManager" instance=ExtResource("4_oyhdc")]
 position = Vector2(481.12, 34.755)
 rotation = 1.8238691
 collision_layer = 3
+activeWeapon = 0
+isPlayerControlled = false
+move_speed = 300.0
+look_speed = 10.0
+ShootDistance = 200.0
+shootDelay = 0.3
+visionRange = 450.0
+visionFogAngle = 70
+loseSightDistance = 600.0
+enemyAI_enabled = false
 
-[node name="Host4" parent="HostManager" instance=ExtResource("6_q5s3g")]
-position = Vector2(591.00006, 574)
-rotation = -2.0751965
-collision_layer = 3
-activeWeapon = 2
-
-[node name="Host5" parent="HostManager" instance=ExtResource("6_q5s3g")]
-position = Vector2(363.00006, 704)
-rotation = -1.467822
-collision_layer = 3
-activeWeapon = 1
-
-[node name="Host6" parent="HostManager" instance=ExtResource("6_q5s3g")]
-position = Vector2(18.000015, 694.00006)
-rotation = -0.3403392
-collision_layer = 3
-activeWeapon = 2
-
-[node name="Host7" parent="HostManager" instance=ExtResource("6_q5s3g")]
-position = Vector2(-952, 193.00006)
-rotation = -0.3403392
-collision_layer = 3
-activeWeapon = 2
-
-[node name="Host8" parent="HostManager" instance=ExtResource("6_q5s3g")]
-position = Vector2(-843, 502.00006)
-rotation = 3.8187804
-collision_layer = 3
-activeWeapon = 2
-
-[node name="Host9" parent="HostManager" instance=ExtResource("6_q5s3g")]
-position = Vector2(-272, 151.00006)
-rotation = -0.3403392
-collision_layer = 3
-activeWeapon = 2
-
-[node name="Host10" parent="HostManager" instance=ExtResource("6_q5s3g")]
-position = Vector2(-165.99998, 420.00006)
-rotation = 3.9060469
-collision_layer = 3
-activeWeapon = 2
-
-[node name="Host11" parent="HostManager" instance=ExtResource("6_q5s3g")]
-position = Vector2(-330, 701.00006)
-rotation = 3.9933133
-collision_layer = 3
-activeWeapon = 2
-
-[node name="Host12" parent="HostManager" instance=ExtResource("6_q5s3g")]
-position = Vector2(-916, 676.00006)
-rotation = 5.8119464
-collision_layer = 3
-activeWeapon = 2
-
-[node name="Host13" parent="HostManager" instance=ExtResource("6_q5s3g")]
-position = Vector2(-711, 179)
-rotation = 7.1383967
-collision_layer = 3
-activeWeapon = 2
-
-[node name="Host14" parent="HostManager" instance=ExtResource("6_q5s3g")]
-position = Vector2(-402.99994, 505.00006)
-rotation = 5.8119464
-collision_layer = 3
-activeWeapon = 2
-
-[node name="Host15" parent="HostManager" instance=ExtResource("6_q5s3g")]
-position = Vector2(-707, 495.00006)
-rotation = 5.8119464
-collision_layer = 3
-activeWeapon = 2
-
-[node name="Cursor" parent="HostManager" instance=ExtResource("6_5coyv")]
+[node name="Cursor" parent="HostManager" instance=ExtResource("5_lvvvd")]
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
 z_index = -4
@@ -402,12 +356,12 @@ frame_progress = 0.61841
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(-481, 413)
-texture = ExtResource("5_h1s7m")
+texture = ExtResource("8_mojx5")
 
-[node name="Area2D" parent="." instance=ExtResource("6_xi0j2")]
+[node name="Area2D" parent="." instance=ExtResource("9_5ct7k")]
 position = Vector2(-481, 415)
 scale = Vector2(2, 0.6)
-nextScene = ExtResource("10_5coyv")
+nextScene = ExtResource("10_37bkc")
 
 [node name="TileMapLayer2" type="TileMapLayer" parent="."]
 z_index = -4
@@ -415,4 +369,4 @@ scale = Vector2(2, 2)
 tile_map_data = PackedByteArray("AAAJAAAAAQABAAAAAAD+/wcAAQACAAEAAGD+/wAAAQACAAEAADA=")
 tile_set = SubResource("TileSet_xi0j2")
 
-[node name="bloodManager" parent="." instance=ExtResource("3_hbnvb")]
+[node name="bloodManager" parent="." instance=ExtResource("12_sodjs")]
