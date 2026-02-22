@@ -19,9 +19,11 @@ animations = [{
 }]
 
 [node name="Cursor" type="Node2D"]
+process_mode = 3
 script = ExtResource("2_i7fis")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
+z_index = 1000
 position = Vector2(-1.9999999, -1)
 rotation = -0.7400196
 scale = Vector2(1.163, 1.163)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=4 uid="uid://ye7k3v3sx4c7"]
+[gd_scene load_steps=28 format=4 uid="uid://ye7k3v3sx4c7"]
 
 [ext_resource type="Texture2D" uid="uid://bxn7tpqx5oo1r" path="res://icon.svg" id="1_b58yq"]
 [ext_resource type="Texture2D" uid="uid://bjkrw2uyxy02e" path="res://Assets/Textures/tile_set_1_new.png" id="2_ibwme"]
@@ -14,6 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://b0o8f56e1ta11" path="res://Scenes/door.tscn" id="7_t1jg6"]
 [ext_resource type="PackedScene" uid="uid://cqgty0jpfoas3" path="res://Scenes/exit.tscn" id="8_gejx0"]
 [ext_resource type="PackedScene" uid="uid://cc4nau5h1mvtq" path="res://Scenes/level_three.tscn" id="14_xkql2"]
+[ext_resource type="Script" uid="uid://bydqcqshdltjo" path="res://Scripts/alarm.gd" id="15_jncii"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_b58yq"]
 texture = ExtResource("1_b58yq")
@@ -489,3 +490,13 @@ position = Vector2(1759, 620)
 [node name="Exit" parent="." instance=ExtResource("8_gejx0")]
 position = Vector2(2192, 656)
 nextScene = ExtResource("14_xkql2")
+
+[node name="alarm" type="ColorRect" parent="."]
+visible = false
+z_index = -3
+offset_left = -2151.0
+offset_top = -1399.0
+offset_right = 3955.0
+offset_bottom = 2342.0
+color = Color(1, 0, 0, 0)
+script = ExtResource("15_jncii")

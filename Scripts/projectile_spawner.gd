@@ -56,7 +56,12 @@ func _process(delta: float) -> void:
 
 func shootPistol(direction: Vector2):
 	if !canFire(): return
-	if ammo <= 0 and !reloading: reload()
+	
+	var host = get_parent().get_parent() as Host
+	#fixed so that player now cant reload (this was always unchecked it just worked before idk why)
+	if ammo <= 0 and host.isPlayerControlled:
+		return
+	elif ammo <= 0 and !reloading: reload()
 	if reloading: return
 	shot_timer = shot_cooldown
 	ammo-=1
@@ -75,14 +80,18 @@ func shootPistol(direction: Vector2):
 	#play particle effect
 	muzzleFlash.restart()
 
-	camera.shake(12.0) # pistol
+	camera.shake(5.0) # pistol
 
 	#cam shake
 	#add_shake(pistol_shake)
 
-func shootShotgun(direction: Vector2, num_shots: int = 5, spread_degrees: float = 15.0):
+func shootShotgun(direction: Vector2, num_shots: int = 5, spread_degrees: float = 25.0):
 	if !canFire(): return
-	if ammo <= 0 and !reloading: reload()
+	var host = get_parent().get_parent() as Host
+	#fixed so that player now cant reload (this was always unchecked it just worked before idk why)
+	if ammo <= 0 and host.isPlayerControlled:
+		return
+	elif ammo <= 0 and !reloading: reload()
 	if reloading: return
 	
 	shot_timer = shot_cooldown
@@ -110,7 +119,7 @@ func shootShotgun(direction: Vector2, num_shots: int = 5, spread_degrees: float 
 	
 	#play particle effect
 	muzzleFlash.restart()
-	camera.shake(20.0)
+	camera.shake(15.0)
 
 func canFire()->bool:
 	return shot_timer<=0

@@ -61,11 +61,14 @@ var lookTargetRotation = 0.0
 #anim vaar
 @onready var possession_animation = $MaskSprite/possess_anim
 
+
+
 func _ready():
 	if playerMarker == null: printerr("Host cannot find player marker")
 	if transferMarker == null: printerr("Host cannot find transfer marker")
 	hostManager = get_parent()
 	hostManager.registerHost(self)
+	
 	if isPlayerControlled: 
 		hostManager.playerHost = self
 		hostManager.enemyTarget = self
@@ -77,7 +80,7 @@ func _process(delta: float) -> void:
 	
 	if !hostManager.gameRunning: return
 	
-	if velocity.length()>0: 
+	if velocity.length()>0 && alive: 
 		walkingAnim(delta)
 	else:
 		if legSprite.visible == true: legSprite.hide()
@@ -102,6 +105,7 @@ func _input(event: InputEvent) -> void:
 			hostManager.switchToEligibleHost()
 		if event.is_action_pressed("Shoot"):
 			shootWeapon()
+			
 
 func doPlayerMovement(delta: float):
 	var input_vector := Input.get_vector("Move Left","Move Right","Move Up","Move Down")
@@ -122,12 +126,22 @@ func doPlayerMovement(delta: float):
 	#look_at(get_global_mouse_position())
 
 func shootWeapon():
+	var original_pos_p = pistolSprite.position
+	var original_pos_s = shotgunSprite.position
+	
 	var shootDirection:Vector2 = transform.x.normalized()
+	
 	if activeWeapon == weaponType.PISTOL:
 		projectileSpawner.shootPistol(shootDirection)
+		var tween = create_tween()
+		tween.tween_property(pistolSprite, "position", original_pos_p + Vector2(-4,0), 0.1)
+		tween.tween_property(pistolSprite, "position", original_pos_p, 0.05)
 	if activeWeapon == weaponType.SHOTGUN:
 		projectileSpawner.shootShotgun(shootDirection)
-	
+		var tween = create_tween()
+		tween.tween_property(shotgunSprite, "position", original_pos_s + Vector2(-5,0), 0.1)
+		tween.tween_property(shotgunSprite, "position", original_pos_s, 0.05)
+		
 	if !isPlayerControlled:
 		shootDelayTimer = shootDelay
 		
@@ -160,10 +174,16 @@ func die():
 		return
 
 	alive = false
-
-	corpseSprite.frame = 1
+	if !isPlayerControlled:
+		corpseSprite.frame = 0
+	else:
+		corpseSprite.frame = 1
+	
+	footstepAudio.stop()
 	corpseSprite.show()
 	bodySprite.hide()
+	legSprite.stop()
+	legSprite.hide()
 	playerMarker.hide()
 	transferMarker.hide()
 	shotgunSprite.hide()
@@ -263,6 +283,9 @@ func look_at_target(delta:float):
 	global_rotation = lerp_angle(global_rotation, dir.angle(), 6.0 * delta)
 
 func shootAfterDelay(delta:float):
+	# player shouldn't be restricted by AI timers
+	if isPlayerControlled:
+		return 
 	if !shooting:
 		shootDelayTimer = shootDelay
 		shooting = true
@@ -281,6 +304,6 @@ func doStunEffect(delta:float):
 
 func walkingAnim(delta:float):
 	if legSprite.visible == false: legSprite.show()
-	if !footstepAudio.playing: footstepAudio.play()
+	elif !footstepAudio.playing: footstepAudio.play()
 	legSprite.look_at(global_position+velocity)
 	legSprite.rotation_degrees+=90

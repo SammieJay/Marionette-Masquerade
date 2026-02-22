@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://d0c41dv2vtves"]
+[gd_scene load_steps=26 format=3 uid="uid://d0c41dv2vtves"]
 
 [ext_resource type="Script" uid="uid://dw7kjhpwcm2gq" path="res://Scripts/player_camera.gd" id="1_asj12"]
 [ext_resource type="FontFile" uid="uid://vfxniutek0c8" path="res://Assets/Dracutaz.otf" id="2_cnr7e"]
@@ -12,6 +12,9 @@
 [ext_resource type="AudioStream" uid="uid://bql35774tmnjs" path="res://Assets/music/Mask_Combat_High.wav" id="10_qca1e"]
 [ext_resource type="AudioStream" uid="uid://c5pj1n1wxmq7t" path="res://Assets/music/Mask_Switch.wav" id="11_716rv"]
 [ext_resource type="AudioStream" uid="uid://cau5ufta5t6bv" path="res://Assets/music/Mask_Switchmiss.wav" id="12_s6d50"]
+[ext_resource type="Shader" uid="uid://jkfvpielepk" path="res://Assets/Shaders/tentacle.gdshader" id="13_aldk4"]
+[ext_resource type="PackedScene" uid="uid://cv6wqa4e8bm8p" path="res://Scenes/custom_btn.tscn" id="14_epi2q"]
+[ext_resource type="PackedScene" uid="uid://dgnaipduiuudb" path="res://Scenes/title_screen.tscn" id="15_6pvtu"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_qca1e"]
 shader = ExtResource("2_vhj40")
@@ -98,11 +101,22 @@ shadow_color = Color(0, 0, 0, 1)
 default_font = ExtResource("2_cnr7e")
 default_font_size = 50
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_epi2q"]
+shader = ExtResource("13_aldk4")
+shader_parameter/tentacle_count = 32
+shader_parameter/speed = 1.0
+shader_parameter/wiggle_strength = 0.05
+shader_parameter/taper = 8.0
+shader_parameter/pixel_size = 150.0
+
 [node name="PlayerCamera" type="Camera2D"]
+process_mode = 3
 ignore_rotation = false
 script = ExtResource("1_asj12")
 
 [node name="speedLineShader" type="Sprite2D" parent="."]
+process_mode = 1
+z_index = 2
 material = SubResource("ShaderMaterial_qca1e")
 position = Vector2(-0.50003624, 0.9999924)
 scale = Vector2(9.6328125, 5.9374995)
@@ -110,6 +124,8 @@ texture = ExtResource("4_jonfb")
 metadata/_edit_lock_ = true
 
 [node name="crtShader" type="Sprite2D" parent="."]
+process_mode = 1
+z_index = 2
 material = SubResource("ShaderMaterial_ragnj")
 position = Vector2(0.50004196, 2.670288e-05)
 scale = Vector2(9.6953125, 5.9375)
@@ -117,12 +133,16 @@ texture = ExtResource("4_jonfb")
 metadata/_edit_lock_ = true
 
 [node name="spotlightShader" type="Sprite2D" parent="."]
+process_mode = 1
+z_index = 3
 material = SubResource("ShaderMaterial_vhj40")
 position = Vector2(-446.49997, 252)
 scale = Vector2(8.968748, 5.125)
 texture = ExtResource("3_o3kss")
 
 [node name="vinegetteShader" type="Sprite2D" parent="."]
+process_mode = 1
+z_index = 2
 material = SubResource("ShaderMaterial_wg711")
 position = Vector2(-0.4999671, 0.50002956)
 scale = Vector2(9.6484375, 5.6640625)
@@ -130,6 +150,8 @@ texture = ExtResource("4_jonfb")
 metadata/_edit_lock_ = true
 
 [node name="ammo count" type="Label" parent="."]
+process_mode = 1
+z_index = 3
 offset_left = -419.0
 offset_top = 238.0
 offset_right = -379.0
@@ -138,6 +160,8 @@ text = "000"
 label_settings = SubResource("LabelSettings_n1xto")
 
 [node name="Label" type="Label" parent="."]
+process_mode = 1
+z_index = 3
 offset_left = -493.0
 offset_top = 242.0
 offset_right = -425.0
@@ -146,18 +170,23 @@ text = "Bullets"
 label_settings = SubResource("LabelSettings_cnr7e")
 
 [node name="gameSound" type="AudioStreamPlayer2D" parent="."]
+process_mode = 1
 stream = ExtResource("10_qca1e")
 autoplay = true
 
 [node name="deathShader" type="Sprite2D" parent="."]
+process_mode = 3
 visible = false
+z_index = 2
 material = SubResource("ShaderMaterial_716rv")
 position = Vector2(-0.49998647, 0.9999969)
 scale = Vector2(35.968746, 20.1875)
 texture = ExtResource("3_o3kss")
 
 [node name="gameOver_lbl" type="Label" parent="."]
+process_mode = 1
 visible = false
+z_index = 2
 offset_left = -172.0
 offset_top = -114.0
 offset_right = 197.0
@@ -166,6 +195,7 @@ text = "GAME OVER"
 label_settings = SubResource("LabelSettings_na1lm")
 
 [node name="gameover_btns" type="HBoxContainer" parent="."]
+process_mode = 1
 visible = false
 offset_left = -125.0
 offset_top = 1.0
@@ -174,6 +204,7 @@ offset_bottom = 61.0
 theme_override_constants/separation = 40
 
 [node name="menu" type="Button" parent="gameover_btns"]
+process_mode = 1
 visible = false
 layout_mode = 2
 theme = SubResource("Theme_qca1e")
@@ -181,6 +212,7 @@ theme_override_colors/font_color = Color(0.8745098, 0, 0, 1)
 text = "Menu"
 
 [node name="restart" type="Button" parent="gameover_btns"]
+process_mode = 1
 visible = false
 layout_mode = 2
 theme = SubResource("Theme_qca1e")
@@ -188,7 +220,58 @@ theme_override_colors/font_color = Color(0.8745098, 0, 0, 1)
 text = "Restart"
 
 [node name="MaskTrasferAudio" type="AudioStreamPlayer2D" parent="."]
+process_mode = 1
 stream = ExtResource("11_716rv")
 
 [node name="MaskTrasferAudioMiss" type="AudioStreamPlayer2D" parent="."]
+process_mode = 1
 stream = ExtResource("12_s6d50")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+process_mode = 1
+visible = false
+z_index = 2
+material = SubResource("ShaderMaterial_epi2q")
+position = Vector2(-0.34375763, 2.1249676)
+scale = Vector2(9.614746, 5.935547)
+texture = ExtResource("4_jonfb")
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+process_mode = 1
+visible = false
+z_index = 2
+material = SubResource("ShaderMaterial_epi2q")
+position = Vector2(-0.34375763, 2.1249676)
+rotation = 3.1415927
+scale = Vector2(9.614746, 5.935547)
+texture = ExtResource("4_jonfb")
+
+[node name="menu_btn" parent="." instance=ExtResource("14_epi2q")]
+process_mode = 3
+visible = false
+z_index = 2
+position = Vector2(99, 78.99999)
+rotation = 0.19198622
+scale = Vector2(0.6, 0.6)
+lbl_txt = "menu"
+target_scene = ExtResource("15_6pvtu")
+
+[node name="restart_btn" parent="." instance=ExtResource("14_epi2q")]
+process_mode = 3
+visible = false
+z_index = 2
+position = Vector2(149.00002, 5.9999943)
+rotation = -0.2443461
+scale = Vector2(0.6, 0.6)
+lbl_txt = "restart"
+
+[node name="paused_label" type="Label" parent="."]
+process_mode = 1
+visible = false
+z_index = 2
+offset_left = -112.0
+offset_top = -114.0
+offset_right = 257.0
+offset_bottom = -10.0
+text = "paused"
+label_settings = SubResource("LabelSettings_na1lm")

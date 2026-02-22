@@ -1,0 +1,24 @@
+[gd_resource type="VisualShader" load_steps=3 format=3 uid="uid://55soypwkrcib"]
+
+[sub_resource type="VisualShaderNodeCompare" id="VisualShaderNodeCompare_dqaas"]
+output_port_for_preview = 0
+default_input_values = [0, Quaternion(0, 0, 0, 0), 1, Quaternion(0, 0, 0, 1), 2, 1e-05]
+type = 5
+
+[sub_resource type="VisualShaderNodeColorConstant" id="VisualShaderNodeColorConstant_kjqsm"]
+constant = Color(0, 0, 0, 1)
+
+[resource]
+code = "shader_type canvas_item;
+render_mode blend_mix;
+
+
+
+"
+mode = 1
+flags/light_only = false
+nodes/vertex/3/node = SubResource("VisualShaderNodeCompare_dqaas")
+nodes/vertex/3/position = Vector2(-100, 20)
+nodes/vertex/4/node = SubResource("VisualShaderNodeColorConstant_kjqsm")
+nodes/vertex/4/position = Vector2(-251.78767, 119.70946)
+nodes/fragment/0/position = Vector2(860, 80)

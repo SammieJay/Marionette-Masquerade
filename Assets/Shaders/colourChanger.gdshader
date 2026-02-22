@@ -1,22 +1,28 @@
 shader_type canvas_item;
 
-uniform vec4 target_color : source_color;
-uniform vec4 replace_color : source_color;
-uniform float tolerance : hint_range(0.0, 1.0) = 0.05;
-
-vec3 quantize(vec3 c) {
-    return floor(c * 255.0 + 0.5) / 255.0;
-}
+uniform vec4 color_a : source_color = vec4(0.6, 0.0, 0.8, 1.0); // purple
+uniform vec4 color_b : source_color = vec4(0.0, 0.6, 1.0, 1.0); // blue
+uniform float pulse_speed = 1.5;
+uniform float threshold = 0.1;
 
 void fragment() {
-    vec4 tex_color = texture(TEXTURE, UV);
+    vec4 tex = texture(TEXTURE, UV);
 
-    vec3 tex_q = quantize(tex_color.rgb);
-    vec3 target_q = quantize(target_color.rgb);
+    // How dark the pixel is
+    float luminance = dot(tex.rgb, vec3(0.299, 0.587, 0.114));
 
-    if (distance(tex_q, target_q) <= tolerance) {
-        COLOR = vec4(replace_color.rgb, tex_color.a) * COLOR;
-    } else {
-        COLOR = vec4(abs(tex_color.rgb - target_color.rgb) * 5.0, 1.0);
-    }
+    // Mask for black-ish pixels
+    float mask = smoothstep(threshold, 0.0, luminance);
+
+    // Smooth pulse (0 → 1 → 0)
+    float pulse = 0.5 + 0.5 * sin(TIME * pulse_speed);
+
+    // Gradient between the two colors
+    vec3 pulse_color = mix(color_a.rgb, color_b.rgb, pulse);
+
+    // Replace only the black parts
+    vec3 final_rgb = mix(tex.rgb, pulse_color, mask);
+
+    COLOR = vec4(final_rgb, tex.a);
 }
+

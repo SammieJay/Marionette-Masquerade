@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://cv6wqa4e8bm8p"]
+
+[ext_resource type="Script" uid="uid://fg353dqarw43" path="res://Scripts/custom_btn.gd" id="1_prny0"]
+[ext_resource type="Texture2D" uid="uid://bh5ghcwn7wyp7" path="res://Assets/Textures/button_txtr_2.png" id="2_prny0"]
+[ext_resource type="FontFile" uid="uid://vfxniutek0c8" path="res://Assets/Dracutaz.otf" id="3_sgmq4"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_vsse1"]
+font = ExtResource("3_sgmq4")
+font_size = 50
+font_color = Color(1, 0, 0, 1)
+
+[node name="custom_btn" type="Node2D"]
+script = ExtResource("1_prny0")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(3, 3)
+texture = ExtResource("2_prny0")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -66.0
+offset_top = -28.0
+offset_right = 131.0
+offset_bottom = 35.0
+text = "dflt text"
+label_settings = SubResource("LabelSettings_vsse1")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D"]
+polygon = PackedVector2Array(-144, -48, 144, -48, 144, 48, -69, 48, -144, -27)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://dgnaipduiuudb"]
+[gd_scene load_steps=19 format=3 uid="uid://dgnaipduiuudb"]
 
 [ext_resource type="Script" uid="uid://ea7ev53klpha" path="res://Scripts/title_screen.gd" id="1_4gxqj"]
 [ext_resource type="Texture2D" uid="uid://brg3s8tjx3xet" path="res://Assets/Textures/Title_card.png" id="1_klylv"]
@@ -6,6 +6,13 @@
 [ext_resource type="Shader" uid="uid://8s4084pmsrb0" path="res://Assets/Shaders/spotlight.gdshader" id="4_12m1t"]
 [ext_resource type="Texture2D" uid="uid://d33ccufnv1h1g" path="res://Assets/Textures/static_noise_map_txtr_1.png" id="5_6vd4x"]
 [ext_resource type="Texture2D" uid="uid://bboqika2vk3ei" path="res://Assets/Textures/blood_txtr_1.png" id="6_n82rj"]
+[ext_resource type="Shader" uid="uid://jkfvpielepk" path="res://Assets/Shaders/tentacle.gdshader" id="7_n82rj"]
+[ext_resource type="Texture2D" uid="uid://bxn7tpqx5oo1r" path="res://icon.svg" id="8_0061g"]
+[ext_resource type="PackedScene" uid="uid://cv6wqa4e8bm8p" path="res://Scenes/custom_btn.tscn" id="9_0061g"]
+[ext_resource type="Script" uid="uid://dwmsb74ffhjcs" path="res://Scripts/label.gd" id="9_w5sh6"]
+[ext_resource type="PackedScene" uid="uid://ecdtd2oiabub" path="res://Scenes/tutorial.tscn" id="11_o1e67"]
+[ext_resource type="PackedScene" uid="uid://2hq0p3oydmqx" path="res://Scenes/level_select.tscn" id="11_w5sh6"]
+[ext_resource type="Script" path="res://Scripts/alarm.gd" id="13_o1e67"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_p3fck"]
 atlas = ExtResource("1_klylv")
@@ -37,24 +44,18 @@ shader_parameter/core_intensity = -1.0
 shader_parameter/hdr = false
 shader_parameter/seed = 1.0
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_4gxqj"]
-atlas = ExtResource("1_klylv")
-region = Rect2(0, 270, 480, 270)
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8mikk"]
+shader = ExtResource("7_n82rj")
+shader_parameter/tentacle_count = 32
+shader_parameter/speed = 1.0
+shader_parameter/wiggle_strength = 0.05
+shader_parameter/taper = 2.0
+shader_parameter/pixel_size = 150.0
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_p3fck"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_4gxqj")
-}],
-"loop": true,
-"name": &"default",
-"speed": 5.0
-}]
-
-[sub_resource type="Theme" id="Theme_twnyg"]
-default_font = ExtResource("2_p3fck")
-default_font_size = 60
+[sub_resource type="LabelSettings" id="LabelSettings_12m1t"]
+font = ExtResource("2_p3fck")
+font_size = 100
+font_color = Color(1, 0, 0, 1)
 
 [node name="TitleScreen" type="Node2D"]
 script = ExtResource("1_4gxqj")
@@ -70,35 +71,65 @@ position = Vector2(567.5, 315)
 scale = Vector2(36.46875, 20.6875)
 texture = ExtResource("6_n82rj")
 
-[node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="."]
-position = Vector2(783.00006, 198)
-scale = Vector2(1.5041667, 1.562963)
-sprite_frames = SubResource("SpriteFrames_p3fck")
+[node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
+material = SubResource("ShaderMaterial_8mikk")
+position = Vector2(578.31256, 357)
+scale = Vector2(9.041992, 5.5273438)
+texture = ExtResource("8_0061g")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
-offset_left = 399.0
-offset_top = 519.0
-offset_right = 761.0
-offset_bottom = 590.0
-theme_override_constants/separation = 40
+[node name="Label2" type="Label" parent="."]
+offset_left = 23.846003
+offset_top = -25.257824
+offset_right = 885.846
+offset_bottom = 185.74217
+rotation = 0.08726646
+text = "    
+             Masquerade"
+label_settings = SubResource("LabelSettings_12m1t")
+script = ExtResource("9_w5sh6")
 
-[node name="start_btn" type="Button" parent="HBoxContainer"]
-layout_mode = 2
-theme = SubResource("Theme_twnyg")
-theme_override_colors/font_color = Color(0.7534114, 0, 0, 1)
-text = "start"
-metadata/_edit_lock_ = true
+[node name="Label" type="Label" parent="."]
+offset_left = 30.999998
+offset_top = 38.0
+offset_right = 893.0
+offset_bottom = 249.0
+rotation = -0.05235988
+text = "Marionette
+       "
+label_settings = SubResource("LabelSettings_12m1t")
+script = ExtResource("9_w5sh6")
 
-[node name="options_btn" type="Button" parent="HBoxContainer"]
-layout_mode = 2
-theme = SubResource("Theme_twnyg")
-theme_override_colors/font_color = Color(0.7534114, 0, 0, 1)
-text = "options"
-metadata/_edit_lock_ = true
+[node name="start_btn" parent="." instance=ExtResource("9_0061g")]
+position = Vector2(1008, 48)
+rotation = -0.18325958
+lbl_txt = "start"
+target_scene = ExtResource("11_o1e67")
 
-[node name="level_select_btn" type="Button" parent="HBoxContainer"]
-layout_mode = 2
-theme = SubResource("Theme_twnyg")
-theme_override_colors/font_color = Color(0.7534114, 0, 0, 1)
-text = "Level Select"
-metadata/_edit_lock_ = true
+[node name="options_btn" parent="." instance=ExtResource("9_0061g")]
+position = Vector2(1010, 181)
+lbl_txt = "options"
+
+[node name="levels_btn" parent="." instance=ExtResource("9_0061g")]
+position = Vector2(1027, 332.99997)
+rotation = 0.25307274
+lbl_txt = "levels"
+target_scene = ExtResource("11_w5sh6")
+
+[node name="alarm" type="ColorRect" parent="."]
+z_index = 4
+offset_left = 264.0
+offset_top = 323.0
+offset_right = 276.0
+offset_bottom = 334.0
+color = Color(0.99607843, 0, 0, 0)
+script = ExtResource("13_o1e67")
+
+[node name="alarm2" type="ColorRect" parent="."]
+z_index = 4
+offset_left = 353.0
+offset_top = 281.0
+offset_right = 365.0
+offset_bottom = 292.0
+color = Color(0.99607843, 0, 0, 0)
+script = ExtResource("13_o1e67")

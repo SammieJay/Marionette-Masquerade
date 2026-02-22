@@ -4,8 +4,9 @@ extends Camera2D
 var target:Host
 @onready var hostManager:HostManager
 
-
-
+@onready var pause_restart_btn = $restart_btn
+@onready var pause_menu_btn = $menu_btn
+@onready var pause_lbl = $paused_label
 # shader stuff
 @onready var deathShader = $deathShader
 @onready var shader = $speedLineShader
@@ -37,6 +38,7 @@ var shake_amnt = 0.0
 @onready var ammoLbl = $"ammo count"
 @onready var ammoLbl2 = $Label
 
+var is_paused := false
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -47,9 +49,7 @@ func _ready() -> void:
 	# starts music
 	music.play()
 	
-	#listeners setup
-	restart_btn.pressed.connect(_on_restart_button_pressed)
-	menu_btn.pressed.connect(_on_menu_button_pressed)
+
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -76,6 +76,29 @@ func _process(delta: float) -> void:
 	trackTarget(delta)
 	updateAmmoLabel()
 
+func _unhandled_input(event):
+	if event.is_action_pressed("pause"):
+		if is_paused:
+			unpause_game()
+		else:
+			pause_game()
+
+func pause_game():
+	is_paused = true
+	get_tree().paused = true
+	deathShader.show()
+	pause_restart_btn.show()
+	pause_menu_btn.show()
+	pause_lbl.show()
+
+func unpause_game():
+	is_paused = false
+	get_tree().paused = false
+	deathShader.hide()
+	pause_restart_btn.hide()
+	pause_menu_btn.hide()
+	pause_lbl.hide()
+
 func trackTarget(delta:float):
 	var targetPos: Vector2 = target.global_position
 	global_position = global_position.lerp(
@@ -91,23 +114,29 @@ func shake(amount: float) -> void:
 	shake_amnt = max(shake_amnt, amount)
 	
 func show_death_screen():
+	is_paused = true
+	get_tree().paused = true
 	deathShader.show()
-	gameover_btns.show()
 	gameoverLbl.show()
-	restart_btn.show()
-	menu_btn.show()
-	#stuff you hide on game over
+	
+	#currently bugged and not sure why
+	pause_menu_btn.show()
+	pause_restart_btn.show()
+	
 	spotlight.hide()
 	ammoLbl.hide()
 	ammoLbl2.hide()
 	Score.resetStage()
 
-
 func _on_restart_button_pressed():
+	get_tree().paused = false
+	is_paused = false
 	get_tree().reload_current_scene()
 	Score.resetStage()
 	
 func _on_menu_button_pressed():
+	get_tree().paused = false
+	is_paused = false
 	get_tree().change_scene_to_file("res://Scenes/title_screen.tscn")
 
 func playTransferAudio(hit:bool):

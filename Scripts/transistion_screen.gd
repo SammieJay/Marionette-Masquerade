@@ -10,13 +10,13 @@ signal transitionFinished
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	titleScreen.visible = false
-	title.visible = false 
+	$Label.visible = false 
 	scoreNode.visible = false 
 	animation_player.animation_finished.connect(_on_animation_finished)
 
 func transition():
 	titleScreen.visible = true 
-	title.visible = true 
+	$Label.visible = true 
 	scoreNode.visible = true
 	Score.incrementScore()
 	scoreNode.text = "[font_size=48][color=#Ff0000]Score: "  + str(Score.totalScore) + "[/color]"
@@ -29,5 +29,5 @@ func _on_animation_finished(anim_name):
 	elif anim_name == "fade_to_normal":
 		Score.resetStage()
 		titleScreen.visible = false
-		title.visible = false 
+		$Label.visible = false 
 		scoreNode.visible = false 
