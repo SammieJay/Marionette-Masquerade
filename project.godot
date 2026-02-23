@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="Possesion Game"
+config/name="Marionette Masquerade"
 run/main_scene="uid://dgnaipduiuudb"
 config/features=PackedStringArray("4.5", "Forward Plus")
 boot_splash/bg_color=Color(0.26850447, 0, 0.0028242643, 1)
