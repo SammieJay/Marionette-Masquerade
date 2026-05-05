@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://cto5aoxw4f8ul"]
+
+[ext_resource type="Script" uid="uid://nxicc26dotw5" path="res://Scripts/Hosts/General/host_controller.gd" id="1_2xler"]
+
+[node name="Node2D" type="CharacterBody2D" unique_id=1629916961]
+script = ExtResource("1_2xler")
+metadata/_custom_type_script = "uid://nxicc26dotw5"

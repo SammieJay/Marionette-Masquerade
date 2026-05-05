@@ -25,7 +25,7 @@ class_name EnemyController extends Node
 
 
 ## ===== SCRIPT VARIABLES =====
-var host:HostController
+var hostController:HostController
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

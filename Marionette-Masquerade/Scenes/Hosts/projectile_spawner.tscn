@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://c7ah02d2ywsso"]
 
-[ext_resource type="Script" uid="uid://dno5kfr0jk6kc" path="res://Scripts/projectile_spawner.gd" id="1_fn4pw"]
+[ext_resource type="Script" uid="uid://dno5kfr0jk6kc" path="res://Scripts/DEPRECATED/projectile_spawner.gd" id="1_fn4pw"]
 [ext_resource type="AudioStream" uid="uid://d14heo04v25pr" path="res://Assets/Shotgun_Shot.wav" id="3_ossoj"]
 [ext_resource type="AudioStream" uid="uid://c2qkvi4imv1vk" path="res://Assets/Handgun_Shot.wav" id="3_ygls1"]
 [ext_resource type="Texture2D" uid="uid://c5sk3c1ky01p3" path="res://Assets/Textures/muzzle_flash_txtr_1.png" id="4_ygls1"]

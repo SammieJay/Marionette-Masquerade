@@ -36,7 +36,9 @@ class_name HostController extends CharacterBody2D
 
 
 ## ===== SCRIPT VARIABLES =====
+@onready var alive:bool = true
 var currnentHealth:float
+
 
 ## ===== BOOLEAN RETURN FUNCTIONS =====
 func is_posessed()->bool: return currentlyPossesed
@@ -52,8 +54,8 @@ func _ready():
 	_verify_core_references() #verify that all required modules/nodes are present and linked
 
 	##Pass reference to self to enemy and player controllers
-	playerController.host = self
-	enemyController.host = self
+	playerController.hostController = self
+	enemyController.hostController = self
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -69,6 +71,7 @@ func _verify_core_references()->void:
 	assert(weaponHandler != null,"Host %s is missing reference to required WeaponHandler" % hostTypeName)
 	assert(inputHandler != null,"Host %s could not retreive reference to InputHandler" % hostTypeName)
 	assert(animationPlayer != null,"Host %s is missing reference to required AnimationPlayer" % hostTypeName)
+	assert(collider != null, "Host %s is missing reference to its collider" % hostTypeName)
 
 
 ## Tells the animation player to either start or continue the animation of the given name [br]
@@ -79,9 +82,10 @@ func updateAnimation(_animation_name:String):
 
 	if hasAnimation: animationPlayer.play(_animation_name)
 
-## [b]VIRTUAL[/b] [br]
-## Called when: HostManager class is instructed to switch to a new host [br]
-## Handles: specific switching effects [br]
+## Called by HostManager when player switches to a different host [br]
+## Handles: specific switching effects and variable changes [br]
 func switch_host(_newHost:HostController)->void:
 	currentlyPossesed = false
 	updateAnimation("uposess")
+
+#func die(): pass
