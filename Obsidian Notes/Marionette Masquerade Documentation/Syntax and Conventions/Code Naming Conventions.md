@@ -19,13 +19,14 @@
 
 ### Quick Function Naming Guide
 
-| *Type*          | *Convention*                                      | *Example*                                    | *Notes*                                                 |
-| --------------- | ------------------------------------------------- | -------------------------------------------- | ------------------------------------------------------- |
-| Core Function   | snake_case                                        | player_movement(delta):                      |                                                         |
-| Helper Function | \_lower_snake_case                                | \_count_enemies_nearby()->int:               | Only called <br>from within the<br>script it's declared |
-| Getters         | get_ + lower_snake_case                           | get_player_health()->float:                  | Ideally Inline                                          |
-| Setters         | set_ + lower_snake_case                           | set_player_health(float):                    | Ideally Inline                                          |
-| Boolean Return  | is_ + lower_snake_case<br>can_ + lower_snake_case | is_alive()->bool:<br>can_see_player()->bool: | Ideally Inline<br>May not be Inline                     |
+| *Type*                      | *Convention*          | *Example*                      | *Notes*                                                 |
+| --------------------------- | --------------------- | ------------------------------ | ------------------------------------------------------- |
+| Core Function               | snake_case            | player_movement(delta):        |                                                         |
+| Helper Function             | \_lower_snake_case    | \_count_enemies_nearby()->int: | Only called <br>from within the<br>script it's declared |
+| Getters                     | get\_ + snake_case    | get_player_health()->float:    | Ideally Inline                                          |
+| Setters                     | set\_ + snake_case    | set_player_health(float):      | Ideally Inline                                          |
+| Boolean Return (state)      | is\_ + snake_case<br> | is_alive()->bool:<br>          | Ideally Inline                                          |
+| Boolean Return (capability) | can\_ + snake_case    | can_see_player()->bool:        |                                                         |
 
 ### Mainline Function
 *Core functionality, called from within function or elsewhere*
@@ -40,7 +41,6 @@ Example:
 
 Example:
 ``func _helper_function()->void:
-
 ### Getter & Setter Functions
 #get #set
 - Uses default snake case but simply includes "get_" or "set_" at the start

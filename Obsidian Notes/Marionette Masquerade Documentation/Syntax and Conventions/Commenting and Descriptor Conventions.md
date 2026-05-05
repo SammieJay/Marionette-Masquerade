@@ -16,8 +16,6 @@ func described_function() -> void:
 ## Responsibilities:
 ##   - Core responsibility one
 ##   - Core responsibility two
-##
-## Dependencies: [NodePath or class it relies on, or "None"]
 ```
 *Godot will recognize this and use it for in-line documentation when referenced from other scripts*
 
@@ -45,3 +43,4 @@ func some_function() -> int:
 ## Handles [what overrides should do]
 func some_virtual_func() -> void:
 ```
+
