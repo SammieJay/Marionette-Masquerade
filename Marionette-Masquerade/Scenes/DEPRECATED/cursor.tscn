@@ -1,7 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://bx5jc6exewmsk"]
+[gd_scene format=3 uid="uid://bx5jc6exewmsk"]
 
 [ext_resource type="Texture2D" uid="uid://bhb8p7qf2i750" path="res://Assets/Textures/crosshait_txtr_1.png" id="1_i7fis"]
-[ext_resource type="Script" uid="uid://b7hgw8wkrttbj" path="res://Scripts/Cursor.gd" id="2_i7fis"]
+[ext_resource type="Script" uid="uid://b7hgw8wkrttbj" path="res://Scripts/DEPRECATED/Cursor.gd" id="2_i7fis"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hxgmc"]
 atlas = ExtResource("1_i7fis")

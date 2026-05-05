@@ -13,9 +13,9 @@ func described_function() -> void:
 ```
 ## [ClassName] – one-line summary of what this class does.
 ##
-## Responsibilities:
-##   - Core responsibility one
-##   - Core responsibility two
+## [b]Responsibilities:[/b] [br]
+##   - Core responsibility one [br]
+##   - Core responsibility two [br]
 ```
 *Godot will recognize this and use it for in-line documentation when referenced from other scripts*
 
@@ -29,18 +29,20 @@ func described_function() -> void:
 
 ## Core/mainline functions
 ```
-## [One-line summary of purpose.]
-## Expects: [preconditions or notable param details, if non-obvious]
-## Returns: [what the return value means, if non-void]
-func some_function() -> int:
+## [One-line summary of purpose] [br]
+## [b]Expects:[/b] [preconditions or notable param details, if non-obvious] [br]
+## [b]Returns:[/b] [what the return value means, if non-void] [br]
 ```
 
 ## Virtual Functions (To be overridden)
 
 ```
-## VIRTUAL
-## Called when [trigger/event]
-## Handles [what overrides should do]
-func some_virtual_func() -> void:
+## [b]VIRTUAL[/b][br]
+## Called when: [trigger/event] [br]
+## Handles: [what overrides should do] [br]
 ```
 
+## Helper Functions
+```
+## One-line summary
+```

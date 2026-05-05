@@ -25,6 +25,18 @@ config/icon="res://icon.svg"
 window/size/resizable=false
 window/stretch/mode="viewport"
 
+[file_customization]
+
+folder_colors={
+"res://Assets/": "red",
+"res://Scenes/": "teal",
+"res://Scripts/": "purple"
+}
+
+[global_group]
+
+InputHandler="Contains Reference to Singleton InputHandler"
+
 [input]
 
 "Move Up"={

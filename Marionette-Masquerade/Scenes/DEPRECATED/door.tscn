@@ -1,6 +1,6 @@
-[gd_scene load_steps=10 format=3 uid="uid://b0o8f56e1ta11"]
+[gd_scene format=3 uid="uid://b0o8f56e1ta11"]
 
-[ext_resource type="Script" uid="uid://bnilw6yhsbk31" path="res://Scripts/door.gd" id="1_w6aom"]
+[ext_resource type="Script" uid="uid://bnilw6yhsbk31" path="res://Scripts/DEPRECATED/door.gd" id="1_w6aom"]
 [ext_resource type="Texture2D" uid="uid://dalftqrybw55p" path="res://Assets/Textures/Laser_door_txtr_1.png" id="2_p0e35"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fahql"]
@@ -45,24 +45,24 @@ size = Vector2(62, 71)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_w6aom"]
 size = Vector2(32, 96)
 
-[node name="Door" type="Node2D"]
+[node name="Door" type="Node2D" unique_id=1646550699]
 script = ExtResource("1_w6aom")
 
-[node name="Sprite2D" type="AnimatedSprite2D" parent="."]
+[node name="Sprite2D" type="AnimatedSprite2D" parent="." unique_id=1210317884]
 position = Vector2(17, 35)
 rotation = -1.5707964
 sprite_frames = SubResource("SpriteFrames_kj2pw")
 frame_progress = 0.88189733
 
-[node name="Player Checker (NOT NEEDED)" type="Area2D" parent="."]
+[node name="Player Checker (NOT NEEDED)" type="Area2D" parent="." unique_id=865632923]
 visible = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Player Checker (NOT NEEDED)"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player Checker (NOT NEEDED)" unique_id=242675939]
 position = Vector2(17, 35)
 shape = SubResource("RectangleShape2D_fahql")
 
-[node name="DoorCol" type="StaticBody2D" parent="."]
+[node name="DoorCol" type="StaticBody2D" parent="." unique_id=1169601628]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="DoorCol"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DoorCol" unique_id=1875406659]
 position = Vector2(17, 35)
 shape = SubResource("RectangleShape2D_w6aom")

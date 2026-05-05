@@ -1,6 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://cv6wqa4e8bm8p"]
+[gd_scene format=3 uid="uid://cv6wqa4e8bm8p"]
 
-[ext_resource type="Script" uid="uid://fg353dqarw43" path="res://Scripts/custom_btn.gd" id="1_prny0"]
+[ext_resource type="Script" uid="uid://fg353dqarw43" path="res://Scripts/DEPRECATED/custom_btn.gd" id="1_prny0"]
 [ext_resource type="Texture2D" uid="uid://bh5ghcwn7wyp7" path="res://Assets/Textures/button_txtr_2.png" id="2_prny0"]
 [ext_resource type="FontFile" uid="uid://vfxniutek0c8" path="res://Assets/Dracutaz.otf" id="3_sgmq4"]
 
