@@ -1,4 +1,7 @@
-class_name Host
+## [Host] - Deprecated class for host code
+## 
+## No longer works as intended
+## @deprecated: Use [HostController] instead.
 extends CharacterBody2D
 
 signal died(host)

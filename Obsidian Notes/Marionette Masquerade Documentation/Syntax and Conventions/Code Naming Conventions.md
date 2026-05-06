@@ -19,16 +19,16 @@
 
 ### Quick Function Naming Guide
 
-| *Type*                      | *Convention*          | *Example*                      | *Notes*                                                 |
-| --------------------------- | --------------------- | ------------------------------ | ------------------------------------------------------- |
-| Core Function               | snake_case            | player_movement(delta):        |                                                         |
-| Helper Function             | \_lower_snake_case    | \_count_enemies_nearby()->int: | Only called <br>from within the<br>script it's declared |
-| Getters                     | get\_ + snake_case    | get_player_health()->float:    | Ideally Inline                                          |
-| Setters                     | set\_ + snake_case    | set_player_health(float):      | Ideally Inline                                          |
-| Boolean Return (state)      | is\_ + snake_case<br> | is_alive()->bool:<br>          | Ideally Inline                                          |
-| Boolean Return (capability) | can\_ + snake_case    | can_see_player()->bool:        |                                                         |
+| *Type*                      | *Convention*          | *Example*                   | *Notes*                                                 |
+| --------------------------- | --------------------- | --------------------------- | ------------------------------------------------------- |
+| Core Function               | snake_case            | player_movement(delta):     |                                                         |
+| Helper Function             | \_lower_snake_case    | \_verify_variables()        | Only called <br>from within the<br>script it's declared |
+| Getters                     | get\_ + snake_case    | get_player_health()->float: | Ideally Inline                                          |
+| Setters                     | set\_ + snake_case    | set_player_health(float):   | Ideally Inline                                          |
+| Boolean Return (state)      | is\_ + snake_case<br> | is_alive()->bool:<br>       | Ideally Inline                                          |
+| Boolean Return (capability) | can\_ + snake_case    | can_see_player()->bool:     |                                                         |
 
-### Mainline Function
+### Core Function
 *Core functionality, called from within function or elsewhere*
 - Follows general function naming (snake case)
 

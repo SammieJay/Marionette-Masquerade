@@ -4,39 +4,59 @@
 ##   - Contains functions for general AI behavior like pathing [br]
 ##   - Is inherited to make an enemy controller specific to each host type [br]
 ##   - Retrieves references to other nodes via the HostController [br]
+##   - Handles effects for when player stops posessing this host [br]
 class_name EnemyController extends Node
 
-
 ## ===== EXPORT VARIABLES =====
+@export_category("References")
+@export_group("REQUIRED")
+@export var navAgent:NavigationAgent2D
+
+
 @export_category("Enemy Propperties")
-@export var hostTypeName:String
-
-@export_group("Status")
-@export var currentlyPossesed:bool = false
-@export var currentlyPossesable:bool = true
-
 @export_group("Movement")
 @export var moveSpeed:float = 10.0
 
 @export_group("Other")
-@export var MAX_HEALTH:float = 1.0
-## Maximum distance that host can transfer to
-@export var MAX_TRANSFER_DISTANCE:float = 250.0
+@export var confusionDelayTime:float = 1.0 ## How long this host takes to target the player after they switch hosts
 
 
 ## ===== SCRIPT VARIABLES =====
-var hostController:HostController
+# ----- References -----
+var host:HostController
+var weapon:WeaponHandler
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
+# ----- Confusion -----
+var confusionTimer:float = 0.0
+var confused:bool = false
+
+## ===== BOOLEAN RETURNS =====
+func is_confused()->bool: return confused
+
+
+## MUST BE CALLED FROM INHERITING CLASSES VIA 'super._ready()'
+## Performs mandatory setup for all inheriting EnemyController classes
+func _ready(): pass
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
+func _process(delta): pass
 
-## VIRTUAL
-## Called every frame by HostController
-## Handles all enemy thinking and behavior by calling functions in other nodes
+
+## ===== VIRTUAL FUNCTIONS TO BE OVERRIDEN =====
+
+## [b]VIRTUAL[/b][br]
+## Called: By HostController every frame that host is not posessed [br]
+## Handles: All enemy thinking and decision making [br]
 func do_enemy_behavior(delta:float): pass
+
+## [b]VIRTUAL[/b][br]
+## Called: By HostController when player leaves this host [br]
+## Handles: Effects and behavior when posession is released [br]
+func on_posession_release()->void: pass
+
+
+## ===== HELPER FUNCTIONS =====
+
+func _verify_refrences()->void:
+	assert(navAgent != null, "EnemyController for %s is missing reference to required NavigationAgent2D" % host.hostTypeName)

@@ -38,7 +38,7 @@ func described_function() -> void:
 
 ```
 ## [b]VIRTUAL[/b][br]
-## Called when: [trigger/event] [br]
+## Called: [trigger/event] [br]
 ## Handles: [what overrides should do] [br]
 ```
 

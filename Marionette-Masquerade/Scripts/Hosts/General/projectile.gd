@@ -1,10 +1,9 @@
-class_name pistol_projectile
-extends Area2D
+class_name Projectile extends Area2D
 
-var damage: int
-var direction: Vector2 
-var speed = 2200.0 
-var source:Node2D
+var damage:float
+var direction:Vector2
+var speed:float
+var host:HostController
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -14,10 +13,11 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
-	position += direction * speed * delta
+	global_position += direction * speed * delta
 
 func _on_body_entered(body):
-	if source!=null and body!=source:
+	if body is HostController and body != host:
+		print("HIT DETECTED WITH %s" % host.name)
+	if body!=host:
 		queue_free()
-	if body is Host:
-		body.die()
+	

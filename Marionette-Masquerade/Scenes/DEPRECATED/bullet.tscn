@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://baibytdlfegxn"]
 
-[ext_resource type="Script" uid="uid://coxatpn0jljx2" path="res://Scripts/DEPRECATED/projectile.gd" id="1_xjght"]
+[ext_resource type="Script" uid="uid://coxatpn0jljx2" path="res://Scripts/Hosts/General/projectile.gd" id="1_xjght"]
 [ext_resource type="Texture2D" uid="uid://6qyd5vsf0s3" path="res://Assets/Textures/bullet_txtr_1.png" id="2_oduel"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_oduel"]

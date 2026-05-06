@@ -36,6 +36,10 @@ folder_colors={
 [global_group]
 
 InputHandler="Contains Reference to Singleton InputHandler"
+Host="contains all hosts in scene"
+HostManager="Contains single HostManager class for level"
+ProjectileParent="Contains reference to parent node of all projectiles"
+Cursor="Contains reference to singleton Cursor class"
 
 [input]
 
