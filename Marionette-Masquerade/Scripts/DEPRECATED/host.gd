@@ -2,7 +2,7 @@
 ## 
 ## No longer works as intended
 ## @deprecated: Use [HostController] instead.
-extends CharacterBody2D
+class_name Host extends CharacterBody2D
 
 signal died(host)
 
@@ -73,7 +73,7 @@ func _ready():
 	hostManager.registerHost(self)
 	
 	if isPlayerControlled: 
-		hostManager.playerHost = self
+		#hostManager.playerHost = self
 		hostManager.enemyTarget = self
 	weaponSetup()
 
