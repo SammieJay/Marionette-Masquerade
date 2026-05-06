@@ -29,10 +29,6 @@ class_name HostController extends CharacterBody2D
 @export_group("Status")
 @export var currentlyPossesable:bool = true
 
-@export_group("Effect/Animation Names")
-@export var onPosessionEffectName:String
-@export var onUnPosessionEffetName:String
-
 @export_group("Movement")
 @export var moveSpeed:float = 10.0
 
