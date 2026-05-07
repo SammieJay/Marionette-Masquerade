@@ -1,0 +1,37 @@
+[gd_scene format=3 uid="uid://dsnwo8b71332q"]
+
+[ext_resource type="Script" uid="uid://cca2yiacp0mcp" path="res://Scripts/Hosts/General/input_handler.gd" id="1_lrtbe"]
+[ext_resource type="Script" uid="uid://dymdfu6tebr3h" path="res://Scripts/Hosts/General/host_manager.gd" id="2_xp5rw"]
+[ext_resource type="PackedScene" uid="uid://cto5aoxw4f8ul" path="res://Scenes/Hosts/test_host.tscn" id="3_xp5rw"]
+[ext_resource type="PackedScene" uid="uid://6lt0i311l7b1" path="res://Scenes/Hosts/posession_indicator.tscn" id="4_uolp1"]
+
+[node name="LvlTestGym1" type="Node2D" unique_id=1076524834]
+
+[node name="InputHandler" type="Node2D" parent="." unique_id=1174731952 groups=["InputHandler"]]
+script = ExtResource("1_lrtbe")
+metadata/_custom_type_script = "uid://cca2yiacp0mcp"
+
+[node name="HostManager" type="Node" parent="." unique_id=1895020084 node_paths=PackedStringArray("startingPlayerHost", "possessionIndicator") groups=["HostManager"]]
+script = ExtResource("2_xp5rw")
+startingPlayerHost = NodePath("../Hosts/Scientist Host")
+possessionIndicator = NodePath("../PossessionIndicator")
+metadata/_custom_type_script = "uid://dymdfu6tebr3h"
+
+[node name="Hosts" type="Node2D" parent="." unique_id=226895963]
+
+[node name="Scientist Host" parent="Hosts" unique_id=1629916961 instance=ExtResource("3_xp5rw")]
+position = Vector2(181, 37)
+MAX_TRANSFER_DISTANCE = 300.0
+
+[node name="Scientist Host2" parent="Hosts" unique_id=304725423 instance=ExtResource("3_xp5rw")]
+position = Vector2(238, 36)
+
+[node name="Scientist Host3" parent="Hosts" unique_id=68979677 instance=ExtResource("3_xp5rw")]
+position = Vector2(188, 113)
+
+[node name="Scientist Host4" parent="Hosts" unique_id=1623930166 instance=ExtResource("3_xp5rw")]
+position = Vector2(303, 115)
+
+[node name="Projectiles" type="Node2D" parent="." unique_id=2146611447 groups=["ProjectileParent"]]
+
+[node name="PossessionIndicator" parent="." unique_id=2037520429 instance=ExtResource("4_uolp1")]

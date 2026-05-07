@@ -1,100 +1,103 @@
 class_name HostManager extends Node
 
-var hostArray:Array[HostController]
-var playerHost:HostController
 
-var cursor:Cursor
 
 @export_category("Required References")
 @export var startingPlayerHost:HostController
+@export var possessionIndicator:PossessionIndicator
 
 
 ## ===== SCRIPT VARIABLES =====
 
 @onready var gameRunning:bool = true
-#@onready var maxTransferDistance: float = 250.0
-#@onready var maxTransferDistFromLook: float = 100.0
-#@onready var player_camera: PlayerCamera
+@onready var inputHandler:InputHandler
+@onready var eligibleHost:HostController
+
+var hostArray:Array[HostController]
+var playerHost:HostController
+
+var maxTransferDistFromLook: float = 100.0
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	cursor = get_tree().get_first_node_in_group("Cursor")
+	# Initialize starting host
+	
+
+	inputHandler = get_tree().get_first_node_in_group("InputHandler") # Retrieve InputHandler refrence from global group
+
+	_verify_core_references()
+	#cursor = get_tree().get_first_node_in_group("Cursor")
 	_refresh_host_array()
 
+	playerHost = startingPlayerHost
+	
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	if hostArray.size()>1: checkForEligibleHost()
+func _process(_delta: float) -> void:
+	if !playerHost.is_possessed(): playerHost.currentlyPossessed = true
+	eligibleHost = _check_for_switchable_host()
+	possessionIndicator.set_target(eligibleHost)
+
+	# Check for player input
+	if inputHandler.is_action_just_pressed("Transfer Hosts") and eligibleHost != null:
+		switch_to_host(eligibleHost)
+
+
+## Instructs relevent HostController classes to update possession status [br]
+## [b]Expects:[/b] a non-null parameter input [br]
+func switch_to_host(next:HostController):
+	print("HOST SWITCH")
+	playerHost.un_possess()
+	playerHost = next
+	playerHost.possess()
 
 
 ## ===== HELPER FUNCTIONS =====
 
-## refresh array of hosts
+## refresh array of hosts to only include living hosts
 func _refresh_host_array()->void:
-	hostArray = get_tree().get_nodes_in_group("Host") as Array[HostController]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-func switchHost(prev:HostController, next:HostController):
-	prev.isPlayerControlled = false
-	prev.stun(2.5)
+	hostArray.clear()
+	var hostGroup:Array[Node] = get_tree().get_nodes_in_group("Host")
+	for node:Node in hostGroup:
+		var host = node as HostController
+		if host != null: 
+			hostArray.append(host)
+			#print("Host added to array")
 	
-	next.projectileSpawner.forceReload()
-	playerHost = next
-	
-	next.isPlayerControlled = true
+	#print("Num Hosts: %d" % hostArray.size())
 
-func checkForEligibleHost():
-	var minDist:float = 9999.0
+## Returns a host that the player host is eligible to switch to, if there is none, returns null
+## TODO clean this function up
+func _check_for_switchable_host()->HostController:
+	if hostArray.size() == 0:
+		#print("NO HOSTS IN ARRAY")
+		return null
+	var minDist:float = 9999.9
 	var closestHost:HostController = null
 	
 	for host:HostController in hostArray:
-		var distToPlayerLookDir = distanceInFrontOfPlayer(playerHost.global_position, host.global_position)
+		if host == null: continue
+		var distToPlayerLookDir = _distanceInFrontOfPlayer(playerHost.global_position, host.global_position)
 		var distToPlayer = host.global_position.distance_to(playerHost.global_position)
 		
-		#var closeToLook:bool = distToPlayerLookDir < maxTransferDistFromLook
+		var closeToLook:bool = distToPlayerLookDir < maxTransferDistFromLook
 		var inFrontOfPlayer:bool = distToPlayerLookDir != -1
 		var isNotPlayer: bool = host != playerHost
 		var withinTransferDistance:bool = distToPlayer <= playerHost.MAX_TRANSFER_DISTANCE
-		var isAlive:bool = host.alive
-		var isStunned:bool = host.stunnedTimer>0
+		var isAlive:bool = host.is_alive()
+		var isStunned:bool = host.enemyController.is_stunned()
 		
 		var closestToLookSoFar:bool = distToPlayerLookDir < minDist
 		
-		if  inFrontOfPlayer and isNotPlayer and withinTransferDistance and closestToLookSoFar and isAlive and !isStunned:
+		if  inFrontOfPlayer and isNotPlayer and withinTransferDistance and closestToLookSoFar and isAlive and !isStunned and closeToLook:
 			minDist = distToPlayerLookDir
 			closestHost = host
 	
+	return closestHost
 
-func distanceInFrontOfPlayer(playerPos:Vector2, targetPos:Vector2)->float:
+## a complicated distance return helper function
+## TODO rename and clarify this function
+func _distanceInFrontOfPlayer(playerPos:Vector2, targetPos:Vector2)->float:
 	var player_dir = playerHost.global_transform.x.normalized()
 	var to_target:Vector2 = targetPos - playerPos
 	
@@ -108,3 +111,8 @@ func distanceInFrontOfPlayer(playerPos:Vector2, targetPos:Vector2)->float:
 		return -1.0
 	
 	return perp.length()
+
+func _verify_core_references()->void:
+	assert(startingPlayerHost != null, "HostManager has no set starting Host")
+	assert(possessionIndicator != null, "HostManager has no link to PossessionIndicator")
+	assert(inputHandler != null, "HostManager could not find InputHandler")

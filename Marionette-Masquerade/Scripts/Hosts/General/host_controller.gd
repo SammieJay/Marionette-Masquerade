@@ -2,7 +2,7 @@
 ##
 ## [b]Responsibilities:[/b] [br]
 ##   - Contains references to all MANDATORY modules for hosts to function (Enemy & Player Controller classes, switch indicator sprite, animation controller, etc) [br]
-##   - Calls the update function of either Player or Enemy controller depending on whether the host is currently posessed [br]
+##   - Calls the update function of either Player or Enemy controller depending on whether the host is currently possessed [br]
 ##	 - Contains functions callable by Enemy and Player controller to update things like animations & other status updates [br]
 ##	 - Inherits from CharacterBody2D in order to handle movement [br]
 class_name HostController extends CharacterBody2D
@@ -30,7 +30,8 @@ class_name HostController extends CharacterBody2D
 @export var currentlyPossesable:bool = true
 
 @export_group("Movement")
-@export var moveSpeed:float = 10.0
+@export var moveSpeed:float = 20.0
+@export var rotationSpeed:float = 7.0
 
 @export_group("Other Values")
 @export var MAX_HEALTH:float = 1.0
@@ -42,19 +43,27 @@ class_name HostController extends CharacterBody2D
 @onready var inputHandler:InputHandler
 @onready var hostManager:HostManager
 
-# ----- Posession -----
-@onready var currentlyPossesed:bool = false
+# ----- possession -----
+@onready var currentlyPossessed:bool = false
 
 # ----- Health -----
 @onready var alive:bool = true
 var currnentHealth:float
 
+# ----- Movement -----
+const MOVE_SPEED_CONSTANT:float = 1200.0
+
 
 ## ===== BOOLEAN RETURN FUNCTIONS =====
 
-func is_posessed()->bool: return currentlyPossesed
-func is_posessable()->bool: return currentlyPossesable
+func is_possessed()->bool: return currentlyPossessed
+func is_possessable()->bool: return currentlyPossesable
 func is_alive()->bool: return alive
+
+
+## ===== GETTER AND SETTER FUNCTIONS =====
+
+func get_look_vector()->Vector2: return Vector2(1,0).rotated(global_rotation).normalized() ## Returns the vector along the look direction of the host
 
 
 ## MUST BE CALLED FROM INHERITING CLASSES VIA 'super._ready()'
@@ -69,25 +78,29 @@ func _ready():
 	_set_inital_values() #set important initial variable values
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	## Call the update function of the relevent
-	if is_posessed(): playerController.do_player_behavior(delta)
-	else: enemyController.do_enemy_behavior(delta)
+	if is_possessed(): playerController.do_player_behavior(_delta)
+	else: enemyController.do_enemy_behavior(_delta)
 
 
 ## ===== HOSTMANAGER CALLED FUNCTIONS =====
 
 ## Called by HostManager when player switches to a different host [br]
 ## Handles: value changes and effects that occur when switching [b]FROM[/b] this host  [br]
-func un_posess()->void:
-	enemyController.on_posession_release()
-	currentlyPossesed = false
+func un_possess()->void:
+	currentlyPossessed = false
+	enemyController.on_possession_release()
+	
 
 ## Called by HostManager when player switches to a different host [br]
 ## Handles: value changes and effects that occur when switching [b]TO[/b] this host  [br]
-func posess()->void:
-	playerController.on_posession()
-	currentlyPossesed = true
+func possess()->void:
+	print(name)
+	currentlyPossessed = true
+	print(currentlyPossessed)
+	playerController.on_possession()
+	
 	
 
 
@@ -118,6 +131,7 @@ func _distribute_references()->void:
 	# --- PlayerController ---
 	playerController.host = self
 	playerController.weapon = weaponHandler
+	playerController.inputHandler = inputHandler
 
 	# --- EnemyController ---
 	enemyController.host = self
