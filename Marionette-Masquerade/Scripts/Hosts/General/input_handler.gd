@@ -32,11 +32,12 @@ func get_mouse_screen_position()->Vector2: return get_viewport().get_mouse_posit
 func get_mouse_global_position()->Vector2: return get_global_mouse_position()
 
 
-## ===== GENERIC INPUT RETURNS =====
+## ===== KEYPRESS INPUT RETURNS =====
 
-## Returns movement input direction as a Vector2
+## Returns movement input direction as a normalized Vector2
 func get_move_input()->Vector2:
 	return Input.get_vector("Move Left", "Move Right", "Move Up", "Move Down").normalized()
+
 
 func is_action_pressed(_action: StringName) -> bool:
 	return Input.is_action_pressed(_action)

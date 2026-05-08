@@ -1,34 +1,40 @@
+## [HostManager] – Class handles the logic behind when the player can posess a new host, and which host the player can swap to
+##
+## [b]Responsibilities:[/b] [br]
+##   - Select an elegible host for the player to switch to [br]
+##   - Instruct the relevent classes to do logic when the player makes a switch input [br]
 class_name HostManager extends Node
-
-
 
 @export_category("Required References")
 @export var startingPlayerHost:HostController
-@export var possessionIndicator:PossessionIndicator
+
 
 
 ## ===== SCRIPT VARIABLES =====
 
-@onready var gameRunning:bool = true
+#@onready var gameRunning:bool = true
 @onready var inputHandler:InputHandler
+@onready var possessionIndicator:PossessionIndicator
+
+@onready var playerHost:HostController
 @onready var eligibleHost:HostController
 
 var hostArray:Array[HostController]
-var playerHost:HostController
 
 var maxTransferDistFromLook: float = 100.0
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	# Initialize starting host
-	
-
+	# Initialize required nodes
 	inputHandler = get_tree().get_first_node_in_group("InputHandler") # Retrieve InputHandler refrence from global group
+	possessionIndicator = get_tree().get_first_node_in_group("PossessionIndicator") # Retrieve PossessionIndicator refrence from global group
+	#cursor = get_tree().get_first_node_in_group("Cursor")
 
 	_verify_core_references()
-	#cursor = get_tree().get_first_node_in_group("Cursor")
+	
 	_refresh_host_array()
 
+	# Initialize starting host
 	playerHost = startingPlayerHost
 	
 
@@ -46,7 +52,7 @@ func _process(_delta: float) -> void:
 ## Instructs relevent HostController classes to update possession status [br]
 ## [b]Expects:[/b] a non-null parameter input [br]
 func switch_to_host(next:HostController):
-	print("HOST SWITCH")
+	#print("HOST SWITCH")
 	playerHost.un_possess()
 	playerHost = next
 	playerHost.possess()
@@ -62,7 +68,6 @@ func _refresh_host_array()->void:
 		var host = node as HostController
 		if host != null: 
 			hostArray.append(host)
-			#print("Host added to array")
 	
 	#print("Num Hosts: %d" % hostArray.size())
 
@@ -114,5 +119,5 @@ func _distanceInFrontOfPlayer(playerPos:Vector2, targetPos:Vector2)->float:
 
 func _verify_core_references()->void:
 	assert(startingPlayerHost != null, "HostManager has no set starting Host")
-	assert(possessionIndicator != null, "HostManager has no link to PossessionIndicator")
-	assert(inputHandler != null, "HostManager could not find InputHandler")
+	assert(possessionIndicator != null, "HostManager requires a PossessionIndicator in the scene")
+	assert(inputHandler != null, "HostManager could not find InputHandler from global group")

@@ -420,6 +420,18 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_6f7k1"]
 radius = 10.29563
 
+[sub_resource type="Animation" id="Animation_cxe6q"]
+length = 0.001
+
+[sub_resource type="Animation" id="Animation_41v3r"]
+resource_name = "test"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_lj85y"]
+_data = {
+&"RESET": SubResource("Animation_cxe6q"),
+&"test": SubResource("Animation_41v3r")
+}
+
 [node name="Scientist Host" type="CharacterBody2D" unique_id=1629916961 node_paths=PackedStringArray("enemyController", "playerController", "animationPlayer", "weaponHandler", "collider") groups=["Host"]]
 script = ExtResource("1_2xler")
 enemyController = NodePath("EnemyController")
@@ -487,3 +499,4 @@ sprite_frames = SubResource("SpriteFrames_6g5nk")
 shape = SubResource("CircleShape2D_6f7k1")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1606201659]
+libraries/ = SubResource("AnimationLibrary_lj85y")

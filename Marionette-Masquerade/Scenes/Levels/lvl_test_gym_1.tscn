@@ -11,10 +11,9 @@
 script = ExtResource("1_lrtbe")
 metadata/_custom_type_script = "uid://cca2yiacp0mcp"
 
-[node name="HostManager" type="Node" parent="." unique_id=1895020084 node_paths=PackedStringArray("startingPlayerHost", "possessionIndicator") groups=["HostManager"]]
+[node name="HostManager" type="Node" parent="." unique_id=1895020084 node_paths=PackedStringArray("startingPlayerHost") groups=["HostManager"]]
 script = ExtResource("2_xp5rw")
 startingPlayerHost = NodePath("../Hosts/Scientist Host")
-possessionIndicator = NodePath("../PossessionIndicator")
 metadata/_custom_type_script = "uid://dymdfu6tebr3h"
 
 [node name="Hosts" type="Node2D" parent="." unique_id=226895963]

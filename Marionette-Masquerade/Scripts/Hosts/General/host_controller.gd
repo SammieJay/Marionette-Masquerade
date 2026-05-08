@@ -96,11 +96,10 @@ func un_possess()->void:
 ## Called by HostManager when player switches to a different host [br]
 ## Handles: value changes and effects that occur when switching [b]TO[/b] this host  [br]
 func possess()->void:
-	print(name)
+	#print(name)
 	currentlyPossessed = true
-	print(currentlyPossessed)
+	#print(currentlyPossessed)
 	playerController.on_possession()
-	
 	
 
 
