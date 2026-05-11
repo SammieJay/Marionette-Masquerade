@@ -3,18 +3,21 @@
 [ext_resource type="Script" uid="uid://cca2yiacp0mcp" path="res://Scripts/Hosts/_General/input_handler.gd" id="1_lrtbe"]
 [ext_resource type="Script" uid="uid://dymdfu6tebr3h" path="res://Scripts/Hosts/_General/host_manager.gd" id="2_xp5rw"]
 [ext_resource type="PackedScene" uid="uid://cto5aoxw4f8ul" path="res://Scenes/Hosts/test_host.tscn" id="3_xp5rw"]
-[ext_resource type="PackedScene" uid="uid://6lt0i311l7b1" path="res://Scenes/Hosts/posession_indicator.tscn" id="4_uolp1"]
+[ext_resource type="PackedScene" uid="uid://6lt0i311l7b1" path="res://Scenes/In-Scene Singleton Objects/posession_indicator.tscn" id="4_uolp1"]
+[ext_resource type="PackedScene" uid="uid://bx5jc6exewmsk" path="res://Scenes/In-Scene Singleton Objects/cursor.tscn" id="5_73g53"]
 
 [node name="LvlTestGym1" type="Node2D" unique_id=1076524834]
 
-[node name="InputHandler" type="Node2D" parent="." unique_id=1174731952 groups=["InputHandler"]]
-script = ExtResource("1_lrtbe")
-metadata/_custom_type_script = "uid://cca2yiacp0mcp"
+[node name="Cursor" parent="." unique_id=797595165 instance=ExtResource("5_73g53")]
 
 [node name="HostManager" type="Node" parent="." unique_id=1895020084 node_paths=PackedStringArray("startingPlayerHost") groups=["HostManager"]]
 script = ExtResource("2_xp5rw")
 startingPlayerHost = NodePath("../Hosts/Scientist Host")
 metadata/_custom_type_script = "uid://dymdfu6tebr3h"
+
+[node name="InputHandler" type="Node2D" parent="." unique_id=1174731952 groups=["InputHandler"]]
+script = ExtResource("1_lrtbe")
+metadata/_custom_type_script = "uid://cca2yiacp0mcp"
 
 [node name="Hosts" type="Node2D" parent="." unique_id=226895963]
 
@@ -34,3 +37,7 @@ position = Vector2(303, 115)
 [node name="Projectiles" type="Node2D" parent="." unique_id=2146611447 groups=["ProjectileParent"]]
 
 [node name="PossessionIndicator" parent="." unique_id=2037520429 instance=ExtResource("4_uolp1")]
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1529972382]
+position = Vector2(239, 92)
+zoom = Vector2(2.12, 2.12)

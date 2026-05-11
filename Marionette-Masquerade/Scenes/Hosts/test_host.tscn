@@ -3,15 +3,71 @@
 [ext_resource type="Script" uid="uid://nxicc26dotw5" path="res://Scripts/Hosts/_General/host_controller.gd" id="1_2xler"]
 [ext_resource type="Script" uid="uid://21dtd1gmdahi" path="res://Scripts/Hosts/EnemyControllers/enemy_controller.gd" id="2_6f7k1"]
 [ext_resource type="Script" uid="uid://cydjvbsi8uhqy" path="res://Scripts/Hosts/PlayerControllers/simple_player_controller.gd" id="3_cxe6q"]
-[ext_resource type="Script" uid="uid://ckr2o3y0w43mi" path="res://Scripts/Hosts/Weapons/weapon_handler.gd" id="4_gu1tm"]
+[ext_resource type="Script" uid="uid://p3cxr8dlwlar" path="res://Scripts/Hosts/Weapons/pistol.gd" id="4_cxe6q"]
+[ext_resource type="PackedScene" uid="uid://baibytdlfegxn" path="res://Scenes/DEPRECATED/bullet.tscn" id="5_41v3r"]
 [ext_resource type="Texture2D" uid="uid://c7h5c0lsfsd7v" path="res://Assets/Textures/host_body_legs_txtr_3.5.png" id="5_cxe6q"]
 [ext_resource type="Texture2D" uid="uid://8kg26inkmr7s" path="res://Assets/Textures/host_body_legs_txtr_1.png" id="6_41v3r"]
+[ext_resource type="Script" uid="uid://dg5xecjo4r84p" path="res://Scripts/Hosts/_General/effect_handler.gd" id="6_lj85y"]
 [ext_resource type="Texture2D" uid="uid://q0dsysjv6sqs" path="res://Assets/Textures/mask_txtr_1.png" id="7_lj85y"]
 [ext_resource type="Texture2D" uid="uid://cwitwfw2bxj6l" path="res://Assets/Textures/possession_txtr_1.png" id="8_hg3sc"]
 [ext_resource type="Texture2D" uid="uid://bqe1206itpo46" path="res://Assets/Textures/possession_miss_txtr_2.png" id="9_lyfnh"]
 [ext_resource type="Texture2D" uid="uid://l1qlcfv8p4vs" path="res://Assets/Textures/dead_body_txtr_1.png" id="10_7voem"]
 [ext_resource type="Texture2D" uid="uid://cls4cgfujftcs" path="res://Assets/Textures/target_halo_txtr_1.png" id="11_ddum2"]
 [ext_resource type="Texture2D" uid="uid://dmn5kc8sixtcf" path="res://Assets/Textures/stun_txtr_1.png" id="12_463ho"]
+
+[sub_resource type="Animation" id="Animation_hg3sc"]
+resource_name = "Possess Other"
+length = 0.2
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprites/MaskSprite/possess_anim")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.033333335, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"values": [{
+"args": [],
+"method": &"show"
+}, {
+"args": [&"default", 1.0, false],
+"method": &"play"
+}, {
+"args": [],
+"method": &"hide"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_lj85y"]
+resource_name = "Possess Other (Miss)"
+length = 0.36666667
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprites/MaskSprite/possess_anim")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.033333335, 0.36666667),
+"transitions": PackedFloat32Array(1, 1, 1),
+"values": [{
+"args": [],
+"method": &"show"
+}, {
+"args": [&"miss", 1.0, false],
+"method": &"play"
+}, {
+"args": [],
+"method": &"hide"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_lyfnh"]
+_data = {
+&"Possess Other": SubResource("Animation_hg3sc"),
+&"Possess Other (Miss)": SubResource("Animation_lj85y")
+}
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gddql"]
 atlas = ExtResource("5_cxe6q")
@@ -420,28 +476,24 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_6f7k1"]
 radius = 10.29563
 
-[sub_resource type="Animation" id="Animation_cxe6q"]
-length = 0.001
-
-[sub_resource type="Animation" id="Animation_41v3r"]
-resource_name = "test"
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_lj85y"]
-_data = {
-&"RESET": SubResource("Animation_cxe6q"),
-&"test": SubResource("Animation_41v3r")
-}
-
-[node name="Scientist Host" type="CharacterBody2D" unique_id=1629916961 node_paths=PackedStringArray("enemyController", "playerController", "animationPlayer", "collider") groups=["Host"]]
+[node name="Scientist Host" type="CharacterBody2D" unique_id=1629916961 node_paths=PackedStringArray("enemyController", "playerController", "effectHandler", "weapon", "collider") groups=["Host"]]
 script = ExtResource("1_2xler")
 enemyController = NodePath("EnemyController")
-playerController = NodePath("Simple_PlayerController")
-animationPlayer = NodePath("AnimationPlayer")
+playerController = NodePath("SimplePlayer")
+effectHandler = NodePath("HostEffectHandler")
+weapon = NodePath("Pistol")
 collider = NodePath("Collider")
 hostTypeName = "Test Host"
 metadata/_custom_type_script = "uid://nxicc26dotw5"
 
-[node name="Simple_PlayerController" type="Node" parent="." unique_id=1370596031]
+[node name="HostEffectHandler" type="AnimationPlayer" parent="." unique_id=201645870]
+libraries/ = SubResource("AnimationLibrary_lyfnh")
+script = ExtResource("6_lj85y")
+switchHostEffectName = "Possess Other"
+switchHostMissEffectName = "Possess Other (Miss)"
+metadata/_custom_type_script = "uid://dg5xecjo4r84p"
+
+[node name="SimplePlayer" type="Node" parent="." unique_id=1370596031]
 script = ExtResource("3_cxe6q")
 metadata/_custom_type_script = "uid://cydjvbsi8uhqy"
 
@@ -449,9 +501,11 @@ metadata/_custom_type_script = "uid://cydjvbsi8uhqy"
 script = ExtResource("2_6f7k1")
 metadata/_custom_type_script = "uid://21dtd1gmdahi"
 
-[node name="WeaponHandler" type="Node" parent="." unique_id=189029076]
-script = ExtResource("4_gu1tm")
-metadata/_custom_type_script = "uid://ckr2o3y0w43mi"
+[node name="Pistol" type="Node" parent="." unique_id=2060538332]
+script = ExtResource("4_cxe6q")
+projectileScene = ExtResource("5_41v3r")
+fire_rate = 0.2
+metadata/_custom_type_script = "uid://p3cxr8dlwlar"
 
 [node name="Sprites" type="Node2D" parent="." unique_id=66944869]
 
@@ -496,6 +550,3 @@ sprite_frames = SubResource("SpriteFrames_6g5nk")
 
 [node name="Collider" type="CollisionShape2D" parent="." unique_id=266863240]
 shape = SubResource("CircleShape2D_6f7k1")
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1606201659]
-libraries/ = SubResource("AnimationLibrary_lj85y")

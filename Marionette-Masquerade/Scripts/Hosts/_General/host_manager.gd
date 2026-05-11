@@ -15,20 +15,21 @@ class_name HostManager extends Node
 #@onready var gameRunning:bool = true
 @onready var inputHandler:InputHandler
 @onready var possessionIndicator:PossessionIndicator
+@onready var cursor:Cursor
 
 @onready var playerHost:HostController
 @onready var eligibleHost:HostController
 
 var hostArray:Array[HostController]
 
-var maxTransferDistFromLook: float = 100.0
+var maxTransferDistFromLook: float = 75.0
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	# Initialize required nodes
 	inputHandler = get_tree().get_first_node_in_group("InputHandler") # Retrieve InputHandler refrence from global group
 	possessionIndicator = get_tree().get_first_node_in_group("PossessionIndicator") # Retrieve PossessionIndicator refrence from global group
-	#cursor = get_tree().get_first_node_in_group("Cursor")
+	cursor = get_tree().get_first_node_in_group("Cursor")
 
 	_verify_core_references()
 	
@@ -44,9 +45,10 @@ func _process(_delta: float) -> void:
 	eligibleHost = _check_for_switchable_host()
 	possessionIndicator.set_target(eligibleHost)
 
-	# Check for player input
-	if inputHandler.is_action_just_pressed("Transfer Hosts") and eligibleHost != null:
-		switch_to_host(eligibleHost)
+	# Check for player input to switch hosts
+	if inputHandler.is_action_just_pressed("Transfer Hosts"):
+		if eligibleHost != null: switch_to_host(eligibleHost)
+		else: playerHost.effectHandler.play_switch_effect(false)
 
 
 ## Instructs relevent HostController classes to update possession status [br]
@@ -121,3 +123,4 @@ func _verify_core_references()->void:
 	assert(startingPlayerHost != null, "HostManager has no set starting Host")
 	assert(possessionIndicator != null, "HostManager requires a PossessionIndicator in the scene")
 	assert(inputHandler != null, "HostManager could not find InputHandler from global group")
+	assert(cursor != null, "HostManager could not find Cursor from global group")

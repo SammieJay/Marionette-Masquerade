@@ -14,8 +14,9 @@ class_name HostController extends CharacterBody2D
 @export_group("Main Modules")
 @export var enemyController:EnemyController
 @export var playerController:PlayerController
-@export var animationPlayer:AnimationPlayer
+@export var effectHandler:HostEffectHandler
 @export var weapon:Weapon
+
 
 @export_group("Other Nodes")
 @export var collider:CollisionShape2D
@@ -35,7 +36,7 @@ class_name HostController extends CharacterBody2D
 
 @export_group("Other Values")
 @export var MAX_HEALTH:float = 1.0
-@export var MAX_TRANSFER_DISTANCE:float = 250.0 ## Maximum distance that host can transfer to
+@export var MAX_TRANSFER_DISTANCE:float = 100.0 ## Maximum distance that host can transfer to
 
 
 ## ===== SCRIPT VARIABLES =====
@@ -90,6 +91,7 @@ func _process(_delta):
 ## Handles: value changes and effects that occur when switching [b]FROM[/b] this host  [br]
 func un_possess()->void:
 	currentlyPossessed = false
+	effectHandler.play_switch_effect(true)
 	enemyController.on_possession_release()
 	
 
@@ -100,18 +102,6 @@ func possess()->void:
 	currentlyPossessed = true
 	#print(currentlyPossessed)
 	playerController.on_possession()
-	
-
-
-## ===== ENEMY AND PLAYER CONTROLLER CALLED FUNCTIONS =====
-
-## Tells the animation player to either start or continue the animation of the given name [br]
-## [b]Expects:[/b] The given animation name to exist within the animation player [br]
-func updateAnimation(_animation_name:String):
-	var hasAnimation:bool = animationPlayer.has_animation(_animation_name)
-	assert(hasAnimation, "Host %s has no animation called: %s" % [hostTypeName, _animation_name]) #check animation name is valid
-
-	if hasAnimation: animationPlayer.play(_animation_name) #play animation
 
 
 ## ===== HELPER FUNCTIONS =====
@@ -122,7 +112,7 @@ func _verify_core_references()->void:
 	assert(playerController != null,"Host %s is missing reference to required PlayerController" % hostTypeName)
 	assert(weapon != null,"Host %s is missing reference to required weapon" % hostTypeName)
 	assert(inputHandler != null,"Host %s could not retreive reference to InputHandler" % hostTypeName)
-	assert(animationPlayer != null,"Host %s is missing reference to required AnimationPlayer" % hostTypeName)
+	assert(effectHandler != null,"Host %s is missing reference to required EffectHandler" % hostTypeName)
 	assert(collider != null, "Host %s is missing reference to its collider" % hostTypeName)
 
 ## Pass references to mandatory modules to nodes that require them at runtime
