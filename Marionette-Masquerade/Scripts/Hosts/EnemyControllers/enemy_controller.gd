@@ -25,7 +25,7 @@ class_name EnemyController extends Node
 ## ===== SCRIPT VARIABLES =====
 # ----- References -----
 var host:HostController
-var weapon:WeaponHandler
+var weapon:Weapon
 
 # ----- Confusion -----
 var confusionTimer:float = 0.0

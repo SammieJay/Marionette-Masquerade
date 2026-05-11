@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dsnwo8b71332q"]
 
-[ext_resource type="Script" uid="uid://cca2yiacp0mcp" path="res://Scripts/Hosts/General/input_handler.gd" id="1_lrtbe"]
-[ext_resource type="Script" uid="uid://dymdfu6tebr3h" path="res://Scripts/Hosts/General/host_manager.gd" id="2_xp5rw"]
+[ext_resource type="Script" uid="uid://cca2yiacp0mcp" path="res://Scripts/Hosts/_General/input_handler.gd" id="1_lrtbe"]
+[ext_resource type="Script" uid="uid://dymdfu6tebr3h" path="res://Scripts/Hosts/_General/host_manager.gd" id="2_xp5rw"]
 [ext_resource type="PackedScene" uid="uid://cto5aoxw4f8ul" path="res://Scenes/Hosts/test_host.tscn" id="3_xp5rw"]
 [ext_resource type="PackedScene" uid="uid://6lt0i311l7b1" path="res://Scenes/Hosts/posession_indicator.tscn" id="4_uolp1"]
 

@@ -1,14 +1,14 @@
 # Variable Naming
 *Generally variables use camelCase, with some exceptions as listed below*
 
-| *Type*                      | *Convention*     | *Example*         |
-| --------------------------- | ---------------- | ----------------- |
-| Local Variable (basic case) | lowerCamelCase   | enemyCount        |
-| Script Wide Variable        | lowerCamelCase   | currentHealth     |
-| Function Parameter          | \_lowerCamelCase | \_targetEnemy     |
-| Constant                    | UPPER_SNAKE_CASE | MAX_HEALTH        |
-| Enum Values                 | UPPER_SNAKE_CASE | State.PATROL_AREA |
-| Class/node names            | UpperCamelCase   | InputHandler      |
+| *Type*             | *Convention*     | *Example*         |
+| ------------------ | ---------------- | ----------------- |
+| Local Variable     | lowerCamelCase   | enemyCount        |
+| Global Variable    | lowerCamelCase   | currentHealth     |
+| Function Parameter | \_lowerCamelCase | \_delta           |
+| Constant           | UPPER_SNAKE_CASE | MAX_HEALTH        |
+| Enum Values        | UPPER_SNAKE_CASE | State.PATROL_AREA |
+| Class/node names   | UpperCamelCase   | InputHandler      |
 
 ***
 # Function Naming
@@ -49,7 +49,7 @@ Example:
 
 Examples:
 ``func get_health()->float: return health
-``func set_health( _hp : float )->void: health = _hp
+``func set_health(_hp : float)->void: health = _hp
 
 ### Boolean Return Functions
 #boolean

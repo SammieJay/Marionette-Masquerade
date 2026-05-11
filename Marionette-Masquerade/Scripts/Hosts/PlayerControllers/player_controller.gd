@@ -8,7 +8,7 @@ class_name PlayerController extends Node
 
 ## ===== SCRIPT VARIABLES =====
 var host:HostController
-var weapon:WeaponHandler
+var weapon:Weapon
 var inputHandler:InputHandler
 
 # Called when the node enters the scene tree for the first time.

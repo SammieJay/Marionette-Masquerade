@@ -1,9 +1,9 @@
-## [WeaponHandler] – ABSTRACT class for weapon functionality
+## [Weapon] – ABSTRACT class for weapon functionality
 ##
 ## [b]Responsibilities:[/b] [br]
-##   - Core responsibility one [br]
+##   - Base class for all weapon classes [br]
 ##   - Core responsibility two [br]
-class_name WeaponHandler extends Node
+class_name Weapon extends Node
 
 ## ===== EXPORT VARIABLES =====
 @export_category("References")

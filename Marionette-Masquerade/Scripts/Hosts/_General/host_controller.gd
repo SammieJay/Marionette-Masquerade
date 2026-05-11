@@ -15,7 +15,7 @@ class_name HostController extends CharacterBody2D
 @export var enemyController:EnemyController
 @export var playerController:PlayerController
 @export var animationPlayer:AnimationPlayer
-@export var weaponHandler:WeaponHandler
+@export var weapon:Weapon
 
 @export_group("Other Nodes")
 @export var collider:CollisionShape2D
@@ -120,7 +120,7 @@ func updateAnimation(_animation_name:String):
 func _verify_core_references()->void:
 	assert(enemyController != null,"Host %s is missing reference to required EnemyController" % hostTypeName)
 	assert(playerController != null,"Host %s is missing reference to required PlayerController" % hostTypeName)
-	assert(weaponHandler != null,"Host %s is missing reference to required WeaponHandler" % hostTypeName)
+	assert(weapon != null,"Host %s is missing reference to required weapon" % hostTypeName)
 	assert(inputHandler != null,"Host %s could not retreive reference to InputHandler" % hostTypeName)
 	assert(animationPlayer != null,"Host %s is missing reference to required AnimationPlayer" % hostTypeName)
 	assert(collider != null, "Host %s is missing reference to its collider" % hostTypeName)
@@ -129,15 +129,15 @@ func _verify_core_references()->void:
 func _distribute_references()->void:
 	# --- PlayerController ---
 	playerController.host = self
-	playerController.weapon = weaponHandler
+	playerController.weapon = weapon
 	playerController.inputHandler = inputHandler
 
 	# --- EnemyController ---
 	enemyController.host = self
-	enemyController.weapon = weaponHandler
+	enemyController.weapon = weapon
 
-	# --- WeaponHandler ---
-	weaponHandler.host = self
+	# --- Weapon ---
+	weapon.host = self
 
 ## Set initial variable values at runtime
 func _set_inital_values()->void:

@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://cto5aoxw4f8ul"]
 
-[ext_resource type="Script" uid="uid://nxicc26dotw5" path="res://Scripts/Hosts/General/host_controller.gd" id="1_2xler"]
-[ext_resource type="Script" uid="uid://21dtd1gmdahi" path="res://Scripts/Hosts/General/enemy_controller.gd" id="2_6f7k1"]
-[ext_resource type="Script" uid="uid://cydjvbsi8uhqy" path="res://Scripts/Hosts/Basic Scientist/simple_player_controller.gd" id="3_cxe6q"]
-[ext_resource type="Script" uid="uid://ckr2o3y0w43mi" path="res://Scripts/Hosts/General/weapon_handler.gd" id="4_gu1tm"]
+[ext_resource type="Script" uid="uid://nxicc26dotw5" path="res://Scripts/Hosts/_General/host_controller.gd" id="1_2xler"]
+[ext_resource type="Script" uid="uid://21dtd1gmdahi" path="res://Scripts/Hosts/EnemyControllers/enemy_controller.gd" id="2_6f7k1"]
+[ext_resource type="Script" uid="uid://cydjvbsi8uhqy" path="res://Scripts/Hosts/PlayerControllers/simple_player_controller.gd" id="3_cxe6q"]
+[ext_resource type="Script" uid="uid://ckr2o3y0w43mi" path="res://Scripts/Hosts/Weapons/weapon_handler.gd" id="4_gu1tm"]
 [ext_resource type="Texture2D" uid="uid://c7h5c0lsfsd7v" path="res://Assets/Textures/host_body_legs_txtr_3.5.png" id="5_cxe6q"]
 [ext_resource type="Texture2D" uid="uid://8kg26inkmr7s" path="res://Assets/Textures/host_body_legs_txtr_1.png" id="6_41v3r"]
 [ext_resource type="Texture2D" uid="uid://q0dsysjv6sqs" path="res://Assets/Textures/mask_txtr_1.png" id="7_lj85y"]
@@ -432,12 +432,11 @@ _data = {
 &"test": SubResource("Animation_41v3r")
 }
 
-[node name="Scientist Host" type="CharacterBody2D" unique_id=1629916961 node_paths=PackedStringArray("enemyController", "playerController", "animationPlayer", "weaponHandler", "collider") groups=["Host"]]
+[node name="Scientist Host" type="CharacterBody2D" unique_id=1629916961 node_paths=PackedStringArray("enemyController", "playerController", "animationPlayer", "collider") groups=["Host"]]
 script = ExtResource("1_2xler")
 enemyController = NodePath("EnemyController")
 playerController = NodePath("Simple_PlayerController")
 animationPlayer = NodePath("AnimationPlayer")
-weaponHandler = NodePath("WeaponHandler")
 collider = NodePath("Collider")
 hostTypeName = "Test Host"
 metadata/_custom_type_script = "uid://nxicc26dotw5"
