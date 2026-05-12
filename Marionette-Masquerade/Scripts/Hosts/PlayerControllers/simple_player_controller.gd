@@ -28,7 +28,7 @@ func do_player_behavior(_delta:float):
 	## === WEAPON CODE ===
 
 	if inputHandler.is_action_just_pressed("Shoot"):
-		weapon.request_shoot(host.get_look_vector())
+		weapon.request_shoot(host.get_forward())
 
 func on_posession()->void:
 	pass

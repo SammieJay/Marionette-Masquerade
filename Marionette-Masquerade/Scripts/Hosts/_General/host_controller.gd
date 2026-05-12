@@ -65,7 +65,8 @@ func is_alive()->bool: return alive
 
 ## ===== GETTER AND SETTER FUNCTIONS =====
 
-func get_look_vector()->Vector2: return Vector2(1,0).rotated(global_rotation).normalized() ## Returns the vector along the look direction of the host
+func get_forward()->Vector2: return Vector2(1,0).rotated(global_rotation).normalized() ## Returns the vector pointef forward from the host
+func get_right()->Vector2: return Vector2(0,1).rotated(global_rotation).normalized() ## Returns the vector along the right direction of the host
 
 
 ## MUST BE CALLED FROM INHERITING CLASSES VIA 'super._ready()'
@@ -99,10 +100,9 @@ func un_possess()->void:
 ## Called by HostManager when player switches to a different host [br]
 ## Handles: value changes and effects that occur when switching [b]TO[/b] this host  [br]
 func possess()->void:
-	#print(name)
 	currentlyPossessed = true
-	#print(currentlyPossessed)
 	playerController.on_possession()
+	if weapon.forceReloadOnPosession: weapon.force_reload() # Force reload weapon if handler has flag enabled
 
 ## Inflict dammage to this host
 func hurt(_dmg:float)->void:

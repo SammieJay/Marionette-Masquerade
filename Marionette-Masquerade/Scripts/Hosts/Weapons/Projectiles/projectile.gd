@@ -20,7 +20,6 @@ func _on_body_entered(body):
 		body.hurt(damage)
 		print("HIT DETECTED WITH %s" % host.name)
 		queue_free()
-		
 	if body!=host:
 		queue_free()
 	
