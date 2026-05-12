@@ -86,6 +86,7 @@ func _check_for_switchable_host()->HostController:
 		if host == null: continue
 		var distToPlayerLookDir = _distanceInFrontOfPlayer(playerHost.global_position, host.global_position)
 		var distToPlayer = host.global_position.distance_to(playerHost.global_position)
+		var distToCursor = host.global_position.distance_to(cursor.global_position)
 		
 		var closeToLook:bool = distToPlayerLookDir < maxTransferDistFromLook
 		var inFrontOfPlayer:bool = distToPlayerLookDir != -1
@@ -94,10 +95,11 @@ func _check_for_switchable_host()->HostController:
 		var isAlive:bool = host.is_alive()
 		var isStunned:bool = host.enemyController.is_stunned()
 		
-		var closestToLookSoFar:bool = distToPlayerLookDir < minDist
+		## Is this the currently closest host so far
+		var closestSoFar:bool = distToCursor < minDist
 		
-		if  inFrontOfPlayer and isNotPlayer and withinTransferDistance and closestToLookSoFar and isAlive and !isStunned and closeToLook:
-			minDist = distToPlayerLookDir
+		if closestSoFar and inFrontOfPlayer and isNotPlayer and withinTransferDistance and isAlive and !isStunned and closeToLook:
+			minDist = distToCursor
 			closestHost = host
 	
 	return closestHost
