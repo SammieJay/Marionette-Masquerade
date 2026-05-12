@@ -17,7 +17,9 @@ func _physics_process(delta):
 
 func _on_body_entered(body):
 	if body is HostController and body != host:
+		body.hurt(damage)
 		print("HIT DETECTED WITH %s" % host.name)
+		queue_free()
 	if body!=host:
 		queue_free()
 	

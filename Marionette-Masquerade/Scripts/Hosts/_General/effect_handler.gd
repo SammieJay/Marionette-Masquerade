@@ -6,10 +6,11 @@
 class_name HostEffectHandler extends AnimationPlayer
 
 @export_category("Required Effect Paths")
-@export var switchHostEffectName:String = "UNSPECIFIED EFFECT NAME"
-@export var switchHostMissEffectName:String = "UNSPECIFIED EFFECT NAME"
-@export var stunEffectName:String = "UNSPECIFIED EFFECT NAME"
-@export var shootEffectName:String = "UNSPECIFIED EFFECT NAME"
+@export var switchHostEffectName:String = "UNNAMED EFFECT"
+@export var switchHostMissEffectName:String = "UNNAMED EFFECT"
+@export var stunEffectName:String = "UNNAMED EFFECT"
+@export var shootEffectName:String = "UNNAMED EFFECT"
+@export var deathEffectName:String = "UNNAMED EFFECT"
 
 @export_category("DEBUG")
 @export var doDebugPrints:bool = false
@@ -27,8 +28,10 @@ var host:HostController
 func _ready():
 	if requireDefaultEffects:
 		assert(switchHostEffectName != null, "HostEffectHandler for %s has no SwitchHost effect path" % host.hostTypeName)
+		assert(switchHostMissEffectName != null, "HostEffectHandler for %s has no SwitchHostMiss effect path" % host.hostTypeName)
 		assert(stunEffectName != null, "HostEffectHandler for %s has no Stun effect path" % host.hostTypeName)
 		assert(shootEffectName != null, "HostEffectHandler for %s has no SwitchHost effect path" % host.hostTypeName)
+		assert(deathEffectName != null, "HostEffectHandler for %s has no Death effect path" % host.hostTypeName)
 
 
 ## Start or continue playing effect of given name, if doDebugPrints is enabled and effect not found, will print error to console [br]
@@ -37,16 +40,15 @@ func update_effect(_name:String):
 	if has_animation(_name):
 		play(_name)
 	elif doDebugPrints: printerr("Animation Not Found In %s: %s" %[host.hostTypeName, _name])
-	
 
 
 ## ===== Mandatory Effect Functions =====
-
+# Functions that activate effects 
 func play_switch_effect(_hit:bool): 
 	if _hit: update_effect(switchHostEffectName)
 	else: update_effect(switchHostMissEffectName)
 
-
+func play_death_effect(): update_effect(deathEffectName)
 func play_shoot_effect(): update_effect(shootEffectName)
 func play_stun_effect(): update_effect(stunEffectName)
 

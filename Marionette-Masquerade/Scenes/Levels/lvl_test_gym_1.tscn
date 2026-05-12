@@ -128,18 +128,20 @@ font_color = Color(0, 0, 0, 1)
 
 [node name="LvlTestGym1" type="Node2D" unique_id=1076524834]
 
-[node name="Cursor" parent="." unique_id=797595165 instance=ExtResource("5_73g53")]
-
 [node name="HostManager" type="Node" parent="." unique_id=1895020084 node_paths=PackedStringArray("startingPlayerHost") groups=["HostManager"]]
 script = ExtResource("2_xp5rw")
 startingPlayerHost = NodePath("../Hosts/Scientist Host")
 metadata/_custom_type_script = "uid://dymdfu6tebr3h"
+
+[node name="Cursor" parent="." unique_id=797595165 instance=ExtResource("5_73g53")]
 
 [node name="InputHandler" type="Node2D" parent="." unique_id=1174731952 groups=["InputHandler"]]
 script = ExtResource("1_lrtbe")
 metadata/_custom_type_script = "uid://cca2yiacp0mcp"
 
 [node name="Hosts" type="Node2D" parent="." unique_id=226895963]
+
+[node name="Projectiles" type="Node2D" parent="Hosts" unique_id=2146611447 groups=["ProjectileParent"]]
 
 [node name="Scientist Host" parent="Hosts" unique_id=1629916961 instance=ExtResource("3_xp5rw")]
 z_index = 1
@@ -154,8 +156,6 @@ position = Vector2(109, 111)
 
 [node name="Scientist Host4" parent="Hosts" unique_id=1623930166 instance=ExtResource("3_xp5rw")]
 position = Vector2(334, 17)
-
-[node name="Projectiles" type="Node2D" parent="." unique_id=2146611447 groups=["ProjectileParent"]]
 
 [node name="PossessionIndicator" parent="." unique_id=2037520429 instance=ExtResource("4_uolp1")]
 
