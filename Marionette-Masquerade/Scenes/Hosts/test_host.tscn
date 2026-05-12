@@ -25,9 +25,12 @@ tracks/0/path = NodePath("Sprites/MaskSprite/possess_anim")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2),
-"transitions": PackedFloat32Array(1, 1),
+"times": PackedFloat32Array(0, 0.033333335, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
 "values": [{
+"args": [],
+"method": &"show"
+}, {
 "args": [&"default", 1.0, false],
 "method": &"play"
 }, {
