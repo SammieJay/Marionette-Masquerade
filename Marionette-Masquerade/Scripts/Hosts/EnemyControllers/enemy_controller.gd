@@ -1,25 +1,23 @@
 ## [EnemyController] – Abstract class that acts as a controller for all enemy behavior of this host type
 ##
 ## [b]Responsibilities:[/b] [br]
-##   - Contains functions for general AI behavior like pathing [br]
+##   - Child classes perform state machine oversight (state transition logic) [br]
+##   - Contains functions for general AI behavior like movement [br]
 ##   - Is inherited to make an enemy controller specific to each host type [br]
 ##   - Retrieves references to other nodes via the HostController [br]
-##   - Handles effects for when player stops possessing this host [br]
 class_name EnemyController extends Node
 
 ## ===== EXPORT VARIABLES =====
 @export_category("References")
 @export_group("REQUIRED")
 @export var navAgent:NavigationAgent2D
+@export var visionRay:RayCast2D
 
 
 @export_category("Enemy Propperties")
-@export_group("Movement")
-@export var moveSpeed:float = 10.0
-
-@export_group("Other")
 @export var confusionDelayTime:float = 1.0 ## How long this host takes to target the player after they switch hosts
 @export var postPossessionStunTime:float = 3.0 ## How long this host is stunned after player switches to anoter host
+@export var DEBUG_disableAI:bool = false
 
 
 ## ===== SCRIPT VARIABLES =====
@@ -33,28 +31,90 @@ var confusionTimer:float = 0.0
 # ----- Stunned -----
 var stunnedTimer:float = 0.0
 
+# ----- Navigation -----
+var navTargetPos:Vector2 = Vector2.ZERO ## If navTargetPos == Vector2.ZERO, then enemy will not move
+var navTargetHost:HostController ## If navTargetHost == null, then enemy will not move, otherwise will path towards current target host position (supercedes navTargetPos)
+
+const DEFAULT_NAV_DIST: float = 20.0 ## Default distance enemy will get to target position before stopping (alternative can be provided)
+var navTargetDist:float = DEFAULT_NAV_DIST ## How far the enemy should be from the target before it stops moving
+
+
 ## ===== BOOLEAN RETURNS =====
+
 func is_confused()->bool: return confusionTimer > 0.0
 func is_stunned()->bool: return stunnedTimer > 0.0
+func is_moving()->bool:return navTargetPos != Vector2.ZERO or navTargetHost != null
+
+
+## ===== CORE FUNCTIONS =====
 
 ## MUST BE CALLED FROM INHERITING CLASSES VIA 'super._ready()'
 ## Performs mandatory setup for all inheriting EnemyController classes
-func _ready(): pass
+func _ready():
+	pass
+	#navAgent.path_postprocessing = NavigationPathQueryParameters2D.PATH_POSTPROCESSING_EDGECENTERED # Set to edge centered for better cornering
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta): 
+func _process(_delta):
 	## Update Timers
 	if confusionTimer >= 0.0: confusionTimer -= _delta
 	if stunnedTimer >= 0.0: stunnedTimer -= _delta
 
+func _physics_process(_delta):
+	if !host.is_possessed():
+		update_movement(_delta) ## Do enemy movement
+	elif is_moving(): halt_movement() # interrupt movement if host becomes posessed
+	
+## updates movement of enemy every physics frame [br]
+## called from _physics process [br]
+func update_movement(_delta:float):
+	# update target position as navTargetHost position if avaliable
+	if navTargetHost != null: navTargetPos = navTargetHost.global_position # if navTargetHost != null -> path to targetHost (this overrides navTargetPos)
+
+	# update position of target host (if target host is no longer at the same position)
+	if navAgent.target_position != navTargetPos and is_moving(): navAgent.target_position = navTargetPos
+
+	var distToTarget = host.global_position.distance_to(navTargetPos)
+
+	## APPLY MOVEMENT UPDATE IF WE ARE NOT CLOSE ENOUGH TO TARGET
+	if is_moving() and distToTarget > navTargetDist: #if enemy wants to move, do movement code
+		var nextPos = navAgent.get_next_path_position()
+		var dir = (nextPos - host.global_position).normalized()
+		host.velocity = dir * host.moveSpeed * host.MOVE_SPEED_CONST * _delta
+		_lerp_look_at_pos(_delta, nextPos)
+		host.move_and_slide()
+	else: host.velocity = Vector2.ZERO
+
+
+## ===== MOVEMENT FUNCTIONS FOR STATE MACHINE TO CALL =====
+
+## Move within _targetDist units of given position _pos
+func path_to_position(_pos:Vector2, _targetDist:float = DEFAULT_NAV_DIST)->void:
+	navTargetPos = _pos
+	navTargetDist = _targetDist
+
+## Continuously path towards given [HostController] _host, until we are within _targetDist units
+func path_to_host(_host:HostController, _targetDist:float = DEFAULT_NAV_DIST):
+	navTargetHost = _host
+	navTargetDist = _targetDist
+
+## Simply Clears Navigation Targets, Host Will Stop Moving Immediately
+func halt_movement():
+	navTargetPos = Vector2.ZERO
+	navTargetHost = null
 
 ## ===== VIRTUAL FUNCTIONS TO BE OVERRIDEN =====
 
 ## [b]VIRTUAL[/b][br]
 ## Called: By HostController every frame that host is not possessed [br]
-## Handles: All enemy thinking and decision making [br]
+## Handles: State machine BehaviorState transitions and enemy thinking [br]
 func do_enemy_behavior(_delta:float): pass
+
+## [b]VIRTUAL[/b][br]
+## Called: By HostController every PHYSICS frame that host is not possessed [br]
+## Handles: State machine BehaviorState transitions and enemy thinking [br]
+func do_enemy_physics(_delta:float): pass
 
 ## [b]VIRTUAL[/b][br]
 ## Called: By HostController when player leaves this host [br]
@@ -62,7 +122,49 @@ func do_enemy_behavior(_delta:float): pass
 func on_possession_release()->void: pass
 
 
+
+
+
 ## ===== HELPER FUNCTIONS =====
 
+## Verify if required references are present in host
 func _verify_refrences()->void:
 	assert(navAgent != null, "EnemyController for %s is missing reference to required NavigationAgent2D" % host.hostTypeName)
+	assert(visionRay != null, "EnemyController for %s is missing reference to required RayCast2D" % host.hostTypeName)
+
+## Interpolate host rotation to look towards the given position in world space (global_position)
+func _lerp_look_at_pos(_delta:float, _pos:Vector2):
+	var dir = (_pos - host.global_position).normalized()
+	host.global_rotation = lerp_angle(host.global_rotation, dir.angle(), host.rotationSpeed * _delta)
+
+
+## Returns whether this host has line of sight on the given target host, within the given max distance
+func has_LOS_to_host(_target:HostController, _maxDist:float)->bool:
+	if !_target: return false
+	
+	var toTarget = _target.global_position - host.global_position
+	var distToTarget = toTarget.length()
+	if distToTarget >= _maxDist: return false ## Return false if target is too far
+	
+	#line of sight check
+	visionRay.target_position = toTarget
+	visionRay.force_raycast_update()
+	var hit = visionRay.get_collider()
+	
+	if !hit: return false ## For redundancy, if no collider is hit, return false (probably wont happen since ray collides with our collider)
+
+	## Return false if a collider is hit, its not our's and it is not the target's collider
+	if hit and hit != _target.collider and hit != host.collider: return false
+	
+	return true
+
+## Returns Whether host can see the given position
+func has_LOS_to_position(_pos:Vector2)->bool:
+	var toTarget = _pos - host.global_position
+	
+	#line of sight check
+	visionRay.target_position = toTarget
+	visionRay.force_raycast_update()
+	
+	if visionRay.get_collider() != host.collider: return false
+	else: return true

@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://cca2yiacp0mcp" path="res://Scripts/Hosts/_General/input_handler.gd" id="1_lrtbe"]
 [ext_resource type="Script" uid="uid://dymdfu6tebr3h" path="res://Scripts/Hosts/_General/host_manager.gd" id="2_xp5rw"]
 [ext_resource type="PackedScene" uid="uid://cto5aoxw4f8ul" path="res://Scenes/Hosts/test_host.tscn" id="3_xp5rw"]
+[ext_resource type="PackedScene" uid="uid://bo1ob03elif7n" path="res://Scenes/Hosts/navigation_test_host.tscn" id="3_yv1od"]
 [ext_resource type="PackedScene" uid="uid://6lt0i311l7b1" path="res://Scenes/In-Scene Singleton Objects/posession_indicator.tscn" id="4_uolp1"]
 [ext_resource type="PackedScene" uid="uid://bx5jc6exewmsk" path="res://Scenes/In-Scene Singleton Objects/cursor.tscn" id="5_73g53"]
 [ext_resource type="Texture2D" uid="uid://bjkrw2uyxy02e" path="res://Assets/Textures/tile_set_1_new.png" id="6_1monb"]
@@ -275,6 +276,9 @@ position = Vector2(109, 111)
 
 [node name="Scientist Host4" parent="TileMapLayer/Hosts" unique_id=1623930166 instance=ExtResource("3_xp5rw")]
 position = Vector2(334, 17)
+
+[node name="Scientist Host" parent="TileMapLayer" unique_id=821996259 instance=ExtResource("3_yv1od")]
+position = Vector2(145, -49)
 
 [node name="Level" type="Node2D" parent="." unique_id=607651100]
 

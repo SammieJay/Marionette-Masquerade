@@ -20,6 +20,7 @@ class_name HostController extends CharacterBody2D
 
 @export_group("Other Nodes")
 @export var collider:CollisionShape2D
+@export var maskSprite:CanvasItem
 
 
 ## ===== EXPORT VARIABLES =====
@@ -53,7 +54,7 @@ class_name HostController extends CharacterBody2D
 @onready var currnentHealth:float
 
 # ----- Movement -----
-const MOVE_SPEED_CONSTANT:float = 1200.0
+const MOVE_SPEED_CONST:float = 1200.0
 
 
 ## ===== BOOLEAN RETURN FUNCTIONS =====
@@ -82,9 +83,14 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
-	## Call the update function of the relevent
+	## Call the update function of the relevent Controller
 	if is_possessed(): playerController.do_player_behavior(_delta)
-	else: enemyController.do_enemy_behavior(_delta)
+	elif !enemyController.DEBUG_disableAI: enemyController.do_enemy_behavior(_delta)
+
+func _physics_process(_delta):
+	## Call the update function of the relevent Controller
+	if is_possessed(): playerController.do_player_physics(_delta)
+	elif !enemyController.DEBUG_disableAI: enemyController.do_enemy_physics(_delta)
 
 
 ## ===== CORE FUNCTIONS CALLED FROM OTHER CLASSES =====
@@ -94,6 +100,7 @@ func _process(_delta):
 func un_possess()->void:
 	currentlyPossessed = false
 	effectHandler.play_switch_effect(true)
+	maskSprite.hide()
 	enemyController.on_possession_release()
 	
 
@@ -101,6 +108,7 @@ func un_possess()->void:
 ## Handles: value changes and effects that occur when switching [b]TO[/b] this host  [br]
 func possess()->void:
 	currentlyPossessed = true
+	maskSprite.show()
 	playerController.on_possession()
 	if weapon.forceReloadOnPosession: weapon.force_reload() # Force reload weapon if handler has flag enabled
 

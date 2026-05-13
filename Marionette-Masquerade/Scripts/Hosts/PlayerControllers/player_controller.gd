@@ -15,11 +15,17 @@ var inputHandler:InputHandler
 func _ready(): pass
 
 
+## ===== VIRTUAL FUNCTIONS TO OVERRIDE =====
 
 ## [b]VIRTUAL[/b][br]
 ## Called: By HostController every frame that host is possessed by player [br]
 ## Handles: Interpreting player input and instructing relevent modules to execute behavior [br]
 func do_player_behavior(_delta:float): pass
+
+## [b]VIRTUAL[/b][br]
+## Called: By HostController every PHYSICS frame that host is possessed by player [br]
+## Handles: Interpreting player input and instructing relevent modules to execute behavior [br]
+func do_player_physics(_delta:float): pass
 
 ## [b]VIRTUAL[/b][br]
 ## Called: By HostController when player possesses this host [br]
