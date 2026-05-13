@@ -480,22 +480,22 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_6f7k1"]
 radius = 10.29563
 
-[node name="Scientist Host" type="CharacterBody2D" unique_id=1629916961 node_paths=PackedStringArray("enemyController", "playerController", "effectHandler", "weapon", "collider", "maskSprite") groups=["Host"]]
+[node name="Scientist Host" type="CharacterBody2D" unique_id=1629916961 node_paths=PackedStringArray("enemyController", "playerController", "effectHandler", "weapon", "collider", "visionRay", "maskSprite") groups=["Host"]]
 script = ExtResource("1_sha6y")
 enemyController = NodePath("SimpleEnemy")
 playerController = NodePath("SimplePlayer")
 effectHandler = NodePath("HostEffectHandler")
 weapon = NodePath("Pistol")
 collider = NodePath("Collider")
+visionRay = NodePath("RayCast2D")
 maskSprite = NodePath("Sprites/Head/MaskSprite")
 hostTypeName = "Navigation Test Host"
 moveSpeed = 10.0
 metadata/_custom_type_script = "uid://nxicc26dotw5"
 
-[node name="SimpleEnemy" type="Node" parent="." unique_id=176137161 node_paths=PackedStringArray("navAgent", "visionRay")]
+[node name="SimpleEnemy" type="Node" parent="." unique_id=176137161 node_paths=PackedStringArray("navAgent")]
 script = ExtResource("4_sha6y")
 navAgent = NodePath("../NavigationAgent2D")
-visionRay = NodePath("../RayCast2D")
 metadata/_custom_type_script = "uid://1ax0i7rdnhfx"
 
 [node name="SimplePlayer" type="Node" parent="." unique_id=1370596031]
@@ -558,6 +558,7 @@ rotation = 1.5707964
 sprite_frames = SubResource("SpriteFrames_5m4xc")
 
 [node name="Collider" type="CollisionShape2D" parent="." unique_id=266863240]
+visible = false
 shape = SubResource("CircleShape2D_6f7k1")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=527083402]
@@ -568,3 +569,4 @@ debug_use_custom = true
 debug_path_custom_color = Color(1, 0, 1, 1)
 
 [node name="RayCast2D" type="RayCast2D" parent="." unique_id=678213811]
+visible = false

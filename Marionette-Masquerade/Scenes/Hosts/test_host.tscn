@@ -476,13 +476,14 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_6f7k1"]
 radius = 10.29563
 
-[node name="Scientist Host" type="CharacterBody2D" unique_id=1629916961 node_paths=PackedStringArray("enemyController", "playerController", "effectHandler", "weapon", "collider", "maskSprite") groups=["Host"]]
+[node name="Scientist Host" type="CharacterBody2D" unique_id=1629916961 node_paths=PackedStringArray("enemyController", "playerController", "effectHandler", "weapon", "collider", "visionRay", "maskSprite") groups=["Host"]]
 script = ExtResource("1_2xler")
 enemyController = NodePath("EnemyController")
 playerController = NodePath("SimplePlayer")
 effectHandler = NodePath("HostEffectHandler")
 weapon = NodePath("Pistol")
 collider = NodePath("Collider")
+visionRay = NodePath("RayCast2D")
 maskSprite = NodePath("Sprites/Head/MaskSprite")
 hostTypeName = "Test Host"
 moveSpeed = 10.0
@@ -499,10 +500,9 @@ metadata/_custom_type_script = "uid://dg5xecjo4r84p"
 script = ExtResource("3_cxe6q")
 metadata/_custom_type_script = "uid://cydjvbsi8uhqy"
 
-[node name="EnemyController" type="Node" parent="." unique_id=1201593801 node_paths=PackedStringArray("navAgent", "visionRay")]
+[node name="EnemyController" type="Node" parent="." unique_id=1201593801 node_paths=PackedStringArray("navAgent")]
 script = ExtResource("2_6f7k1")
 navAgent = NodePath("../NavigationAgent2D")
-visionRay = NodePath("../RayCast2D")
 metadata/_custom_type_script = "uid://21dtd1gmdahi"
 
 [node name="Pistol" type="Node" parent="." unique_id=2060538332]
@@ -554,8 +554,10 @@ rotation = 1.5707964
 sprite_frames = SubResource("SpriteFrames_5m4xc")
 
 [node name="Collider" type="CollisionShape2D" parent="." unique_id=266863240]
+visible = false
 shape = SubResource("CircleShape2D_6f7k1")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=527083402]
 
 [node name="RayCast2D" type="RayCast2D" parent="." unique_id=895785084]
+visible = false

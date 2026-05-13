@@ -20,6 +20,7 @@ class_name HostController extends CharacterBody2D
 
 @export_group("Other Nodes")
 @export var collider:CollisionShape2D
+@export var visionRay:RayCast2D
 @export var maskSprite:CanvasItem
 
 
@@ -36,9 +37,11 @@ class_name HostController extends CharacterBody2D
 @export var moveSpeed:float = 20.0
 @export var rotationSpeed:float = 7.0
 
-@export_group("Other Values")
+@export_group("Health")
 @export var MAX_HEALTH:float = 1.0
-@export var MAX_TRANSFER_DISTANCE:float = 100.0 ## Maximum distance that host can transfer to
+
+@export_group("Possession")
+@export var possessionReach:float = 0.0 ## How much more than usual reach this host gets to posess other hosts
 
 
 ## ===== SCRIPT VARIABLES =====
@@ -139,6 +142,7 @@ func _verify_core_references()->void:
 	assert(inputHandler != null,"Host %s could not retreive reference to InputHandler" % hostTypeName)
 	assert(effectHandler != null,"Host %s is missing reference to required EffectHandler" % hostTypeName)
 	assert(collider != null, "Host %s is missing reference to its collider" % hostTypeName)
+	assert(visionRay != null, "Host %s is missing reference to required RayCast2D" % hostTypeName)
 
 ## Pass references to mandatory modules to nodes that require them at runtime
 func _distribute_references()->void:
@@ -157,3 +161,34 @@ func _distribute_references()->void:
 ## Set initial variable values at runtime
 func _set_inital_values()->void:
 	currnentHealth = MAX_HEALTH
+
+## Returns whether this host has line of sight on the given target host, within the given max distance
+func has_LOS_to_host(_target:HostController, _maxDist:float)->bool:
+	if !_target: return false
+	
+	var toTarget = _target.global_position - global_position
+	var distToTarget = toTarget.length()
+	if distToTarget >= _maxDist: return false ## Return false if target is too far
+	
+	#line of sight check
+	visionRay.target_position = toTarget
+	visionRay.force_raycast_update()
+	var hit = visionRay.get_collider()
+	
+	if !hit: return false ## For redundancy, if no collider is hit, return false (probably wont happen since ray collides with our collider)
+
+	## Return false if a collider is hit, its not our's and it is not the target's collider
+	if hit and hit != _target.collider and hit != collider: return false
+	
+	return true
+
+## Returns Whether host can see the given position
+func has_LOS_to_position(_pos:Vector2)->bool:
+	var toTarget = _pos - global_position
+	
+	#line of sight check
+	visionRay.target_position = toTarget
+	visionRay.force_raycast_update()
+	
+	if visionRay.get_collider() != collider: return false
+	else: return true

@@ -266,7 +266,6 @@ metadata/_edit_lock_ = true
 [node name="Scientist Host" parent="TileMapLayer/Hosts" unique_id=1629916961 instance=ExtResource("3_xp5rw")]
 z_index = 1
 position = Vector2(335, 178)
-MAX_TRANSFER_DISTANCE = 300.0
 
 [node name="Scientist Host2" parent="TileMapLayer/Hosts" unique_id=304725423 instance=ExtResource("3_xp5rw")]
 position = Vector2(334, 98)

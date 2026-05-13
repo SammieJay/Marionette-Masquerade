@@ -11,7 +11,6 @@ class_name EnemyController extends Node
 @export_category("References")
 @export_group("REQUIRED")
 @export var navAgent:NavigationAgent2D
-@export var visionRay:RayCast2D
 
 
 @export_category("Enemy Propperties")
@@ -130,41 +129,8 @@ func on_possession_release()->void: pass
 ## Verify if required references are present in host
 func _verify_refrences()->void:
 	assert(navAgent != null, "EnemyController for %s is missing reference to required NavigationAgent2D" % host.hostTypeName)
-	assert(visionRay != null, "EnemyController for %s is missing reference to required RayCast2D" % host.hostTypeName)
 
 ## Interpolate host rotation to look towards the given position in world space (global_position)
 func _lerp_look_at_pos(_delta:float, _pos:Vector2):
 	var dir = (_pos - host.global_position).normalized()
 	host.global_rotation = lerp_angle(host.global_rotation, dir.angle(), host.rotationSpeed * _delta)
-
-
-## Returns whether this host has line of sight on the given target host, within the given max distance
-func has_LOS_to_host(_target:HostController, _maxDist:float)->bool:
-	if !_target: return false
-	
-	var toTarget = _target.global_position - host.global_position
-	var distToTarget = toTarget.length()
-	if distToTarget >= _maxDist: return false ## Return false if target is too far
-	
-	#line of sight check
-	visionRay.target_position = toTarget
-	visionRay.force_raycast_update()
-	var hit = visionRay.get_collider()
-	
-	if !hit: return false ## For redundancy, if no collider is hit, return false (probably wont happen since ray collides with our collider)
-
-	## Return false if a collider is hit, its not our's and it is not the target's collider
-	if hit and hit != _target.collider and hit != host.collider: return false
-	
-	return true
-
-## Returns Whether host can see the given position
-func has_LOS_to_position(_pos:Vector2)->bool:
-	var toTarget = _pos - host.global_position
-	
-	#line of sight check
-	visionRay.target_position = toTarget
-	visionRay.force_raycast_update()
-	
-	if visionRay.get_collider() != host.collider: return false
-	else: return true

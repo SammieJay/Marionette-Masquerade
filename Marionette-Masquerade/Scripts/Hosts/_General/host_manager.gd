@@ -23,6 +23,7 @@ class_name HostManager extends Node
 var hostArray:Array[HostController]
 
 var maxTransferDistFromLook: float = 75.0
+const MAX_TRANSFER_DISTANCE:float = 100.0 ## Maximum distance that player can transfer to a new host in
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -92,16 +93,23 @@ func _check_for_switchable_host()->HostController:
 		var closeToLook:bool = distToPlayerLookDir < maxTransferDistFromLook
 		var inFrontOfPlayer:bool = distToPlayerLookDir != -1
 		var isNotPlayer: bool = host != playerHost
-		var withinTransferDistance:bool = distToPlayer <= playerHost.MAX_TRANSFER_DISTANCE
+		var withinTransferDistance:bool = distToPlayer <= MAX_TRANSFER_DISTANCE + playerHost.possessionReach
 		var isAlive:bool = host.is_alive()
 		var isStunned:bool = host.enemyController.is_stunned()
 		
 		## Is this the currently closest host so far
 		var closestSoFar:bool = distToCursor < minDist
 		
-		if closestSoFar and inFrontOfPlayer and isNotPlayer and withinTransferDistance and isAlive and !isStunned and closeToLook:
+		if withinTransferDistance and closestSoFar and inFrontOfPlayer and isNotPlayer and isAlive and !isStunned and closeToLook:
 			minDist = distToCursor
 			closestHost = host
+	
+	if !closestHost: return null
+	
+	var distToPlayer2 = closestHost.global_position.distance_to(playerHost.global_position)
+	
+	if distToPlayer2 > MAX_TRANSFER_DISTANCE + playerHost.possessionReach: 
+		print("IM too far and something is broken")
 	
 	return closestHost
 
