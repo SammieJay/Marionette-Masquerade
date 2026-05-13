@@ -33,7 +33,7 @@ var projectileParent:Node2D #retrieved via group
 
 # ----- Values -----
 const PROJECTILE_SPEED_CONST:float = 1200.0
-var ammo:int
+var ammo:int # current ammunition count of weapon
 
 
 ## Runs Timer for Reload [br]

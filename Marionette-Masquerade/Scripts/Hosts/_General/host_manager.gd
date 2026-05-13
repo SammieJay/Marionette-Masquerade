@@ -37,6 +37,7 @@ func _ready() -> void:
 
 	# Initialize starting host
 	playerHost = startingPlayerHost
+	playerHost.possess()
 	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

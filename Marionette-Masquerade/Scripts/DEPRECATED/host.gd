@@ -15,7 +15,7 @@ enum weaponType {UNARMED, PISTOL, SHOTGUN}
 
 ## References
 @onready var hostManager:HostManager
-@onready var projectileSpawner: ProjectileSpawner = $"Weapon/Projectile Spawner"
+#@onready var projectileSpawner: ProjectileSpawner = $"Weapon/Projectile Spawner"
 @onready var collider:CollisionShape2D = $CollisionShape2D
 
 #sprite References
@@ -135,12 +135,12 @@ func shootWeapon():
 	var shootDirection:Vector2 = transform.x.normalized()
 	
 	if activeWeapon == weaponType.PISTOL:
-		projectileSpawner.shootPistol(shootDirection)
+		#projectileSpawner.shootPistol(shootDirection)
 		var tween = create_tween()
 		tween.tween_property(pistolSprite, "position", original_pos_p + Vector2(-4,0), 0.1)
 		tween.tween_property(pistolSprite, "position", original_pos_p, 0.05)
 	if activeWeapon == weaponType.SHOTGUN:
-		projectileSpawner.shootShotgun(shootDirection)
+		#projectileSpawner.shootShotgun(shootDirection)
 		var tween = create_tween()
 		tween.tween_property(shotgunSprite, "position", original_pos_s + Vector2(-5,0), 0.1)
 		tween.tween_property(shotgunSprite, "position", original_pos_s, 0.05)
@@ -161,7 +161,7 @@ func weaponSetup():
 		pistolSprite.show()
 		
 		#Projectile Spawner
-		projectileSpawner.setupWeapon(0)
+		#projectileSpawner.setupWeapon(0)
 	
 	## SHOTGUN SETUP
 	elif activeWeapon == weaponType.SHOTGUN:
@@ -170,7 +170,7 @@ func weaponSetup():
 		pistolSprite.hide()
 		
 		#Projectile Spawner
-		projectileSpawner.setupWeapon(1)
+		#projectileSpawner.setupWeapon(1)
 
 func die():
 	if !alive:
