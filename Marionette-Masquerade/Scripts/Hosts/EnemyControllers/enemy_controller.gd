@@ -85,7 +85,7 @@ func update_movement(_delta:float):
 		host.velocity = dir * host.moveSpeed * host.MOVE_SPEED_CONST * _delta
 		_lerp_look_at_pos(_delta, nextPos)
 		host.move_and_slide()
-	else: host.velocity = Vector2.ZERO
+	elif is_moving(): halt_movement() # terminate movement when desired distance is reached
 
 
 ## ===== MOVEMENT FUNCTIONS FOR STATE MACHINE TO CALL =====
