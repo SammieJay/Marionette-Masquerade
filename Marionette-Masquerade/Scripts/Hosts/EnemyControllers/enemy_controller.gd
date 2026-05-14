@@ -16,7 +16,9 @@ class_name EnemyController extends Node
 @export_category("Enemy Propperties")
 @export var confusionDelayTime:float = 1.0 ## How long this host takes to target the player after they switch hosts
 @export var postPossessionStunTime:float = 3.0 ## How long this host is stunned after player switches to anoter host
-@export var DEBUG_disableAI:bool = false
+
+@export_category("DEBUG")
+@export var disableAI:bool = false
 
 
 ## ===== SCRIPT VARIABLES =====

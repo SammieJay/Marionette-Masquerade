@@ -276,7 +276,7 @@ position = Vector2(109, 111)
 [node name="Scientist Host4" parent="TileMapLayer/Hosts" unique_id=1623930166 instance=ExtResource("3_xp5rw")]
 position = Vector2(334, 17)
 
-[node name="Scientist Host" parent="TileMapLayer" unique_id=821996259 instance=ExtResource("3_yv1od")]
+[node name="Scientist Host5" parent="TileMapLayer/Hosts" unique_id=821996259 instance=ExtResource("3_yv1od")]
 position = Vector2(145, -49)
 
 [node name="Level" type="Node2D" parent="." unique_id=607651100]

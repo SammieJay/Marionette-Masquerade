@@ -20,7 +20,7 @@ func do_enemy_behavior(_delta:float):
 	if host.inputHandler.is_action_just_pressed("Shoot"):
 		var pos = host.inputHandler.get_mouse_global_position()
 		#path_to_position(pos)
-		#path_to_host(host.hostManager.playerHost, 75.0)
+		path_to_host(host.hostManager.playerHost, 60.0)
 		#print("Telling host to path to: ", pos)
 
 func on_possession_release()->void: pass
