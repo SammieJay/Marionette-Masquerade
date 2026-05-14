@@ -480,7 +480,7 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_6f7k1"]
 radius = 10.29563
 
-[node name="Scientist Host" type="CharacterBody2D" unique_id=1629916961 node_paths=PackedStringArray("enemyController", "playerController", "effectHandler", "weapon", "collider", "visionRay", "maskSprite") groups=["Host"]]
+[node name="Navigation Host" type="CharacterBody2D" unique_id=1629916961 node_paths=PackedStringArray("enemyController", "playerController", "effectHandler", "weapon", "collider", "visionRay", "maskSprite") groups=["Host"]]
 script = ExtResource("1_sha6y")
 enemyController = NodePath("SimpleEnemy")
 playerController = NodePath("SimplePlayer")

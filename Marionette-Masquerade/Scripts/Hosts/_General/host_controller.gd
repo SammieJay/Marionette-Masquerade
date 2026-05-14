@@ -49,7 +49,7 @@ class_name HostController extends CharacterBody2D
 @onready var inputHandler:InputHandler
 @onready var hostManager:HostManager
 
-# ----- possession -----
+# ----- Possession -----
 @onready var currentlyPossessed:bool = false
 
 # ----- Health -----
@@ -88,12 +88,12 @@ func _ready():
 func _process(_delta):
 	## Call the update function of the relevent Controller
 	if is_possessed(): playerController.do_player_behavior(_delta)
-	elif !enemyController.DEBUG_disableAI: enemyController.do_enemy_behavior(_delta)
+	elif !enemyController.disableAI: enemyController.do_enemy_behavior(_delta)
 
 func _physics_process(_delta):
 	## Call the update function of the relevent Controller
 	if is_possessed(): playerController.do_player_physics(_delta)
-	elif !enemyController.DEBUG_disableAI: enemyController.do_enemy_physics(_delta)
+	elif !enemyController.disableAI: enemyController.do_enemy_physics(_delta)
 
 
 ## ===== CORE FUNCTIONS CALLED FROM OTHER CLASSES =====
