@@ -43,7 +43,7 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
-	if !playerHost.is_possessed(): playerHost.currentlyPossessed = true
+	if !playerHost.is_possessed(): playerHost.currentlyPossessed = true # Redundantly ensure that the palyerHost is allways in a posessed state
 	eligibleHost = _check_for_switchable_host()
 	possessionIndicator.set_target(eligibleHost)
 

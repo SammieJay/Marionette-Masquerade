@@ -1,4 +1,4 @@
-class_name PlayerCamera
+class_name PlayerCam
 extends Camera2D
 
 var target: Host

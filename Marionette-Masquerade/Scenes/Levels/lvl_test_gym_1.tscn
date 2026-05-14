@@ -1,6 +1,7 @@
 [gd_scene format=4 uid="uid://dsnwo8b71332q"]
 
 [ext_resource type="Script" uid="uid://cca2yiacp0mcp" path="res://Scripts/Hosts/_General/input_handler.gd" id="1_lrtbe"]
+[ext_resource type="Script" uid="uid://8nqbrpawidg4" path="res://Scripts/Hosts/_General/player_camera.gd" id="1_qir77"]
 [ext_resource type="Script" uid="uid://dymdfu6tebr3h" path="res://Scripts/Hosts/_General/host_manager.gd" id="2_xp5rw"]
 [ext_resource type="PackedScene" uid="uid://cto5aoxw4f8ul" path="res://Scenes/Hosts/test_host.tscn" id="3_xp5rw"]
 [ext_resource type="PackedScene" uid="uid://bo1ob03elif7n" path="res://Scenes/Hosts/navigation_test_host.tscn" id="3_yv1od"]
@@ -249,9 +250,9 @@ font_color = Color(0, 0, 0, 1)
 
 [node name="LvlTestGym1" type="Node2D" unique_id=1076524834]
 
-[node name="Camera2D" type="Camera2D" parent="." unique_id=1529972382]
-position = Vector2(257, 56)
-zoom = Vector2(1.5, 1.5)
+[node name="PlayerCamera" type="Camera2D" parent="." unique_id=690679005]
+script = ExtResource("1_qir77")
+metadata/_custom_type_script = "uid://8nqbrpawidg4"
 
 [node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=1704499384]
 z_index = -1
@@ -265,7 +266,7 @@ metadata/_edit_lock_ = true
 
 [node name="Scientist Host" parent="TileMapLayer/Hosts" unique_id=1629916961 instance=ExtResource("3_xp5rw")]
 z_index = 1
-position = Vector2(335, 178)
+position = Vector2(272, 144)
 
 [node name="Scientist Host2" parent="TileMapLayer/Hosts" unique_id=304725423 instance=ExtResource("3_xp5rw")]
 position = Vector2(334, 98)
@@ -277,7 +278,7 @@ position = Vector2(109, 111)
 position = Vector2(334, 17)
 
 [node name="Scientist Host5" parent="TileMapLayer/Hosts" unique_id=821996259 instance=ExtResource("3_yv1od")]
-position = Vector2(145, -49)
+position = Vector2(152, -80)
 
 [node name="Level" type="Node2D" parent="." unique_id=607651100]
 
@@ -302,10 +303,10 @@ text = "|
 label_settings = SubResource("LabelSettings_uiqd2")
 
 [node name="TestLabel3" type="Label" parent="Level" unique_id=242604912]
-offset_left = 307.0
-offset_top = 169.0
-offset_right = 394.0
-offset_bottom = 287.0
+offset_left = 312.0
+offset_top = 192.0
+offset_right = 399.0
+offset_bottom = 310.0
 text = "1 Wide"
 label_settings = SubResource("LabelSettings_uiqd2")
 
