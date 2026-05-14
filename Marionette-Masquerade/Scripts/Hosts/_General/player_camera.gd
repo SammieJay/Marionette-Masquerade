@@ -1,5 +1,4 @@
-class_name PlayerCamera
-extends Camera2D
+class_name PlayerCamera extends Camera2D
 
 var target: HostController
 @onready var hostManager:HostManager
