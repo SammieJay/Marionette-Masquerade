@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://dlkby831b3hhk"]
+
+[ext_resource type="Script" uid="uid://cgpfcw74iwn48" path="res://navigation_waypoint.gd" id="1_hnqbt"]
+[ext_resource type="Texture2D" uid="uid://cixa72x12nb5d" path="res://Assets/Textures/button_txtr_1.png" id="2_3p2nu"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hmwil"]
+atlas = ExtResource("2_3p2nu")
+region = Rect2(0, 0, 96, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_jyax7"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hmwil")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Navigation Waypoint" type="Node2D" unique_id=1546453674]
+z_index = 10
+script = ExtResource("1_hnqbt")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="." unique_id=1858930224]
+position = Vector2(0.5, 0)
+rotation = 1.5707964
+scale = Vector2(0.5, 0.5)
+sprite_frames = SubResource("SpriteFrames_jyax7")
