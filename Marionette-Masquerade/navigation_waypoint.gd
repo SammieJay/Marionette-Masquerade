@@ -13,6 +13,7 @@ var camera:Camera2D
 func _ready() -> void:
 	screenSize = get_viewport().get_visible_rect().size
 	camera = get_tree().get_first_node_in_group("Camera")
+	$"Arrived Sprite".modulate.a = 0.5
 	
 func _process(delta: float) -> void:
 	if !camera:
@@ -23,16 +24,20 @@ func _process(delta: float) -> void:
 	
 	if visibleRect.has_point(targetScreenPos):
 		global_position = coordinates
-		$Sprite.visible = false
-
+		$Sprite.hide()
+		$"Arrived Sprite".rotation = - PI / 2 
+		$"Arrived Sprite".show()
+		
+		
+		
 	else:
-		$Sprite.visible = true
+		$"Arrived Sprite".hide()
+		$Sprite.show()
 		var clampedScreenPos: Vector2 = clamp_to_edge(targetScreenPos)
 		global_position = get_viewport().canvas_transform.affine_inverse() * clampedScreenPos
 		
 		var dir: Vector2 = targetScreenPos - clampedScreenPos
 		$Sprite.rotation = dir.angle() + PI
-		$Sprite.visible = true
 
 func to_local_screen(worldPos: Vector2) -> Vector2:
 	return get_viewport().canvas_transform * worldPos

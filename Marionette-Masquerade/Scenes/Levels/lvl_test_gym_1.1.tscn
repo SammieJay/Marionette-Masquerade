@@ -1,4 +1,4 @@
-[gd_scene format=4 uid="uid://b2hk5m5cv1dnw"]
+[gd_scene format=4 uid="uid://d2ibybm5bmoew"]
 
 [ext_resource type="Script" uid="uid://8nqbrpawidg4" path="res://Scripts/Hosts/_General/player_camera.gd" id="1_a47sj"]
 [ext_resource type="Texture2D" uid="uid://bjkrw2uyxy02e" path="res://Assets/Textures/tile_set_1_new.png" id="2_uyt4f"]
@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://bx5jc6exewmsk" path="res://Scenes/In-Scene Singleton Objects/cursor.tscn" id="6_lff7h"]
 [ext_resource type="PackedScene" uid="uid://6lt0i311l7b1" path="res://Scenes/In-Scene Singleton Objects/posession_indicator.tscn" id="7_0gux6"]
 [ext_resource type="Script" uid="uid://cca2yiacp0mcp" path="res://Scripts/Hosts/_General/input_handler.gd" id="8_d8skw"]
-[ext_resource type="PackedScene" uid="uid://dlkby831b3hhk" path="res://Scenes/In-Scene Singleton Objects/navigation_waypoint.tscn" id="9_mg2rq"]
+[ext_resource type="PackedScene" uid="uid://bujjqvbckvb0u" path="res://Scenes/In-Scene Singleton Objects/navigation_waypoint.tscn" id="9_mg2rq"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_8qdyi"]
 vertices = PackedVector2Array(16, 16, -11, 16, -11, -11, 16, -11)

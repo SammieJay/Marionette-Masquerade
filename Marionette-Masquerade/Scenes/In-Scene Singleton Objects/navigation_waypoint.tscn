@@ -1,7 +1,8 @@
-[gd_scene format=3 uid="uid://dlkby831b3hhk"]
+[gd_scene format=3 uid="uid://bujjqvbckvb0u"]
 
 [ext_resource type="Script" uid="uid://cgpfcw74iwn48" path="res://navigation_waypoint.gd" id="1_hnqbt"]
 [ext_resource type="Texture2D" uid="uid://cixa72x12nb5d" path="res://Assets/Textures/button_txtr_1.png" id="2_3p2nu"]
+[ext_resource type="Texture2D" uid="uid://cls4cgfujftcs" path="res://Assets/Textures/target_halo_txtr_1.png" id="3_3p2nu"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hmwil"]
 atlas = ExtResource("2_3p2nu")
@@ -18,6 +19,77 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_jyax7"]
+atlas = ExtResource("3_3p2nu")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_abvt2"]
+atlas = ExtResource("3_3p2nu")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_slcds"]
+atlas = ExtResource("3_3p2nu")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4jmrt"]
+atlas = ExtResource("3_3p2nu")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yj7mk"]
+atlas = ExtResource("3_3p2nu")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_23ncc"]
+atlas = ExtResource("3_3p2nu")
+region = Rect2(64, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gb43k"]
+atlas = ExtResource("3_3p2nu")
+region = Rect2(0, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_35gwf"]
+atlas = ExtResource("3_3p2nu")
+region = Rect2(32, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oux5s"]
+atlas = ExtResource("3_3p2nu")
+region = Rect2(64, 64, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_aayyw"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jyax7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_abvt2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_slcds")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4jmrt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yj7mk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_23ncc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gb43k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_35gwf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oux5s")
+}],
+"loop": true,
+"name": &"default",
+"speed": 12.0
+}]
+
 [node name="Navigation Waypoint" type="Node2D" unique_id=1546453674]
 z_index = 10
 script = ExtResource("1_hnqbt")
@@ -27,3 +99,9 @@ position = Vector2(0.5, 0)
 rotation = 1.5707964
 scale = Vector2(0.5, 0.5)
 sprite_frames = SubResource("SpriteFrames_jyax7")
+
+[node name="Arrived Sprite" type="AnimatedSprite2D" parent="." unique_id=329724896]
+visible = false
+sprite_frames = SubResource("SpriteFrames_aayyw")
+autoplay = "default"
+frame_progress = 0.5017849
