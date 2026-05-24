@@ -9,6 +9,9 @@ const EDGE_MARGIN: float = 40.0
 ## Misc variables
 var screenSize:Vector2
 var camera:Camera2D
+var allDead = false
+
+
 
 func _ready() -> void:
 	screenSize = get_viewport().get_visible_rect().size
@@ -16,8 +19,16 @@ func _ready() -> void:
 	$"Arrived Sprite".modulate.a = 0.5
 	
 func _process(delta: float) -> void:
+	$Sprite.hide()
+	# if all dead except you show the player where to go
+	if get_tree().get_nodes_in_group("Host").size() == 1:
+		allDead = true
+	if !allDead:
+		return
 	if !camera:
 		return
+	
+	$Sprite.show()
 	
 	var targetScreenPos: Vector2 = to_local_screen(coordinates)
 	var visibleRect := Rect2(Vector2.ZERO, screenSize)
