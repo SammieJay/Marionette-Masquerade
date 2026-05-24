@@ -8,7 +8,6 @@ var host:HostController
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	body_entered.connect(_on_body_entered)
-	pass 
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -16,10 +15,9 @@ func _physics_process(delta):
 	global_position += direction * speed * delta
 
 func _on_body_entered(body):
+	if body == host:return
 	if body is HostController and body != host:
 		body.hurt(damage)
-		print("HIT DETECTED WITH %s" % host.name)
-		queue_free()
-	if body!=host:
+		print("HIT DETECTED WITH %s" % body.name)
 		queue_free()
 	
