@@ -1,15 +1,18 @@
 extends Node2D
+
 ## Constants
 const FLASH_SPEED: float = 0.5
 const EDGE_MARGIN: float = 40.0
 
 ## Editable variables
 @export var coordinates:Vector2 = Vector2(0, 0)
+@export var numberOfEnemiesLeftUntilShown = 0
 
 ## Misc variables
 var screenSize:Vector2
 var camera:Camera2D
 var allDead = false
+
 
 
 
@@ -21,7 +24,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	$Sprite.hide()
 	# if all dead except you show the player where to go
-	if get_tree().get_nodes_in_group("Host").size() == 1:
+	if get_tree().get_nodes_in_group("Host").size() == numberOfEnemiesLeftUntilShown:
 		allDead = true
 	if !allDead:
 		return
