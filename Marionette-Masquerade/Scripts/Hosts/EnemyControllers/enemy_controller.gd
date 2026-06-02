@@ -17,6 +17,7 @@ class_name EnemyController extends Node
 @export var postPossessionStunTime:float = 3.0 ## How long this host is stunned after player switches to anoter host
 @export_range(0.0, 3.0, 0.1, "scaled from host speed") var enemyMoveSpeedScalar:float = 1.0
 
+
 @export_category("DEBUG")
 @export var disableAI:bool = false
 
@@ -62,8 +63,11 @@ func _process(_delta):
 	if confusionTimer >= 0.0: confusionTimer -= _delta
 	if stunnedTimer >= 0.0: stunnedTimer -= _delta
 
+	if is_stunned(): host.effectHandler.play_stun_effect()
+	#elif host.effectHandler.is_playing(): host.effectHandler.stop()
+
 func _physics_process(_delta):
-	if !host.is_possessed():
+	if !host.is_possessed() and !is_stunned():
 		update_movement(_delta) ## Do enemy movement
 	elif is_moving(): halt_movement() # interrupt movement if host becomes posessed
 
@@ -86,6 +90,9 @@ func update_movement(_delta:float):
 		_lerp_look_at_pos(_delta, nextPos)
 		host.move_and_slide()
 	elif is_moving(): halt_movement() # terminate movement when desired distance is reached
+
+func stun(_durration:float):
+	stunnedTimer = _durration
 
 
 ## ===== STATE MACHINE FUNCTIONS =====
@@ -148,7 +155,7 @@ func _verify_refrences()->void:
 
 ## Interpolate host rotation to look towards the given position in world space (global_position)
 func _lerp_look_at_pos(_delta:float, _pos:Vector2):
-	print("Looking to: ", _pos)
+	#print("Looking to: ", _pos)
 	var dir = (_pos - host.global_position).normalized()
 	host.global_rotation = lerp_angle(host.global_rotation, dir.angle(), host.rotationSpeed * _delta)
 

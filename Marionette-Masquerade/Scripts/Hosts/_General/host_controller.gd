@@ -169,26 +169,37 @@ func _set_inital_values()->void:
 ## Returns whether this host has line of sight on the given target host, within the given max distance
 func has_LOS_to_host(_target:HostController, _maxDist:float)->bool:
 	if !_target: 
-		print("1")
+		#print("1")
 		return false
 	
-	var toTarget = _target.global_position - global_position
+	#print("Target is ", _maxDist, " units away")
+	#print("Target is posessed: ", _target.is_possessed())
+	
+	#var toTarget = _target.global_position - global_position
 	var distToTarget = _target.global_position.distance_to(global_position)
-	if distToTarget >= _maxDist: return false ## Return false if target is too far
+	if distToTarget >= _maxDist: 
+		#print("too far!!")
+		return false ## Return false if target is too far
+
+	#print("Relative position: ", toTarget)
 	
 	#line of sight check
-	visionRay.target_position = toTarget
+	visionRay.target_position = visionRay.to_local(_target.global_position)
 	visionRay.force_raycast_update()
 	var hit = visionRay.get_collider()
 	
-	if !hit: return false ## For redundancy, if no collider is hit, return false (probably wont happen since ray collides with our collider)
+	if !hit: 
+		#print("NO HIT")
+		return false ## For redundancy, if no collider is hit, return false (probably wont happen since ray collides with our collider)
+	
+	#print("name: ", hit.name)
 
 	## Return false if a collider is hit, its not our's and it is not the target's collider
 	if hit != _target and hit != collider: 
-		print("Wrong Target: ", _target.name)
+		#print("Wrong Target: ", _target.name)
 		return false
 	
-	print("Host ", hostTypeName, " LOS hit on ", _target.name, " within: ", _maxDist)
+	#print("Host ", hostTypeName, " LOS hit on ", _target.name, " within: ", _maxDist)
 	return true
 
 ## Returns Whether host can see the given position

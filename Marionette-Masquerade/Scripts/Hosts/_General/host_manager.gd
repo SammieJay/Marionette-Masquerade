@@ -43,6 +43,8 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
+	# TODO: add logic for better handling player death other than deleting the player
+	if !playerHost: return # if player host does not exist, dont run this function
 	if !playerHost.is_possessed(): playerHost.currentlyPossessed = true # Redundantly ensure that the palyerHost is allways in a posessed state
 	eligibleHost = _check_for_switchable_host()
 	possessionIndicator.set_target(eligibleHost)

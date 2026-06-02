@@ -17,6 +17,46 @@
 [ext_resource type="Texture2D" uid="uid://cls4cgfujftcs" path="res://Assets/Textures/target_halo_txtr_1.png" id="13_avgi2"]
 [ext_resource type="Texture2D" uid="uid://dmn5kc8sixtcf" path="res://Assets/Textures/stun_txtr_1.png" id="14_ugblm"]
 
+[sub_resource type="Animation" id="Animation_6hky1"]
+resource_name = "Die"
+length = 0.03333667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprites/Body:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprites/Corpse Sprite:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprites/Head/MaskSprite:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
 [sub_resource type="Animation" id="Animation_hg3sc"]
 resource_name = "Possess Other"
 length = 0.2
@@ -67,12 +107,102 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_sha6y"]
 length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprites/Body:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprites/Corpse Sprite:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprites/Head/MaskSprite:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Sprites/Stun Effect Sprite:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Sprites/Stun Effect Sprite:rotation")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_s5883"]
+resource_name = "Stunned"
+length = 1.0000033
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprites/Stun Effect Sprite:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprites/Stun Effect Sprite:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 3.141592653589793]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_lyfnh"]
 _data = {
+&"Die": SubResource("Animation_6hky1"),
 &"Possess Other": SubResource("Animation_hg3sc"),
 &"Possess Other (Miss)": SubResource("Animation_lj85y"),
-&"RESET": SubResource("Animation_sha6y")
+&"RESET": SubResource("Animation_sha6y"),
+&"Stunned": SubResource("Animation_s5883")
 }
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gddql"]
@@ -479,10 +609,32 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_6hky1"]
+atlas = ExtResource("12_ix3sl")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s5883"]
+atlas = ExtResource("12_ix3sl")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_u32pb"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6hky1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s5883")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_6f7k1"]
 radius = 10.29563
 
-[node name="Navigation Host" type="CharacterBody2D" unique_id=1629916961 node_paths=PackedStringArray("enemyController", "playerController", "effectHandler", "weapon", "collider", "visionRay", "maskSprite") groups=["Host"]]
+[node name="Simple Pistol Host" type="CharacterBody2D" unique_id=1629916961 node_paths=PackedStringArray("enemyController", "playerController", "effectHandler", "weapon", "collider", "visionRay", "maskSprite") groups=["Host"]]
 script = ExtResource("1_sha6y")
 enemyController = NodePath("SimpleEnemy")
 playerController = NodePath("SimplePlayer")
@@ -492,7 +644,6 @@ collider = NodePath("Collider")
 visionRay = NodePath("RayCast2D")
 maskSprite = NodePath("Sprites/Head/MaskSprite")
 hostTypeName = "Navigation Test Host"
-clearOnDeath = true
 moveSpeed = 10.0
 metadata/_custom_type_script = "uid://nxicc26dotw5"
 
@@ -528,6 +679,8 @@ libraries/ = SubResource("AnimationLibrary_lyfnh")
 script = ExtResource("2_6m036")
 switchHostEffectName = "Possess Other"
 switchHostMissEffectName = "Possess Other (Miss)"
+stunEffectName = "Stunned"
+deathEffectName = "Die"
 metadata/_custom_type_script = "uid://dg5xecjo4r84p"
 
 [node name="Sprites" type="Node2D" parent="." unique_id=66944869]
@@ -544,7 +697,6 @@ sprite_frames = SubResource("SpriteFrames_ifp3e")
 
 [node name="Corpse Sprite" type="AnimatedSprite2D" parent="Sprites" unique_id=519557818]
 visible = false
-rotation = -1.1571532
 sprite_frames = SubResource("SpriteFrames_0pxml")
 
 [node name="Target Sprite" type="AnimatedSprite2D" parent="Sprites" unique_id=1025820873]
@@ -573,6 +725,10 @@ visible = false
 rotation = 1.5707964
 sprite_frames = SubResource("SpriteFrames_5m4xc")
 
+[node name="DeathSprite" type="AnimatedSprite2D" parent="Sprites" unique_id=839116853]
+visible = false
+sprite_frames = SubResource("SpriteFrames_u32pb")
+
 [node name="Collider" type="CollisionShape2D" parent="." unique_id=266863240]
 visible = false
 shape = SubResource("CircleShape2D_6f7k1")
@@ -580,9 +736,7 @@ shape = SubResource("CircleShape2D_6f7k1")
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=527083402]
 path_postprocessing = 1
 avoidance_enabled = true
-debug_enabled = true
 debug_use_custom = true
 debug_path_custom_color = Color(1, 0, 1, 1)
 
 [node name="RayCast2D" type="RayCast2D" parent="." unique_id=678213811]
-visible = false

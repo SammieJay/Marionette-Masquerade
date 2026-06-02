@@ -11,6 +11,9 @@ class_name SimpleEnemy extends EnemyController
 @export var idleState:BehaviorState
 @export var chaseState:BehaviorState
 
+@export_category("Host Properties")
+@export_range(0.0, 10.0, 0.25, "Stun Durration Post Swap") var stunDurration:float = 1.5 ## How long this host is stunned for after swap, setting to 0 disables stun mechanic
+
 
 ## ===== SCRIPT VARIABLES =====
 # Idle
@@ -34,11 +37,9 @@ func _process(_delta):
 	targetHost = host.hostManager.playerHost ## Set target host to allways be player
 
 func do_enemy_behavior(_delta:float):
-	activeState.do_behavior(_delta) # update active state behavior
+	if !is_stunned():
+		activeState.do_behavior(_delta) # update active state behavior
 
-	if stunnedTimer > 0:
-		stunnedTimer -= _delta
-		return
 
 	## ===== STATE TRANSITIONS =====
 
@@ -49,7 +50,7 @@ func do_enemy_behavior(_delta:float):
 		idleState:
 			match stateStatus:
 				BehaviorState.BehaviorStatus.INCOMPLETE: pass
-				BehaviorState.BehaviorStatus.SUCCESS: 
+				BehaviorState.BehaviorStatus.SUCCESS:
 					if targetHost and targetHost.is_alive():
 						set_active_state(chaseState)
 					else: pass
@@ -60,4 +61,4 @@ func do_enemy_behavior(_delta:float):
 
 
 
-func on_possession_release()->void: pass
+func on_possession_release()->void: stun(stunDurration)

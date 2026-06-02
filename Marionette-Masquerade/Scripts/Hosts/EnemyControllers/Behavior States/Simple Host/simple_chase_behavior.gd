@@ -27,14 +27,13 @@ func do_behavior(_delta):
 			#_reset_attack_delay() # reset attack delay if we are just reaching our target
 		
 		enemy._lerp_look_at_pos(_delta, attackTarget.global_position) # look towards our target
-		print("I WANNA SHOOT")
+		#print("I WANNA SHOOT")
 
 		if _should_shoot(_delta): enemy.weapon.request_shoot(host.get_forward()) # shoot our target if we are allowed
-	else: 
-		print("LOS: ", host.has_LOS_to_host(attackTarget, attackDistance))
-		print("Close Enough: ", _dist_to_target() < attackDistance)
-		print("LOS: ", host.has_LOS_to_host(attackTarget, attackDistance))
-		print("Attack Delay")
+	#else: 
+		#print("LOS: ", host.has_LOS_to_host(attackTarget, attackDistance))
+		#print("Close Enough: ", _dist_to_target() < attackDistance)
+		#print("Attack Delay: ")
 
 func on_state_enter():
 	attackDelayTimer = attackDelay ## reset attack pause timer
@@ -48,7 +47,7 @@ func on_state_exit():
 
 func get_status()->BehaviorStatus:
 	
-	if _dist_to_target() > stopChaseDistance or !attackTarget.is_alive(): ## Return Success on player leaving range, not existing, or dying
+	if _dist_to_target() > stopChaseDistance or !attackTarget or !attackTarget.is_alive(): ## Return Success on player leaving range, not existing, or dying
 		return BehaviorStatus.SUCCESS
 	else: 
 		return BehaviorStatus.INCOMPLETE
