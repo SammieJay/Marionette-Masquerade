@@ -486,6 +486,7 @@ collider = NodePath("Collider")
 visionRay = NodePath("RayCast2D")
 maskSprite = NodePath("Sprites/Head/MaskSprite")
 hostTypeName = "Test Host"
+clearOnDeath = true
 moveSpeed = 10.0
 metadata/_custom_type_script = "uid://nxicc26dotw5"
 
@@ -503,6 +504,7 @@ metadata/_custom_type_script = "uid://cydjvbsi8uhqy"
 [node name="EnemyController" type="Node" parent="." unique_id=1201593801 node_paths=PackedStringArray("navAgent")]
 script = ExtResource("2_6f7k1")
 navAgent = NodePath("../NavigationAgent2D")
+enemyMoveSpeedScalar = 0.7
 metadata/_custom_type_script = "uid://21dtd1gmdahi"
 
 [node name="Pistol" type="Node" parent="." unique_id=2060538332]

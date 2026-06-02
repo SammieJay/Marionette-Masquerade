@@ -19,6 +19,7 @@ func _process(delta: float) -> void:
 
 
 func trackTarget(delta:float):
+	if !target: return
 	var targetPos: Vector2 = target.global_position
 	global_position = global_position.lerp(
 		targetPos,

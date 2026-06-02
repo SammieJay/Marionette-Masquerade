@@ -2,7 +2,9 @@
 
 [ext_resource type="Script" uid="uid://nxicc26dotw5" path="res://Scripts/Hosts/_General/host_controller.gd" id="1_sha6y"]
 [ext_resource type="Script" uid="uid://dg5xecjo4r84p" path="res://Scripts/Hosts/_General/effect_handler.gd" id="2_6m036"]
+[ext_resource type="Script" uid="uid://b3d4s0vc84osu" path="res://Scripts/Hosts/EnemyControllers/Behavior States/Simple Host/simple_chase_behavior.gd" id="3_eknuq"]
 [ext_resource type="Script" uid="uid://cydjvbsi8uhqy" path="res://Scripts/Hosts/PlayerControllers/simple_player_controller.gd" id="3_ff46r"]
+[ext_resource type="Script" uid="uid://cv8a8kqws75se" path="res://Scripts/Hosts/EnemyControllers/Behavior States/Simple Host/simple_idle_behavior.gd" id="4_karfb"]
 [ext_resource type="Script" uid="uid://1ax0i7rdnhfx" path="res://Scripts/Hosts/EnemyControllers/simple_enemy_controller.gd" id="4_sha6y"]
 [ext_resource type="Script" uid="uid://p3cxr8dlwlar" path="res://Scripts/Hosts/Weapons/pistol.gd" id="5_karfb"]
 [ext_resource type="PackedScene" uid="uid://baibytdlfegxn" path="res://Scenes/DEPRECATED/bullet.tscn" id="6_fojgf"]
@@ -490,13 +492,27 @@ collider = NodePath("Collider")
 visionRay = NodePath("RayCast2D")
 maskSprite = NodePath("Sprites/Head/MaskSprite")
 hostTypeName = "Navigation Test Host"
+clearOnDeath = true
 moveSpeed = 10.0
 metadata/_custom_type_script = "uid://nxicc26dotw5"
 
-[node name="SimpleEnemy" type="Node" parent="." unique_id=176137161 node_paths=PackedStringArray("navAgent")]
+[node name="SimpleEnemy" type="Node" parent="." unique_id=176137161 node_paths=PackedStringArray("idleState", "chaseState", "navAgent")]
 script = ExtResource("4_sha6y")
+idleState = NodePath("SimpleIdleBehavior")
+chaseState = NodePath("SimpleChaseBehavior")
 navAgent = NodePath("../NavigationAgent2D")
+enemyMoveSpeedScalar = 0.7
 metadata/_custom_type_script = "uid://1ax0i7rdnhfx"
+
+[node name="SimpleChaseBehavior" type="Node" parent="SimpleEnemy" unique_id=162683506]
+script = ExtResource("3_eknuq")
+behaviorName = "Basic Chase And Attack"
+metadata/_custom_type_script = "uid://b3d4s0vc84osu"
+
+[node name="SimpleIdleBehavior" type="Node" parent="SimpleEnemy" unique_id=562801330]
+script = ExtResource("4_karfb")
+behaviorName = "Basic Idle"
+metadata/_custom_type_script = "uid://cv8a8kqws75se"
 
 [node name="SimplePlayer" type="Node" parent="." unique_id=1370596031]
 script = ExtResource("3_ff46r")

@@ -12,10 +12,10 @@ class_name EnemyController extends Node
 @export_group("REQUIRED")
 @export var navAgent:NavigationAgent2D
 
-
 @export_category("Enemy Propperties")
 @export var confusionDelayTime:float = 1.0 ## How long this host takes to target the player after they switch hosts
 @export var postPossessionStunTime:float = 3.0 ## How long this host is stunned after player switches to anoter host
+@export_range(0.0, 3.0, 0.1, "scaled from host speed") var enemyMoveSpeedScalar:float = 1.0
 
 @export_category("DEBUG")
 @export var disableAI:bool = false
@@ -25,6 +25,12 @@ class_name EnemyController extends Node
 # ----- References -----
 var host:HostController
 var weapon:Weapon
+
+# ----- State Machine -----
+var activeState:BehaviorState
+
+## A pointer towards the host that this enemy is hostile to, should be set by subclasses in their _process() functions
+var targetHost:HostController
 
 # ----- Confusion -----
 var confusionTimer:float = 0.0
@@ -44,19 +50,13 @@ var navTargetDist:float = DEFAULT_NAV_DIST ## How far the enemy should be from t
 
 func is_confused()->bool: return confusionTimer > 0.0
 func is_stunned()->bool: return stunnedTimer > 0.0
-func is_moving()->bool:return navTargetPos != Vector2.ZERO or navTargetHost != null
+func is_moving()->bool:return navTargetPos != Vector2.ZERO or navTargetHost != null ## Returns true if enemy is attempting to move towards a pathfinding target (position or host)
 
 
 ## ===== CORE FUNCTIONS =====
 
-## MUST BE CALLED FROM INHERITING CLASSES VIA 'super._ready()'
-## Performs mandatory setup for all inheriting EnemyController classes
-func _ready():
-	pass
-	#navAgent.path_postprocessing = NavigationPathQueryParameters2D.PATH_POSTPROCESSING_EDGECENTERED # Set to edge centered for better cornering
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
+## MUST BE CALLED FROM INHERITING CLASSES VIA 'super._ready()' [br]
+## Ticks important timers each frame
 func _process(_delta):
 	## Update Timers
 	if confusionTimer >= 0.0: confusionTimer -= _delta
@@ -66,7 +66,7 @@ func _physics_process(_delta):
 	if !host.is_possessed():
 		update_movement(_delta) ## Do enemy movement
 	elif is_moving(): halt_movement() # interrupt movement if host becomes posessed
-	
+
 ## updates movement of enemy every physics frame [br]
 ## called from _physics process [br]
 func update_movement(_delta:float):
@@ -88,6 +88,20 @@ func update_movement(_delta:float):
 	elif is_moving(): halt_movement() # terminate movement when desired distance is reached
 
 
+## ===== STATE MACHINE FUNCTIONS =====
+
+## Called by inheriting classes to set the active behavior state of this enemy
+func set_active_state(_next:BehaviorState):
+	if activeState == _next: return
+	
+	if activeState: print("Leaving State: ", activeState.name)
+	print("Entering State: ", _next.name)
+
+	if activeState: activeState.on_state_exit() ## If there is currently an active state, call its exit function
+	activeState = _next
+	activeState.on_state_enter()
+
+
 ## ===== MOVEMENT FUNCTIONS FOR STATE MACHINE TO CALL =====
 
 ## Move within _targetDist units of given position _pos
@@ -104,6 +118,7 @@ func path_to_host(_host:HostController, _targetDist:float = DEFAULT_NAV_DIST):
 func halt_movement():
 	navTargetPos = Vector2.ZERO
 	navTargetHost = null
+
 
 ## ===== VIRTUAL FUNCTIONS TO BE OVERRIDEN =====
 
@@ -125,7 +140,6 @@ func on_possession_release()->void: pass
 
 
 
-
 ## ===== HELPER FUNCTIONS =====
 
 ## Verify if required references are present in host
@@ -134,5 +148,10 @@ func _verify_refrences()->void:
 
 ## Interpolate host rotation to look towards the given position in world space (global_position)
 func _lerp_look_at_pos(_delta:float, _pos:Vector2):
+	print("Looking to: ", _pos)
 	var dir = (_pos - host.global_position).normalized()
 	host.global_rotation = lerp_angle(host.global_rotation, dir.angle(), host.rotationSpeed * _delta)
+
+## Interpolate host rotation towards given angle (in radians)
+func _lerp_look_to_angle(_delta:float, _angle:float):
+	host.global_rotation = lerp_angle(host.global_rotation, _angle, host.rotationSpeed * _delta)
