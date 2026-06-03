@@ -43,6 +43,8 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
+	# TODO: add logic for better handling player death other than deleting the player
+	if !playerHost: return # if player host does not exist, dont run this function
 	if !playerHost.is_possessed(): playerHost.currentlyPossessed = true # Redundantly ensure that the palyerHost is allways in a posessed state
 	eligibleHost = _check_for_switchable_host()
 	possessionIndicator.set_target(eligibleHost)
@@ -57,6 +59,7 @@ func _process(_delta: float) -> void:
 ## [b]Expects:[/b] a non-null parameter input [br]
 func switch_to_host(next:HostController):
 	#print("HOST SWITCH")
+	if !playerHost.is_alive(): return ## Return if player is dead
 	playerHost.un_possess()
 	playerHost = next
 	playerHost.possess()
@@ -109,7 +112,7 @@ func _check_for_switchable_host()->HostController:
 	var distToPlayer2 = closestHost.global_position.distance_to(playerHost.global_position)
 	
 	if distToPlayer2 > MAX_TRANSFER_DISTANCE + playerHost.possessionReach: 
-		print("IM too far and something is broken")
+		push_warning("HostManager logic for possession reach is miscalculating distance - revision advised")
 	
 	return closestHost
 
