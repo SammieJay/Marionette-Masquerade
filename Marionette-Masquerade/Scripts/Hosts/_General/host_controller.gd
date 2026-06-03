@@ -48,7 +48,6 @@ class_name HostController extends CharacterBody2D
 # ----- References -----
 @onready var inputHandler:InputHandler
 @onready var hostManager:HostManager
-@onready var healthBar = $health_bar
 
 
 # ----- Possession -----
@@ -87,11 +86,8 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
-
+	
 	## Call the update function of the relevent Controller
-	if is_possessed(): playerController.do_player_behavior(_delta)
-	elif !enemyController.disableAI: enemyController.do_enemy_behavior(_delta)
-	healthBar.global_position = global_position + Vector2(0, -30)
 	if is_possessed() and is_alive(): playerController.do_player_behavior(_delta)
 	elif !enemyController.disableAI and is_alive(): enemyController.do_enemy_behavior(_delta)
 
@@ -123,10 +119,7 @@ func possess()->void:
 ## Inflict dammage to this host
 func hurt(_dmg:float)->void:
 	currentHealth -= _dmg
-	if(currentHealth <= 0):
-		healthBar.value = 0.0
-	else:
-		healthBar.value = currentHealth
+	
 	
 	if currentHealth <= 0.0:
 		die()
@@ -177,38 +170,22 @@ func _set_inital_values()->void:
 
 ## Returns whether this host has line of sight on the given target host, within the given max distance
 func has_LOS_to_host(_target:HostController, _maxDist:float)->bool:
-	if !_target: 
-		#print("1")
-		return false
-	
-	#print("Target is ", _maxDist, " units away")
-	#print("Target is posessed: ", _target.is_possessed())
-	
-	#var toTarget = _target.global_position - global_position
-	var distToTarget = _target.global_position.distance_to(global_position)
-	if distToTarget >= _maxDist: 
-		#print("too far!!")
-		return false ## Return false if target is too far
+	if !_target: return false
 
-	#print("Relative position: ", toTarget)
+	var distToTarget = _target.global_position.distance_to(global_position)
+	if distToTarget >= _maxDist: return false ## Return false if target is too far
 	
 	#line of sight check
 	visionRay.target_position = visionRay.to_local(_target.global_position)
 	visionRay.force_raycast_update()
 	var hit = visionRay.get_collider()
 	
-	if !hit: 
-		#print("NO HIT")
-		return false ## For redundancy, if no collider is hit, return false (probably wont happen since ray collides with our collider)
-	
-	#print("name: ", hit.name)
+	if !hit: return false ## For redundancy, if no collider is hit, return false (probably wont happen since ray collides with our collider)
 
 	## Return false if a collider is hit, its not our's and it is not the target's collider
-	if hit != _target and hit != collider: 
-		#print("Wrong Target: ", _target.name)
-		return false
+	if hit != _target and hit != collider: return false
 	
-	#print("Host ", hostTypeName, " LOS hit on ", _target.name, " within: ", _maxDist)
+	#print("Host ", hostTypeName, " LOS hit on ", _target.name, " within: ", _maxDist) # Debug Print
 	return true
 
 ## Returns Whether host can see the given position

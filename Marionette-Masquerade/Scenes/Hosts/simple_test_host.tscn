@@ -16,6 +16,7 @@
 [ext_resource type="Texture2D" uid="uid://l1qlcfv8p4vs" path="res://Assets/Textures/dead_body_txtr_1.png" id="12_ix3sl"]
 [ext_resource type="Texture2D" uid="uid://cls4cgfujftcs" path="res://Assets/Textures/target_halo_txtr_1.png" id="13_avgi2"]
 [ext_resource type="Texture2D" uid="uid://dmn5kc8sixtcf" path="res://Assets/Textures/stun_txtr_1.png" id="14_ugblm"]
+[ext_resource type="PackedScene" uid="uid://643i1fy5plqk" path="res://Scenes/Host Components/health_bar.tscn" id="17_s5883"]
 
 [sub_resource type="Animation" id="Animation_6hky1"]
 resource_name = "Die"
@@ -740,3 +741,6 @@ debug_use_custom = true
 debug_path_custom_color = Color(1, 0, 1, 1)
 
 [node name="RayCast2D" type="RayCast2D" parent="." unique_id=678213811]
+
+[node name="health_bar" parent="." unique_id=1227717340 node_paths=PackedStringArray("host") instance=ExtResource("17_s5883")]
+host = NodePath("..")
