@@ -1,3 +1,5 @@
+![[Base.base]]
+
 # Plugins Required
 *Can be installed via the settings menu by enabling community plugins*
 [Tree Diagrams](https://obsidian.md/plugins?id=tree-diagram)

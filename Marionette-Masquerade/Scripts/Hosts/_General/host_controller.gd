@@ -31,7 +31,7 @@ class_name HostController extends CharacterBody2D
 
 @export_group("Status")
 @export var currentlyPossesable:bool = true
-@export var clearOnDeath:bool = true
+@export var clearOnDeath:bool = false
 
 @export_group("Movement")
 @export var moveSpeed:float = 20.0
@@ -69,7 +69,7 @@ func is_alive()->bool: return alive
 
 ## ===== GETTER AND SETTER FUNCTIONS =====
 
-func get_forward()->Vector2: return Vector2(1,0).rotated(global_rotation).normalized() ## Returns the vector pointef forward from the host
+func get_forward()->Vector2: return Vector2(1,0).rotated(global_rotation).normalized() ## Returns the vector pointed forward from the host
 func get_right()->Vector2: return Vector2(0,1).rotated(global_rotation).normalized() ## Returns the vector along the right direction of the host
 
 
@@ -86,14 +86,15 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
+
 	## Call the update function of the relevent Controller
-	if is_possessed(): playerController.do_player_behavior(_delta)
-	elif !enemyController.disableAI: enemyController.do_enemy_behavior(_delta)
+	if is_possessed() and is_alive(): playerController.do_player_behavior(_delta)
+	elif !enemyController.disableAI and is_alive(): enemyController.do_enemy_behavior(_delta)
 
 func _physics_process(_delta):
 	## Call the update function of the relevent Controller
-	if is_possessed(): playerController.do_player_physics(_delta)
-	elif !enemyController.disableAI: enemyController.do_enemy_physics(_delta)
+	if is_possessed() and is_alive(): playerController.do_player_physics(_delta)
+	elif !enemyController.disableAI and is_alive(): enemyController.do_enemy_physics(_delta)
 
 
 ## ===== CORE FUNCTIONS CALLED FROM OTHER CLASSES =====
@@ -162,24 +163,43 @@ func _distribute_references()->void:
 func _set_inital_values()->void:
 	currnentHealth = MAX_HEALTH
 
+
+## ===== EXTRA HELPER/STATE CHECKING FUNCTIONS ===== ##
+
 ## Returns whether this host has line of sight on the given target host, within the given max distance
 func has_LOS_to_host(_target:HostController, _maxDist:float)->bool:
-	if !_target: return false
+	if !_target: 
+		#print("1")
+		return false
 	
-	var toTarget = _target.global_position - global_position
-	var distToTarget = toTarget.length()
-	if distToTarget >= _maxDist: return false ## Return false if target is too far
+	#print("Target is ", _maxDist, " units away")
+	#print("Target is posessed: ", _target.is_possessed())
+	
+	#var toTarget = _target.global_position - global_position
+	var distToTarget = _target.global_position.distance_to(global_position)
+	if distToTarget >= _maxDist: 
+		#print("too far!!")
+		return false ## Return false if target is too far
+
+	#print("Relative position: ", toTarget)
 	
 	#line of sight check
-	visionRay.target_position = toTarget
+	visionRay.target_position = visionRay.to_local(_target.global_position)
 	visionRay.force_raycast_update()
 	var hit = visionRay.get_collider()
 	
-	if !hit: return false ## For redundancy, if no collider is hit, return false (probably wont happen since ray collides with our collider)
+	if !hit: 
+		#print("NO HIT")
+		return false ## For redundancy, if no collider is hit, return false (probably wont happen since ray collides with our collider)
+	
+	#print("name: ", hit.name)
 
 	## Return false if a collider is hit, its not our's and it is not the target's collider
-	if hit and hit != _target.collider and hit != collider: return false
+	if hit != _target and hit != collider: 
+		#print("Wrong Target: ", _target.name)
+		return false
 	
+	#print("Host ", hostTypeName, " LOS hit on ", _target.name, " within: ", _maxDist)
 	return true
 
 ## Returns Whether host can see the given position
@@ -192,3 +212,8 @@ func has_LOS_to_position(_pos:Vector2)->bool:
 	
 	if visionRay.get_collider() != collider: return false
 	else: return true
+
+
+## Is this host looking towards the given direction vector (with a given margin of error in degrees)
+func looking_in_dir(_targetDir:Vector2 , _margin:float)->bool:
+	return rad_to_deg(get_forward().angle_to(_targetDir)) <= _margin
