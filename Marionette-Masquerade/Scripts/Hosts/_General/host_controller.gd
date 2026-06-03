@@ -48,13 +48,15 @@ class_name HostController extends CharacterBody2D
 # ----- References -----
 @onready var inputHandler:InputHandler
 @onready var hostManager:HostManager
+@onready var healthBar = $health_bar
+
 
 # ----- Possession -----
 @onready var currentlyPossessed:bool = false
 
 # ----- Health -----
 @onready var alive:bool = true
-@onready var currnentHealth:float
+@onready var currentHealth:float
 
 # ----- Movement -----
 const MOVE_SPEED_CONST:float = 1200.0
@@ -79,7 +81,6 @@ func _ready():
 	## Retrieve input handler from singleton group
 	inputHandler = get_tree().get_first_node_in_group("InputHandler")
 	hostManager = get_tree().get_first_node_in_group("HostManager")
-	
 	_verify_core_references() #verify that all required modules/nodes are present and linked
 	_distribute_references() #pass important refrences to relevent modules
 	_set_inital_values() #set important initial variable values
@@ -88,6 +89,9 @@ func _ready():
 func _process(_delta):
 
 	## Call the update function of the relevent Controller
+	if is_possessed(): playerController.do_player_behavior(_delta)
+	elif !enemyController.disableAI: enemyController.do_enemy_behavior(_delta)
+	healthBar.global_position = global_position + Vector2(0, -30)
 	if is_possessed() and is_alive(): playerController.do_player_behavior(_delta)
 	elif !enemyController.disableAI and is_alive(): enemyController.do_enemy_behavior(_delta)
 
@@ -114,12 +118,17 @@ func possess()->void:
 	currentlyPossessed = true
 	maskSprite.show()
 	playerController.on_possession()
-	if weapon.forceReloadOnPosession: weapon.force_reload() # Force reload weapon if handler has flag enabled
+	if weapon.forceReloadOnPosession: weapon.force_reload() # Force reload weapon if handler has flag enableda
 
 ## Inflict dammage to this host
 func hurt(_dmg:float)->void:
-	currnentHealth -= _dmg
-	if currnentHealth <= 0.0:
+	currentHealth -= _dmg
+	if(currentHealth <= 0):
+		healthBar.value = 0.0
+	else:
+		healthBar.value = currentHealth
+	
+	if currentHealth <= 0.0:
 		die()
 
 ## Kill host and play death effect
@@ -161,7 +170,7 @@ func _distribute_references()->void:
 
 ## Set initial variable values at runtime
 func _set_inital_values()->void:
-	currnentHealth = MAX_HEALTH
+	currentHealth = MAX_HEALTH
 
 
 ## ===== EXTRA HELPER/STATE CHECKING FUNCTIONS ===== ##
