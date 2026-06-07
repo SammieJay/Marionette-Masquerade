@@ -5,6 +5,8 @@ var direction:Vector2
 var speed:float
 var host:HostController
 
+var active:bool = true
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	body_entered.connect(_on_body_entered)
@@ -12,12 +14,14 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
-	global_position += direction * speed * delta
+	if active: global_position += direction * speed * delta
 
 func _on_body_entered(body):
 	if body == host:return
-	if body is HostController and body != host:
+	if body is HostController and body != host and body.is_alive():
 		body.hurt(damage)
 		print("HIT DETECTED WITH %s" % body.name)
-		queue_free()
+	
+	active = false
+	queue_free()
 	

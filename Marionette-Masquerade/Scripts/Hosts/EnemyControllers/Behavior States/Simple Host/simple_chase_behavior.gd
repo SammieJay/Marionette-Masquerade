@@ -4,7 +4,7 @@ class_name SimpleChaseBehavior extends BehaviorState
 ## ===== SCRIPT VARIABLES ===== ##
 @export var stopChaseDistance := 500.0
 @export var attackDistance := 300.0
-@export var attackDelay := 0.3
+@export var attackDelay := 0.5
 
 var attackTarget:HostController
 
@@ -18,7 +18,7 @@ func do_behavior(_delta):
 	
 	if !attackTarget: return ## If attack target is null: don't do anything
 
-	if _dist_to_target() >= attackDistance and enemy.navTargetHost == null:
+	if (_dist_to_target() >= attackDistance or !host.has_LOS_to_host(attackTarget, attackDistance)) and enemy.navTargetHost == null:
 		_reset_attack_delay()
 		enemy.path_to_host(attackTarget)
 	

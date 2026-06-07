@@ -1,3 +1,4 @@
+## [Pistol] – a basic pistol override of the Weapon class
 class_name Pistol extends Weapon
 
 func _ready(): 
@@ -5,7 +6,8 @@ func _ready():
 	maxAmmo = 12
 	reloadTime = 2.0
 	damage = 0.5
-	#projectileSpeed = 0.1
+	projectileSpeed = 1.5
+	fire_rate = 0.25
 	
 
 ## Override of the fire_shot function, just summons a projectile and passes the relevent information throught the instance_projectile function
