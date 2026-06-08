@@ -1,14 +1,14 @@
 [gd_scene format=4 uid="uid://d2ibybm5bmoew"]
 
-[ext_resource type="Script" uid="uid://8nqbrpawidg4" path="res://Scripts/Hosts/_General/player_camera.gd" id="1_a47sj"]
+[ext_resource type="Script" uid="uid://8nqbrpawidg4" path="res://Scripts/Level Components/player_camera.gd" id="1_a47sj"]
 [ext_resource type="Texture2D" uid="uid://kb6edbvea3lc" path="res://Assets/Textures/proto_light_temp_txtr_1.png" id="2_h28ho"]
 [ext_resource type="Texture2D" uid="uid://bjkrw2uyxy02e" path="res://Assets/Textures/tile_set_1_new.png" id="2_uyt4f"]
 [ext_resource type="PackedScene" uid="uid://cto5aoxw4f8ul" path="res://Scenes/Hosts/test_host.tscn" id="3_h28ho"]
-[ext_resource type="PackedScene" uid="uid://bo1ob03elif7n" path="res://Scenes/Hosts/navigation_test_host.tscn" id="4_ftkfg"]
-[ext_resource type="Script" uid="uid://dymdfu6tebr3h" path="res://Scripts/Hosts/_General/host_manager.gd" id="5_6jwtw"]
+[ext_resource type="PackedScene" uid="uid://bo1ob03elif7n" path="res://Scenes/Hosts/simple_test_host.tscn" id="4_ftkfg"]
+[ext_resource type="Script" uid="uid://dymdfu6tebr3h" path="res://Scripts/Level Components/host_manager.gd" id="5_6jwtw"]
 [ext_resource type="PackedScene" uid="uid://bx5jc6exewmsk" path="res://Scenes/In-Scene Singleton Objects/cursor.tscn" id="6_lff7h"]
 [ext_resource type="PackedScene" uid="uid://6lt0i311l7b1" path="res://Scenes/In-Scene Singleton Objects/posession_indicator.tscn" id="7_0gux6"]
-[ext_resource type="Script" uid="uid://cca2yiacp0mcp" path="res://Scripts/Hosts/_General/input_handler.gd" id="8_d8skw"]
+[ext_resource type="Script" uid="uid://cca2yiacp0mcp" path="res://Scripts/Hosts/_Core Components/input_handler.gd" id="8_d8skw"]
 [ext_resource type="PackedScene" uid="uid://bujjqvbckvb0u" path="res://Scenes/In-Scene Singleton Objects/navigation_waypoint.tscn" id="9_mg2rq"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_8qdyi"]

@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://bo1ob03elif7n"]
 
-[ext_resource type="Script" uid="uid://nxicc26dotw5" path="res://Scripts/Hosts/_General/host_controller.gd" id="1_sha6y"]
-[ext_resource type="Script" uid="uid://dg5xecjo4r84p" path="res://Scripts/Hosts/_General/effect_handler.gd" id="2_6m036"]
+[ext_resource type="Script" uid="uid://nxicc26dotw5" path="res://Scripts/Hosts/_Core Components/host_controller.gd" id="1_sha6y"]
+[ext_resource type="Script" uid="uid://dg5xecjo4r84p" path="res://Scripts/Hosts/_Core Components/effect_handler.gd" id="2_6m036"]
 [ext_resource type="Script" uid="uid://b3d4s0vc84osu" path="res://Scripts/Hosts/EnemyControllers/Behavior States/Simple Host/simple_chase_behavior.gd" id="3_eknuq"]
 [ext_resource type="Script" uid="uid://cydjvbsi8uhqy" path="res://Scripts/Hosts/PlayerControllers/simple_player_controller.gd" id="3_ff46r"]
 [ext_resource type="Script" uid="uid://cv8a8kqws75se" path="res://Scripts/Hosts/EnemyControllers/Behavior States/Simple Host/simple_idle_behavior.gd" id="4_karfb"]
