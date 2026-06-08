@@ -1,11 +1,11 @@
 [gd_scene format=3 uid="uid://cwoke80umi0k"]
 
-[ext_resource type="Script" uid="uid://nxicc26dotw5" path="res://Scripts/Hosts/_General/host_controller.gd" id="1_xxsa2"]
+[ext_resource type="Script" uid="uid://nxicc26dotw5" path="res://Scripts/Hosts/_Core Components/host_controller.gd" id="1_xxsa2"]
 [ext_resource type="Script" uid="uid://1ax0i7rdnhfx" path="res://Scripts/Hosts/EnemyControllers/simple_enemy_controller.gd" id="2_13ax6"]
 [ext_resource type="Script" uid="uid://cydjvbsi8uhqy" path="res://Scripts/Hosts/PlayerControllers/simple_player_controller.gd" id="3_hdmh3"]
 [ext_resource type="Script" uid="uid://p3cxr8dlwlar" path="res://Scripts/Hosts/Weapons/pistol.gd" id="4_jif1j"]
 [ext_resource type="PackedScene" uid="uid://baibytdlfegxn" path="res://Scenes/DEPRECATED/bullet.tscn" id="5_qt5sx"]
-[ext_resource type="Script" uid="uid://dg5xecjo4r84p" path="res://Scripts/Hosts/_General/effect_handler.gd" id="6_lrj70"]
+[ext_resource type="Script" uid="uid://dg5xecjo4r84p" path="res://Scripts/Hosts/_Core Components/effect_handler.gd" id="6_lrj70"]
 [ext_resource type="Texture2D" uid="uid://c7h5c0lsfsd7v" path="res://Assets/Textures/host_body_legs_txtr_3.5.png" id="7_k0hpl"]
 [ext_resource type="Texture2D" uid="uid://8kg26inkmr7s" path="res://Assets/Textures/host_body_legs_txtr_1.png" id="8_rr6qf"]
 [ext_resource type="Texture2D" uid="uid://l1qlcfv8p4vs" path="res://Assets/Textures/dead_body_txtr_1.png" id="9_nhnw1"]
@@ -16,7 +16,7 @@
 [ext_resource type="Texture2D" uid="uid://q0dsysjv6sqs" path="res://Assets/Textures/mask_txtr_1.png" id="14_ars27"]
 [ext_resource type="Texture2D" uid="uid://cixa72x12nb5d" path="res://Assets/Textures/button_txtr_1.png" id="15_hdmh3"]
 [ext_resource type="Texture2D" uid="uid://bh5ghcwn7wyp7" path="res://Assets/Textures/button_txtr_2.png" id="16_jif1j"]
-[ext_resource type="Script" uid="uid://c587nf7avr625" path="res://Scripts/Hosts/_General/health_bar.gd" id="17_jif1j"]
+[ext_resource type="Script" uid="uid://c587nf7avr625" path="res://Scripts/Hosts/Feedback and Indicators/health_bar.gd" id="17_jif1j"]
 
 [sub_resource type="Animation" id="Animation_hg3sc"]
 resource_name = "Possess Other"

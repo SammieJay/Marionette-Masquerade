@@ -1,12 +1,12 @@
 [gd_scene format=4 uid="uid://vocr1orua0oh"]
 
-[ext_resource type="Script" uid="uid://8nqbrpawidg4" path="res://Scripts/Hosts/_General/player_camera.gd" id="1_tf8ex"]
+[ext_resource type="Script" uid="uid://8nqbrpawidg4" path="res://Scripts/Level Components/Global/player_camera.gd" id="1_tf8ex"]
 [ext_resource type="Texture2D" uid="uid://bjkrw2uyxy02e" path="res://Assets/Textures/tile_set_1_new.png" id="2_8pp3f"]
 [ext_resource type="PackedScene" uid="uid://bo1ob03elif7n" path="res://Scenes/Hosts/simple_test_host.tscn" id="4_qba4a"]
-[ext_resource type="Script" uid="uid://dymdfu6tebr3h" path="res://Scripts/Hosts/_General/host_manager.gd" id="5_videw"]
+[ext_resource type="Script" uid="uid://dymdfu6tebr3h" path="res://Scripts/Level Components/Global/host_manager.gd" id="5_videw"]
 [ext_resource type="PackedScene" uid="uid://bx5jc6exewmsk" path="res://Scenes/In-Scene Singleton Objects/cursor.tscn" id="6_ri4ft"]
 [ext_resource type="PackedScene" uid="uid://6lt0i311l7b1" path="res://Scenes/In-Scene Singleton Objects/posession_indicator.tscn" id="7_v0rkc"]
-[ext_resource type="Script" uid="uid://cca2yiacp0mcp" path="res://Scripts/Hosts/_General/input_handler.gd" id="8_dh66x"]
+[ext_resource type="Script" uid="uid://cca2yiacp0mcp" path="res://Scripts/Hosts/_Core Components/input_handler.gd" id="8_dh66x"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_8qdyi"]
 vertices = PackedVector2Array(16, 16, -11, 16, -11, -11, 16, -11)

@@ -2,7 +2,7 @@
 ##
 ## [b]Responsibilities:[/b] [br]
 ##   - Base class for all weapon classes [br]
-##   - Core responsibility two [br]
+##   - Handle base overridable weapon functionality [br]
 class_name Weapon extends Node
 
 ## ===== EXPORT VARIABLES =====

@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://6lt0i311l7b1"]
 
-[ext_resource type="Script" uid="uid://de4xlatd060ly" path="res://Scripts/Hosts/_General/possession_indicator.gd" id="1_dhxlb"]
+[ext_resource type="Script" uid="uid://de4xlatd060ly" path="res://Scripts/Hosts/Feedback and Indicators/possession_indicator.gd" id="1_dhxlb"]
 [ext_resource type="Texture2D" uid="uid://cls4cgfujftcs" path="res://Assets/Textures/target_halo_txtr_1.png" id="2_8b82t"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_s3kwj"]
