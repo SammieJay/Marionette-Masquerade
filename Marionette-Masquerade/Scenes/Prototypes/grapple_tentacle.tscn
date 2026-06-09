@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://btv1qlblx7a0n"]
+
+[ext_resource type="Script" uid="uid://b7p18lc7ewkbk" path="res://Scripts/Hosts/Prototypes/grapple_tentacle.gd" id="1_i5fnc"]
+
+[node name="Grapple Tentacle" type="Node2D" unique_id=1050844531]
+script = ExtResource("1_i5fnc")
