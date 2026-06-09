@@ -306,8 +306,8 @@ metadata/_edit_lock_ = true
 
 [node name="Projectiles" type="Node2D" parent="TileMapLayer/Hosts" unique_id=860021879 groups=["ProjectileParent"]]
 
-[node name="Scientist Host5" parent="TileMapLayer/Hosts" unique_id=1629916961 instance=ExtResource("3_pi6y5")]
-position = Vector2(-266, -134)
+[node name="Simple Pistol Host11" parent="TileMapLayer/Hosts" unique_id=1629916961 instance=ExtResource("3_pi6y5")]
+position = Vector2(-211, -95)
 
 [node name="Simple Pistol Host" parent="TileMapLayer/Hosts" unique_id=1142580718 instance=ExtResource("3_pi6y5")]
 position = Vector2(395, 36)
@@ -341,7 +341,7 @@ position = Vector2(-609, 353)
 
 [node name="HostManager" type="Node" parent="." unique_id=1672039658 node_paths=PackedStringArray("startingPlayerHost") groups=["HostManager"]]
 script = ExtResource("4_rx773")
-startingPlayerHost = NodePath("../TileMapLayer/Hosts/Scientist Host5")
+startingPlayerHost = NodePath("../TileMapLayer/Hosts/Simple Pistol Host11")
 metadata/_custom_type_script = "uid://dymdfu6tebr3h"
 
 [node name="Cursor" parent="." unique_id=1696245876 instance=ExtResource("5_6q8xr")]

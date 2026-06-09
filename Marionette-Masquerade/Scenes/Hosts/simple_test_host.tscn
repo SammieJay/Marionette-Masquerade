@@ -61,50 +61,82 @@ tracks/2/keys = {
 
 [sub_resource type="Animation" id="Animation_hg3sc"]
 resource_name = "Possess Other"
-length = 0.2
-tracks/0/type = "method"
+length = 0.30000335
+tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sprites/Head/possess_anim")
+tracks/0/path = NodePath("Sprites/Head/possess_anim:animation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.033333335, 0.2),
-"transitions": PackedFloat32Array(1, 1, 1),
-"values": [{
-"args": [],
-"method": &"show"
-}, {
-"args": [&"default", 1.0, false],
-"method": &"play"
-}, {
-"args": [],
-"method": &"hide"
-}]
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"default"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprites/Head/possess_anim:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.033333335, 0.06666667, 0.1, 0.13333334, 0.16666667, 0.2, 0.23333333, 0.26666668),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprites/Head/possess_anim:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
 }
 
 [sub_resource type="Animation" id="Animation_lj85y"]
 resource_name = "Possess Other (Miss)"
-length = 0.36666667
-tracks/0/type = "method"
+length = 0.40000334
+tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sprites/Head/possess_anim")
+tracks/0/path = NodePath("Sprites/Head/possess_anim:animation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.033333335, 0.36666667),
-"transitions": PackedFloat32Array(1, 1, 1),
-"values": [{
-"args": [],
-"method": &"show"
-}, {
-"args": [&"miss", 1.0, false],
-"method": &"play"
-}, {
-"args": [],
-"method": &"hide"
-}]
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"miss"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprites/Head/possess_anim:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.033333335, 0.06666667, 0.10000001, 0.13333334, 0.16666667, 0.20000002, 0.23333335, 0.26666668, 0.3, 0.33333334, 0.36666667),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprites/Head/possess_anim:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
 }
 
 [sub_resource type="Animation" id="Animation_sha6y"]
@@ -168,6 +200,42 @@ tracks/4/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [0.0]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Sprites/Head/possess_anim:animation")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"default"]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Sprites/Head/possess_anim:frame")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Sprites/Head/possess_anim:visible")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
 }
 
 [sub_resource type="Animation" id="Animation_s5883"]
@@ -533,6 +601,9 @@ region = Rect2(0, 160, 96, 32)
 animations = [{
 "frames": [{
 "duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_vx1hx")
 }, {
 "duration": 1.0,
@@ -552,12 +623,18 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_bxqfq")
+}, {
+"duration": 1.0,
+"texture": null
 }],
 "loop": false,
 "name": &"default",
-"speed": 90.0
+"speed": 30.0
 }, {
 "frames": [{
+"duration": 1.0,
+"texture": null
+}, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_gcn73")
 }, {
@@ -637,10 +714,10 @@ animations = [{
 radius = 6.0827627
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_mwejn"]
-radius = 7.0
-height = 32.0
+radius = 9.0
+height = 36.0
 
-[node name="Simple Pistol Host" type="CharacterBody2D" unique_id=1629916961 node_paths=PackedStringArray("enemyController", "playerController", "effectHandler", "weapon", "collider", "hitbox", "visionRay", "maskSprite") groups=["Host"]]
+[node name="Default Test Host" type="CharacterBody2D" unique_id=1629916961 node_paths=PackedStringArray("enemyController", "playerController", "effectHandler", "weapon", "collider", "hitbox", "visionRay", "maskSprite") groups=["Host"]]
 script = ExtResource("1_sha6y")
 enemyController = NodePath("SimpleEnemy")
 playerController = NodePath("SimplePlayer")
@@ -652,6 +729,7 @@ visionRay = NodePath("RayCast2D")
 maskSprite = NodePath("Sprites/Head/MaskSprite")
 hostTypeName = "Navigation Test Host"
 moveSpeed = 10.0
+rotationSpeed = 9.0
 metadata/_custom_type_script = "uid://nxicc26dotw5"
 
 [node name="SimpleEnemy" type="Node" parent="." unique_id=176137161 node_paths=PackedStringArray("idleState", "chaseState", "navAgent")]
@@ -679,15 +757,17 @@ metadata/_custom_type_script = "uid://cydjvbsi8uhqy"
 [node name="Pistol" type="Node" parent="." unique_id=2060538332]
 script = ExtResource("5_karfb")
 projectileScene = ExtResource("6_fojgf")
+projectileSpawnOffset = Vector2(10, 0)
 metadata/_custom_type_script = "uid://p3cxr8dlwlar"
 
-[node name="HostEffectHandler" type="AnimationPlayer" parent="." unique_id=201645870]
+[node name="HostEffectHandler" type="AnimationPlayer" parent="." unique_id=201645870 node_paths=PackedStringArray("stunSprite")]
 libraries/ = SubResource("AnimationLibrary_lyfnh")
 script = ExtResource("2_6m036")
 switchHostEffectName = "Possess Other"
 switchHostMissEffectName = "Possess Other (Miss)"
 stunEffectName = "Stunned"
 deathEffectName = "Die"
+stunSprite = NodePath("../Sprites/Stun Effect Sprite")
 metadata/_custom_type_script = "uid://dg5xecjo4r84p"
 
 [node name="Sprites" type="Node2D" parent="." unique_id=66944869]
@@ -722,10 +802,8 @@ sprite_frames = SubResource("SpriteFrames_6g5nk")
 [node name="Head" type="Node2D" parent="Sprites" unique_id=513717554]
 
 [node name="possess_anim" type="AnimatedSprite2D" parent="Sprites/Head" unique_id=2117681555]
-visible = false
 position = Vector2(51.43939, 2.2737368e-13)
 sprite_frames = SubResource("SpriteFrames_6wman")
-animation = &"miss"
 
 [node name="MaskSprite" type="AnimatedSprite2D" parent="Sprites/Head" unique_id=511068877]
 visible = false
