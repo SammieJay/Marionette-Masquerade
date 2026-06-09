@@ -8,6 +8,8 @@
 extends Node2D
 class_name GrappleTentacle
 
+## TODO:
+## randomize txtr each time
 # ===== EXPORTS =====
 @export var segmentLength: float = 8.0      ## spacing between rope points
 @export var worldMask: int = 1              ## collision layer of walls (layer 2 = bitmask 2)
@@ -20,6 +22,7 @@ class_name GrappleTentacle
 @export var breakDistance: float = 120.0    ## this is how far you can move without it snapping
 @export var extendTime: float = 0.08    ## seconds for the rope to shoot out
 @export var retractTime: float = 0.10   ## seconds for the snap-back
+@export var freeOnDetach: bool = false
 
 enum State { IDLE, EXTENDING, ATTACHED, RETRACTING }
 var state: int = State.IDLE
@@ -40,6 +43,24 @@ func _ready() -> void:
 	#draw in world space so the rope ignores the host's movement/rotation
 	if line:
 		line.top_level = true
+		line.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST  # crisp pixels, no blur
+	else:
+		push_error("GrappleTentacle: no Line2D child found!")
+
+func _randomize_texture()  -> void:
+	if not line:
+		return
+	var texture = randi() % 4
+	match texture:
+		0:
+			line.texture = preload("res://Assets/Textures/proto_grapple_txtr_1.png")
+		1:
+			line.texture = preload("res://Assets/Textures/proto_grapple_txtr_2.png")
+		2:
+			line.texture = preload("res://Assets/Textures/proto_grapple_txtr_3.png")
+		3:
+			line.texture = preload("res://Assets/Textures/proto_grapple_txtr_4.png")
+
 
 ## Fire the grapple. Returns true if it attached to something on worldMask.
 func fire(_origin: Vector2, _dir: Vector2, _maxDist: float = -1.0) -> bool:
@@ -53,6 +74,7 @@ func fire(_origin: Vector2, _dir: Vector2, _maxDist: float = -1.0) -> bool:
 		anchorBody = hit.collider
 		anchorPoint = hit.position
 		fireOrigin = _origin
+		_randomize_texture()
 		_build_points(_origin, _origin)   # start collapsed at the muzzle
 		state = State.EXTENDING
 		animT = 0.0
@@ -73,6 +95,8 @@ func detach() -> void:
 	animT = 0.0
 	if line:
 		line.clear_points()
+	if freeOnDetach:
+		queue_free()
 
 
 # ===== SIMULATION =====
@@ -101,6 +125,10 @@ func _physics_process(delta: float) -> void:
 		State.RETRACTING:
 			_tick_retract(delta)
 
+func start_retract() -> void:
+	if state == State.ATTACHED or state == State.EXTENDING:
+		state = State.RETRACTING
+		animT = 0.0
 
 func _tick_extend(delta: float) -> void:
 	animT = min(1.0, animT + delta / max(extendTime, 0.0001))
@@ -210,6 +238,8 @@ func _collide() -> void:
 
 
 func _render() -> void:
+	if not line:
+		return
 	line.clear_points()
 	for p in points:
 		line.add_point(p)                            # world coords (line is top_level)
@@ -239,3 +269,11 @@ func _rebuild_line(_from: Vector2, _to: Vector2) -> void:
 		var p := _from.lerp(_to, t)
 		points[i] = p
 		prevPoints[i] = p
+
+## True while the rope is actively latched (extending or attached)
+func is_pulling() -> bool:
+	return state == State.EXTENDING or state == State.ATTACHED
+
+## World point the host should be pulled toward
+func get_anchor() -> Vector2:
+	return _anchor_world_point()
