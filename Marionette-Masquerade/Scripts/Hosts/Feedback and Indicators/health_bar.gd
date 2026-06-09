@@ -1,4 +1,6 @@
-extends TextureProgressBar
+class_name HealthBar extends TextureProgressBar
+
+@export var test_visible:bool = true
 
 @export var host:HostController ## Mandatory reference to the host this healthbar belongs to
 

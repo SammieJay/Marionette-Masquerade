@@ -17,6 +17,7 @@
 [ext_resource type="Texture2D" uid="uid://cls4cgfujftcs" path="res://Assets/Textures/target_halo_txtr_1.png" id="13_avgi2"]
 [ext_resource type="Texture2D" uid="uid://dmn5kc8sixtcf" path="res://Assets/Textures/stun_txtr_1.png" id="14_ugblm"]
 [ext_resource type="PackedScene" uid="uid://643i1fy5plqk" path="res://Scenes/Host Components/health_bar.tscn" id="17_s5883"]
+[ext_resource type="Script" uid="uid://5qs6dhbwfy6x" path="res://Scripts/Hosts/_Core Components/hit_box.gd" id="18_u32pb"]
 
 [sub_resource type="Animation" id="Animation_6hky1"]
 resource_name = "Die"
@@ -633,15 +634,20 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_6f7k1"]
-radius = 10.29563
+radius = 6.0827627
 
-[node name="Simple Pistol Host" type="CharacterBody2D" unique_id=1629916961 node_paths=PackedStringArray("enemyController", "playerController", "effectHandler", "weapon", "collider", "visionRay", "maskSprite") groups=["Host"]]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_mwejn"]
+radius = 7.0
+height = 32.0
+
+[node name="Simple Pistol Host" type="CharacterBody2D" unique_id=1629916961 node_paths=PackedStringArray("enemyController", "playerController", "effectHandler", "weapon", "collider", "hitbox", "visionRay", "maskSprite") groups=["Host"]]
 script = ExtResource("1_sha6y")
 enemyController = NodePath("SimpleEnemy")
 playerController = NodePath("SimplePlayer")
 effectHandler = NodePath("HostEffectHandler")
 weapon = NodePath("Pistol")
 collider = NodePath("Collider")
+hitbox = NodePath("Hitbox")
 visionRay = NodePath("RayCast2D")
 maskSprite = NodePath("Sprites/Head/MaskSprite")
 hostTypeName = "Navigation Test Host"
@@ -731,7 +737,6 @@ visible = false
 sprite_frames = SubResource("SpriteFrames_u32pb")
 
 [node name="Collider" type="CollisionShape2D" parent="." unique_id=266863240]
-visible = false
 shape = SubResource("CircleShape2D_6f7k1")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=527083402]
@@ -741,6 +746,17 @@ debug_use_custom = true
 debug_path_custom_color = Color(1, 0, 1, 1)
 
 [node name="RayCast2D" type="RayCast2D" parent="." unique_id=678213811]
+target_position = Vector2(0, 49)
+collide_with_areas = true
 
 [node name="health_bar" parent="." unique_id=1227717340 node_paths=PackedStringArray("host") instance=ExtResource("17_s5883")]
 host = NodePath("..")
+
+[node name="Hitbox" type="Area2D" parent="." unique_id=1248857452]
+collision_layer = 8
+collision_mask = 0
+script = ExtResource("18_u32pb")
+metadata/_custom_type_script = "uid://5qs6dhbwfy6x"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=1741047393]
+shape = SubResource("CapsuleShape2D_mwejn")

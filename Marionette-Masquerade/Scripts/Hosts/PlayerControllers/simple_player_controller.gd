@@ -17,7 +17,7 @@ func do_player_physics(_delta:float):
 	var moveVector = inputHandler.get_move_input() ## retrieve normalized movement input vector from InputHandler
 
 	# Apply movement
-	host.velocity = moveVector * host.moveSpeed * host.MOVE_SPEED_CONST * _delta
+	host.velocity = moveVector * host.moveSpeed * GlobalDefs.MOVE_SPEED_CONST * _delta
 	host.move_and_slide()
 
 	# --- Rotation (face mouse) ---
