@@ -20,6 +20,7 @@ class_name HostController extends CharacterBody2D
 
 @export_group("Other Nodes")
 @export var collider:CollisionShape2D
+@export var hitbox:Hitbox
 @export var visionRay:RayCast2D
 @export var maskSprite:CanvasItem
 
@@ -57,9 +58,6 @@ class_name HostController extends CharacterBody2D
 @onready var alive:bool = true
 @onready var currentHealth:float
 
-# ----- Movement -----
-const MOVE_SPEED_CONST:float = 1200.0
-
 
 ## ===== BOOLEAN RETURN FUNCTIONS =====
 
@@ -77,11 +75,14 @@ func get_right()->Vector2: return Vector2(0,1).rotated(global_rotation).normaliz
 ## MUST BE CALLED FROM INHERITING CLASSES VIA 'super._ready()'
 ## Performs mandatory setup for the host class
 func _ready():
-	## Retrieve input handler from singleton group
+	## Retrieve references from groups
 	inputHandler = get_tree().get_first_node_in_group("InputHandler")
 	hostManager = get_tree().get_first_node_in_group("HostManager")
+	
+	## Call setup functions
 	_verify_core_references() #verify that all required modules/nodes are present and linked
 	_distribute_references() #pass important refrences to relevent modules
+	_set_physics_layers() # set the physics layers and masks for this host
 	_set_inital_values() #set important initial variable values
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -120,7 +121,6 @@ func possess()->void:
 func hurt(_dmg:float)->void:
 	currentHealth -= _dmg
 	
-	
 	if currentHealth <= 0.0:
 		die()
 
@@ -128,7 +128,6 @@ func hurt(_dmg:float)->void:
 func die()->void:
 	alive = false
 	collider.set_deferred("disabled", true)
-	print("COLLIDER DISABLED")
 	effectHandler.play_death_effect()
 	if clearOnDeath: clear()
 
@@ -148,6 +147,7 @@ func _verify_core_references()->void:
 	assert(effectHandler != null,"Host %s is missing reference to required EffectHandler" % hostTypeName)
 	assert(collider != null, "Host %s is missing reference to its collider" % hostTypeName)
 	assert(visionRay != null, "Host %s is missing reference to required RayCast2D" % hostTypeName)
+	assert(hitbox != null, "Host %s is missing reference to its hitbox" % hostTypeName)
 
 ## Pass references to mandatory modules to nodes that require them at runtime
 func _distribute_references()->void:
@@ -163,10 +163,35 @@ func _distribute_references()->void:
 	# --- Weapon ---
 	weapon.host = self
 
+	# --- Hitbox ---
+	hitbox.host = self
+
 ## Set initial variable values at runtime
 func _set_inital_values()->void:
 	currentHealth = MAX_HEALTH
 
+## Set the physics masks and layers for this host's collider (not hitbox) at runtime
+func _set_physics_layers()->void:
+	# Set collision masks (what this collider should check for physics collisions)
+	set_collision_mask_value(GlobalDefs.LEVEL_PHYSICS_LAYER, true) # we want to collide with the level environment
+	set_collision_mask_value(GlobalDefs.HOST_PHYSICS_LAYER, true) # we want to collide with other hosts
+	set_collision_mask_value(GlobalDefs.HAZARD_PHYSICS_LAYER, false)
+	set_collision_mask_value(GlobalDefs.HITBOX_PHYSICS_LAYER, false)
+	
+	# Set collision layer (what physics layer this collider lives on)
+	set_collision_layer_value(GlobalDefs.LEVEL_PHYSICS_LAYER, false)
+	set_collision_layer_value(GlobalDefs.HOST_PHYSICS_LAYER, true) # this collider lives on the host layer
+	set_collision_layer_value(GlobalDefs.HAZARD_PHYSICS_LAYER, false)
+	set_collision_layer_value(GlobalDefs.HITBOX_PHYSICS_LAYER, false)
+
+	## VISION RAY INTERSECTION LAYERS
+	visionRay.collide_with_areas = true
+	visionRay.set_collision_mask_value(GlobalDefs.LEVEL_PHYSICS_LAYER, true) # Detect colisions with level
+	visionRay.set_collision_mask_value(GlobalDefs.HOST_PHYSICS_LAYER, false)
+	visionRay.set_collision_mask_value(GlobalDefs.HAZARD_PHYSICS_LAYER, false)
+	visionRay.set_collision_mask_value(GlobalDefs.HITBOX_PHYSICS_LAYER, true) # Detect colisions with host Hitboxes
+
+	
 
 ## ===== EXTRA HELPER/STATE CHECKING FUNCTIONS ===== ##
 
@@ -184,11 +209,8 @@ func has_LOS_to_host(_target:HostController, _maxDist:float)->bool:
 	
 	if !hit: return false ## For redundancy, if no collider is hit, return false (probably wont happen since ray collides with our collider)
 
-	## Return false if a collider is hit, its not our's and it is not the target's collider
-	if hit != _target and hit != collider: return false
-	
-	#print("Host ", hostTypeName, " LOS hit on ", _target.name, " within: ", _maxDist) # Debug Print
-	return true
+	if hit == _target.collider or hit == _target.hitbox: return true
+	else: return false
 
 ## Returns Whether host can see the given position
 func has_LOS_to_position(_pos:Vector2)->bool:
