@@ -1,5 +1,4 @@
-#Here's the complete clean rewrite — verlet rope, world-space Line2D, fire/detach, all the coordinate gotchas handled.
-## GrappleTentacle — a verlet-simulated decorative grapple rope.
+## GrappleTentacle
 ##
 ## Fire a ray from origin along a direction; on hit, spawns a point-chain
 ## that hangs/waves slightly and clings to its endpoints. Rendered with a

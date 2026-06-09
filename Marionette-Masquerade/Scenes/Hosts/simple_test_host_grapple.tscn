@@ -637,8 +637,12 @@ animations = [{
 radius = 10.29563
 
 [sub_resource type="Curve" id="Curve_kyw1o"]
-_data = [Vector2(0.06514659, 1), 0.0, 0.0, 0, 0, Vector2(0.543974, 0.23881578), 0.0, 0.0, 0, 0, Vector2(1, 0.580921), 0.0, 0.0, 0, 0]
-point_count = 3
+_data = [Vector2(0.06514659, 1), 0.0, 0.0, 0, 0, Vector2(0.543974, 0.23881578), 0.0, 0.0, 0, 0, Vector2(0.9348535, 0.6065789), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="Gradient" id="Gradient_kyw1o"]
+offsets = PackedFloat32Array(0, 0.16728625, 0.4163569, 0.6394052, 1)
+colors = PackedColorArray(0, 0, 0, 1, 0.0433958, 0, 0, 1, 0.14193429, 0, 0, 1, 0.18873787, 0, 0, 1, 1, 0, 0, 1)
 
 [node name="Simple Pistol Host" type="CharacterBody2D" unique_id=1629916961 node_paths=PackedStringArray("enemyController", "playerController", "effectHandler", "weapon", "collider", "visionRay", "maskSprite") groups=["Host"]]
 script = ExtResource("1_fijjm")
@@ -756,6 +760,6 @@ script = ExtResource("18_kyw1o")
 metadata/_custom_type_script = "uid://b7p18lc7ewkbk"
 
 [node name="Line2D" type="Line2D" parent="GrappleTentacle" unique_id=1227671463]
-z_index = -1
 width_curve = SubResource("Curve_kyw1o")
 default_color = Color(0, 0, 0, 1)
+gradient = SubResource("Gradient_kyw1o")
