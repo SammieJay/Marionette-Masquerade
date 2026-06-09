@@ -1,0 +1,78 @@
+[gd_scene format=3 uid="uid://c346k6r6o48qk"]
+
+[ext_resource type="Texture2D" uid="uid://btkn0xsmrin20" path="res://Assets/Textures/parralax proto_sprite_sheet_5.png" id="1_knbmy"]
+[ext_resource type="Texture2D" uid="uid://dremyinjbu7ok" path="res://Assets/Textures/parralax proto_sprite_sheet_1.png" id="1_qw2p0"]
+[ext_resource type="Texture2D" uid="uid://f55r3f5khoby" path="res://Assets/Textures/parralax proto_sprite_sheet_2.png" id="2_cwoop"]
+[ext_resource type="Texture2D" uid="uid://badqysrrd2qy2" path="res://Assets/Textures/parralax proto_sprite_sheet_3.png" id="3_p2qdv"]
+[ext_resource type="Texture2D" uid="uid://maragumnuqc" path="res://Assets/Textures/parralax proto_sprite_sheet_4.png" id="4_7688q"]
+[ext_resource type="Script" uid="uid://c34rnyon20tkn" path="res://Scripts/Hosts/Prototypes/label_shaker.gd" id="5_p2qdv"]
+[ext_resource type="FontFile" uid="uid://vfxniutek0c8" path="res://Assets/Dracutaz.otf" id="6_7688q"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_knbmy"]
+font = ExtResource("6_7688q")
+font_size = 100
+font_color = Color(1, 0, 0, 1)
+
+[node name="parralax proto" type="Node2D" unique_id=1083962254]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=2037311673]
+texture = ExtResource("1_knbmy")
+
+[node name="Parallax2D4" type="Parallax2D" parent="." unique_id=2014728156]
+repeat_size = Vector2(1152, 0)
+autoscroll = Vector2(50, 0)
+repeat_times = 3
+
+[node name="Sprite2D" type="Sprite2D" parent="Parallax2D4" unique_id=117959752]
+texture_filter = 1
+texture = ExtResource("4_7688q")
+
+[node name="Parallax2D3" type="Parallax2D" parent="." unique_id=1397438483]
+repeat_size = Vector2(1152, 0)
+autoscroll = Vector2(75, 0)
+repeat_times = 3
+
+[node name="Sprite2D" type="Sprite2D" parent="Parallax2D3" unique_id=1228754784]
+texture_filter = 1
+texture = ExtResource("3_p2qdv")
+
+[node name="Parallax2D2" type="Parallax2D" parent="." unique_id=1209328679]
+repeat_size = Vector2(1152, 0)
+autoscroll = Vector2(100, 0)
+repeat_times = 3
+
+[node name="Sprite2D" type="Sprite2D" parent="Parallax2D2" unique_id=1881763611]
+texture_filter = 1
+texture = ExtResource("2_cwoop")
+
+[node name="Parallax2D" type="Parallax2D" parent="." unique_id=1579798267]
+repeat_size = Vector2(1152, 0)
+autoscroll = Vector2(125, 0)
+repeat_times = 3
+
+[node name="Sprite2D" type="Sprite2D" parent="Parallax2D" unique_id=2099572242]
+texture_filter = 1
+texture = ExtResource("1_qw2p0")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1937854682]
+
+[node name="Label1" type="Label" parent="." unique_id=495448069]
+offset_left = -562.0
+offset_top = -278.00003
+offset_right = -134.0
+offset_bottom = -67.00003
+rotation = -0.08726646
+text = "Marionette
+"
+label_settings = SubResource("LabelSettings_knbmy")
+script = ExtResource("5_p2qdv")
+
+[node name="Label2" type="Label" parent="." unique_id=274116050]
+offset_left = -369.00003
+offset_top = -204.99998
+offset_right = 34.99997
+offset_bottom = -100.999985
+rotation = 0.099483766
+text = "Masquerade"
+label_settings = SubResource("LabelSettings_knbmy")
+script = ExtResource("5_p2qdv")
