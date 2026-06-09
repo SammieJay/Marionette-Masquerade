@@ -50,7 +50,7 @@ func _ready() -> void:
 func _randomize_texture()  -> void:
 	if not line:
 		return
-	var texture = randi() % 4
+	var texture = randi_range(0,3)
 	match texture:
 		0:
 			line.texture = preload("res://Assets/Textures/proto_grapple_txtr_1.png")

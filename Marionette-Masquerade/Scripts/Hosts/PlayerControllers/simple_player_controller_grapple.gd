@@ -39,7 +39,7 @@ func do_player_physics(_delta:float):
 		var toAnchor := grapple.get_anchor() - host.global_position
 		print("pulling, dist=", toAnchor.length(), " vel before=", host.velocity)
 		if toAnchor.length() > pullStopDistance:
-			host.velocity += toAnchor.normalized() * pullSpeed
+			host.velocity += toAnchor.normalized() * pullSpeed * 2
 		print("vel after=", host.velocity)
 
 	host.move_and_slide()
@@ -59,7 +59,7 @@ func _fire_grapple() -> void:
 	for g in extraStrands:
 		g.start_retract()        # retract any lingering ones before new fire
 	extraStrands.clear()
-	var n := randi_range(1, 4)
+	var n := randi_range(1, 10)
 	for i in n:
 		var g: GrappleTentacle = grapple
 		var aim: Vector2 = host.get_forward()
@@ -72,6 +72,7 @@ func _fire_grapple() -> void:
 			extraStrands.append(g)
 			aim = aim.rotated(randf_range(-strandScatter, strandScatter))
 		g.fire(host.global_position, aim, 400.0)
+
 func _detach_all() -> void:
 	grapple.start_retract()
 	for g in extraStrands:

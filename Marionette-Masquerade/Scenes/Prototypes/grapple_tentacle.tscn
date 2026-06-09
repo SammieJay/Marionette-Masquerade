@@ -13,7 +13,8 @@ colors = PackedColorArray(0, 0, 0, 1, 0.0433958, 0, 0, 1, 0.14193429, 0, 0, 1, 0
 
 [node name="Grapple Tentacle" type="Node2D" unique_id=1050844531]
 script = ExtResource("1_i5fnc")
-maxDistance = 200.0
+maxDistance = 400.0
+gravity = 0.0
 breakDistance = 220.0
 retractTime = 0.3
 
