@@ -5,8 +5,8 @@ func _ready():
 	super._ready() ## Call ready function of parent class for mandatory class setup
 	maxAmmo = 12
 	reloadTime = 2.0
-	damage = 0.5
-	projectileSpeed = 1.5
+	damage = 1.0
+	projectileSpeed = 1.75
 	fire_rate = 0.25
 	
 

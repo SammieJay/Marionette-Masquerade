@@ -13,7 +13,7 @@ class_name EnemyController extends Node
 @export var navAgent:NavigationAgent2D
 
 @export_category("Enemy Propperties")
-@export var confusionDelayTime:float = 1.0 ## How long this host takes to target the player after they switch hosts
+@export var confusionDelayTime:float = 1.2 ## How long this host takes to target the player after they switch hosts
 @export var postPossessionStunTime:float = 3.0 ## How long this host is stunned after player switches to anoter host
 @export_range(0.0, 3.0, 0.1, "scaled from host speed") var enemyMoveSpeedScalar:float = 1.0
 
@@ -30,12 +30,6 @@ var weapon:Weapon
 # ----- State Machine -----
 var activeState:BehaviorState
 
-## A pointer towards the host that this enemy is hostile to, should be set by subclasses in their _process() functions
-var targetHost:HostController
-
-# ----- Confusion -----
-var confusionTimer:float = 0.0
-
 # ----- Stunned -----
 var stunnedTimer:float = 0.0
 
@@ -46,6 +40,10 @@ var navTargetHost:HostController ## If navTargetHost == null, then enemy will no
 const DEFAULT_NAV_DIST: float = 20.0 ## Default distance enemy will get to target position before stopping (alternative can be provided)
 var navTargetDist:float = DEFAULT_NAV_DIST ## How far the enemy should be from the target before it stops moving
 
+# ----- Targetting -----
+var confusionTimer:float = 0.0
+var hostHistoryIdx:int = -1
+var targetHost:HostController ## A pointer towards the host that this enemy is hostile to, should be set by subclasses in their _process() functions
 
 ## ===== BOOLEAN RETURNS =====
 
@@ -60,10 +58,11 @@ func is_moving()->bool:return navTargetPos != Vector2.ZERO or navTargetHost != n
 ## Ticks important timers each frame
 func _process(_delta):
 	## Update Timers
-	if confusionTimer >= 0.0: confusionTimer -= _delta
+	if confusionTimer > 0.0: confusionTimer -= _delta
 	if stunnedTimer >= 0.0: stunnedTimer -= _delta
 
-	if is_stunned(): host.effectHandler.play_stun_effect()
+	_update_stun_effect()
+	_update_confusion_target()
 	#elif host.effectHandler.is_playing(): host.effectHandler.stop()
 
 func _physics_process(_delta):
@@ -94,6 +93,59 @@ func update_movement(_delta:float):
 
 func stun(_durration:float):
 	stunnedTimer = _durration
+
+## Advances [member targetHost] through the HostManager possession history one step per [member confusionDelayTime]. [br]
+## Tracks an explicit index into the history array so duplicate host entries are handled correctly. [br]
+## Dead hosts in the chain are skipped without delay.
+func _update_confusion_target() -> void:
+	if !host or !host.hostManager: return
+
+	var history := host.hostManager.possessionHistory
+	if history.is_empty(): return
+
+	var latestIdx := history.size() - 1
+
+	## Initialise on first run — snap straight to the current player host
+	if hostHistoryIdx < 0:
+		hostHistoryIdx = latestIdx
+		targetHost = history[hostHistoryIdx]
+		confusionTimer = 0.0
+		return
+
+	## Already at the front of history — keep targetHost in sync and do nothing
+	if hostHistoryIdx >= latestIdx:
+		targetHost = history[latestIdx]
+		confusionTimer = 0.0
+		return
+
+	## We are behind the latest entry — begin or continue catching up
+	if confusionTimer == 0.0:
+		## Peek ahead: skip any immediately dead hosts so no delay is wasted on corpses
+		var peekIdx := hostHistoryIdx + 1
+		while peekIdx <= latestIdx and !history[peekIdx].is_alive():
+			peekIdx += 1
+
+		if peekIdx > latestIdx:
+			## Everything ahead is dead — snap to the latest entry
+			hostHistoryIdx = latestIdx
+			targetHost = history[hostHistoryIdx]
+			return
+
+		## Start the confusion delay; enemy keeps targeting its current host until it expires
+		confusionTimer = confusionDelayTime
+
+	elif confusionTimer <= 0.0:
+		## Delay expired — step forward by one index
+		confusionTimer = 0.0
+		hostHistoryIdx += 1
+
+		## Skip any dead hosts at the new position without further delay
+		while hostHistoryIdx < latestIdx and !history[hostHistoryIdx].is_alive():
+			hostHistoryIdx += 1
+
+		targetHost = history[hostHistoryIdx]
+		## If hostHistoryIdx is still behind latestIdx, the next call will
+		## detect the gap and start a fresh confusion delay for the next hop
 
 
 ## ===== STATE MACHINE FUNCTIONS =====
@@ -163,3 +215,6 @@ func _lerp_look_at_pos(_delta:float, _pos:Vector2):
 ## Interpolate host rotation towards given angle (in radians)
 func _lerp_look_to_angle(_delta:float, _angle:float):
 	host.global_rotation = lerp_angle(host.global_rotation, _angle, host.rotationSpeed * _delta)
+
+func _update_stun_effect(): if host.effectHandler.stunActive != is_stunned(): host.effectHandler.set_stun(is_stunned())
+

@@ -26,7 +26,7 @@ class_name Weapon extends Node
 ## Offset for projectile spawning as Vector2 (Default is [10, 10])[br]
 ## - x = dist in front of host [br]
 ## - y = dist to right of host
-@onready var projectileSpawnOffset:Vector2 = Vector2(10.0, 10.0)
+@export var projectileSpawnOffset:Vector2 = Vector2(10.0, 10.0)
 
 
 ## ===== SCRIPT VARIABLES =====
