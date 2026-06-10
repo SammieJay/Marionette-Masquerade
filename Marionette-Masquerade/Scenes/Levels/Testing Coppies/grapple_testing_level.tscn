@@ -1,13 +1,24 @@
-[gd_scene format=4 uid="uid://dkco00m1jkmi5"]
+[gd_scene format=4 uid="uid://5iec4b74146f"]
 
-[ext_resource type="Script" uid="uid://8nqbrpawidg4" path="res://Scripts/Level Components/Global/player_camera.gd" id="1_g6wp4"]
-[ext_resource type="Texture2D" uid="uid://kb6edbvea3lc" path="res://Assets/Textures/proto_light_temp_txtr_1.png" id="2_qvucx"]
-[ext_resource type="PackedScene" uid="uid://bo1ob03elif7n" path="res://Scenes/Hosts/simple_test_host.tscn" id="3_pi6y5"]
-[ext_resource type="Texture2D" uid="uid://bjkrw2uyxy02e" path="res://Assets/Textures/tile_set_1_new.png" id="3_rx773"]
-[ext_resource type="Script" uid="uid://dymdfu6tebr3h" path="res://Scripts/Level Components/Global/host_manager.gd" id="4_rx773"]
-[ext_resource type="PackedScene" uid="uid://bx5jc6exewmsk" path="res://Scenes/In-Scene Singleton Objects/cursor.tscn" id="5_6q8xr"]
-[ext_resource type="PackedScene" uid="uid://6lt0i311l7b1" path="res://Scenes/In-Scene Singleton Objects/posession_indicator.tscn" id="6_hmkie"]
-[ext_resource type="Script" uid="uid://cca2yiacp0mcp" path="res://Scripts/Hosts/_Core Components/input_handler.gd" id="7_dkegv"]
+[ext_resource type="Script" uid="uid://8nqbrpawidg4" path="res://Scripts/Level Components/Global/player_camera.gd" id="1_gjcvw"]
+[ext_resource type="Texture2D" uid="uid://bjkrw2uyxy02e" path="res://Assets/Textures/tile_set_1_new.png" id="2_p6dje"]
+[ext_resource type="PackedScene" uid="uid://bo1ob03elif7n" path="res://Scenes/Hosts/simple_test_host.tscn" id="3_c1xcc"]
+[ext_resource type="PackedScene" uid="uid://xusvb5tpu5vl" path="res://Scenes/Hosts/simple_test_host_grapple.tscn" id="4_aljv2"]
+[ext_resource type="Script" uid="uid://dymdfu6tebr3h" path="res://Scripts/Level Components/Global/host_manager.gd" id="5_4uadd"]
+[ext_resource type="PackedScene" uid="uid://bx5jc6exewmsk" path="res://Scenes/In-Scene Singleton Objects/cursor.tscn" id="6_cshcp"]
+[ext_resource type="PackedScene" uid="uid://6lt0i311l7b1" path="res://Scenes/In-Scene Singleton Objects/posession_indicator.tscn" id="7_oji67"]
+[ext_resource type="Script" uid="uid://cca2yiacp0mcp" path="res://Scripts/Hosts/_Core Components/input_handler.gd" id="8_umtxe"]
+
+[sub_resource type="Gradient" id="Gradient_pi6y5"]
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_rx773"]
+gradient = SubResource("Gradient_pi6y5")
+width = 128
+height = 128
+fill = 1
+fill_from = Vector2(0.508547, 0.50427353)
+fill_to = Vector2(0.52136755, 1)
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_8qdyi"]
 vertices = PackedVector2Array(16, 16, -11, 16, -11, -11, 16, -11)
@@ -121,7 +132,7 @@ outlines = Array[PackedVector2Array]([PackedVector2Array(-11, -16, 16, -16, 16, 
 agent_radius = 0.0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_6q8xr"]
-texture = ExtResource("3_rx773")
+texture = ExtResource("2_p6dje")
 texture_region_size = Vector2i(32, 32)
 0:0/0 = 0
 0:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_8qdyi")
@@ -278,7 +289,8 @@ texture_region_size = Vector2i(32, 32)
 [sub_resource type="TileSet" id="TileSet_hmkie"]
 tile_size = Vector2i(32, 32)
 occlusion_layer_0/light_mask = 1
-physics_layer_0/collision_layer = 1
+physics_layer_0/collision_layer = 3
+physics_layer_0/collision_mask = 3
 navigation_layer_0/layers = 1
 sources/0 = SubResource("TileSetAtlasSource_6q8xr")
 
@@ -286,14 +298,16 @@ sources/0 = SubResource("TileSetAtlasSource_6q8xr")
 
 [node name="PlayerCamera" type="Camera2D" parent="." unique_id=1861531291 groups=["Camera"]]
 zoom = Vector2(2, 2)
-script = ExtResource("1_g6wp4")
+script = ExtResource("1_gjcvw")
 metadata/_custom_type_script = "uid://8nqbrpawidg4"
 
 [node name="PointLight2D" type="PointLight2D" parent="PlayerCamera" unique_id=1700083685]
-energy = 0.15
+visible = false
+color = Color(1, 0, 0, 1)
 shadow_enabled = true
-texture = ExtResource("2_qvucx")
-texture_scale = 3.35
+shadow_color = Color(0, 0, 0, 1)
+texture = SubResource("GradientTexture2D_rx773")
+texture_scale = 3.5
 
 [node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=1451154962]
 z_index = -1
@@ -306,48 +320,51 @@ metadata/_edit_lock_ = true
 
 [node name="Projectiles" type="Node2D" parent="TileMapLayer/Hosts" unique_id=860021879 groups=["ProjectileParent"]]
 
-[node name="Scientist Host5" parent="TileMapLayer/Hosts" unique_id=1629916961 instance=ExtResource("3_pi6y5")]
-position = Vector2(-266, -134)
-
-[node name="Simple Pistol Host" parent="TileMapLayer/Hosts" unique_id=1142580718 instance=ExtResource("3_pi6y5")]
+[node name="Simple Pistol Host" parent="TileMapLayer/Hosts" unique_id=1142580718 instance=ExtResource("3_c1xcc")]
 position = Vector2(395, 36)
 
-[node name="Simple Pistol Host2" parent="TileMapLayer/Hosts" unique_id=264727027 instance=ExtResource("3_pi6y5")]
+[node name="Simple Pistol Host2" parent="TileMapLayer/Hosts" unique_id=264727027 instance=ExtResource("3_c1xcc")]
 position = Vector2(629, 137)
 
-[node name="Simple Pistol Host3" parent="TileMapLayer/Hosts" unique_id=125036754 instance=ExtResource("3_pi6y5")]
+[node name="Simple Pistol Host3" parent="TileMapLayer/Hosts" unique_id=125036754 instance=ExtResource("3_c1xcc")]
 position = Vector2(632, 355)
 
-[node name="Simple Pistol Host4" parent="TileMapLayer/Hosts" unique_id=2114738274 instance=ExtResource("3_pi6y5")]
+[node name="Simple Pistol Host4" parent="TileMapLayer/Hosts" unique_id=2114738274 instance=ExtResource("3_c1xcc")]
 position = Vector2(-213, 64)
 
-[node name="Simple Pistol Host5" parent="TileMapLayer/Hosts" unique_id=885549639 instance=ExtResource("3_pi6y5")]
+[node name="Simple Pistol Host5" parent="TileMapLayer/Hosts" unique_id=885549639 instance=ExtResource("3_c1xcc")]
 position = Vector2(11, 64)
 
-[node name="Simple Pistol Host6" parent="TileMapLayer/Hosts" unique_id=751831750 instance=ExtResource("3_pi6y5")]
+[node name="Simple Pistol Host6" parent="TileMapLayer/Hosts" unique_id=751831750 instance=ExtResource("3_c1xcc")]
 position = Vector2(276, 310)
 
-[node name="Simple Pistol Host7" parent="TileMapLayer/Hosts" unique_id=1914535324 instance=ExtResource("3_pi6y5")]
+[node name="Simple Pistol Host7" parent="TileMapLayer/Hosts" unique_id=1914535324 instance=ExtResource("3_c1xcc")]
 position = Vector2(-31, 206)
 
-[node name="Simple Pistol Host8" parent="TileMapLayer/Hosts" unique_id=1663870680 instance=ExtResource("3_pi6y5")]
+[node name="Simple Pistol Host8" parent="TileMapLayer/Hosts" unique_id=1663870680 instance=ExtResource("3_c1xcc")]
 position = Vector2(-56, 310)
 
-[node name="Simple Pistol Host9" parent="TileMapLayer/Hosts" unique_id=1099018006 instance=ExtResource("3_pi6y5")]
+[node name="Simple Pistol Host9" parent="TileMapLayer/Hosts" unique_id=1099018006 instance=ExtResource("3_c1xcc")]
 position = Vector2(-466, 229)
 
-[node name="Simple Pistol Host10" parent="TileMapLayer/Hosts" unique_id=1463785304 instance=ExtResource("3_pi6y5")]
+[node name="Simple Pistol Host10" parent="TileMapLayer/Hosts" unique_id=1463785304 instance=ExtResource("3_c1xcc")]
 position = Vector2(-609, 353)
 
+[node name="me" parent="TileMapLayer/Hosts" unique_id=1629916961 instance=ExtResource("4_aljv2")]
+position = Vector2(-206, -96)
+
 [node name="HostManager" type="Node" parent="." unique_id=1672039658 node_paths=PackedStringArray("startingPlayerHost") groups=["HostManager"]]
-script = ExtResource("4_rx773")
-startingPlayerHost = NodePath("../TileMapLayer/Hosts/Scientist Host5")
+script = ExtResource("5_4uadd")
+startingPlayerHost = NodePath("../TileMapLayer/Hosts/me")
 metadata/_custom_type_script = "uid://dymdfu6tebr3h"
 
-[node name="Cursor" parent="." unique_id=1696245876 instance=ExtResource("5_6q8xr")]
+[node name="Cursor" parent="." unique_id=1696245876 instance=ExtResource("6_cshcp")]
+position = Vector2(-104, -70)
 
-[node name="PossessionIndicator" parent="." unique_id=2037520429 instance=ExtResource("6_hmkie")]
+[node name="PossessionIndicator" parent="." unique_id=2037520429 instance=ExtResource("7_oji67")]
+position = Vector2(32, 50)
 
 [node name="InputHandler" type="Node2D" parent="." unique_id=1413815275 groups=["InputHandler"]]
-script = ExtResource("7_dkegv")
+position = Vector2(-26, -56)
+script = ExtResource("8_umtxe")
 metadata/_custom_type_script = "uid://cca2yiacp0mcp"

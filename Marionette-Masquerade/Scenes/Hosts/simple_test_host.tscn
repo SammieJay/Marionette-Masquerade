@@ -654,6 +654,7 @@ idleState = NodePath("SimpleIdleBehavior")
 chaseState = NodePath("SimpleChaseBehavior")
 navAgent = NodePath("../NavigationAgent2D")
 enemyMoveSpeedScalar = 0.7
+disableAI = true
 metadata/_custom_type_script = "uid://1ax0i7rdnhfx"
 
 [node name="SimpleChaseBehavior" type="Node" parent="SimpleEnemy" unique_id=162683506]
