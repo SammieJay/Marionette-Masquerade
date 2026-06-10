@@ -24,8 +24,10 @@ class_name GrappleTentacle
 @export var retractTime: float = 0.10   ## seconds for the snap-back
 @export var freeOnDetach: bool = false
 
+@export var grappleTextures:Array[Resource] = []
+
 enum State { IDLE, EXTENDING, ATTACHED, RETRACTING }
-var state: int = State.IDLE
+var state: State = State.IDLE
 var animT: float = 0.0          ## 0..1 progress for extend/retract
 var fireOrigin: Vector2         ## where the shot started
 
@@ -34,12 +36,13 @@ var points: Array[Vector2] = []             ## current world positions
 var prevPoints: Array[Vector2] = []         ## previous world positions (verlet velocity)
 var anchorPoint: Vector2                    ## fixed end (the wall hit point)
 var anchorBody: Object = null               ## what we hit (for moving anchors)
-var isAttached: bool = false
 
 @onready var line: Line2D = $Line2D
 
 
 func _ready() -> void:
+	assert(!grappleTextures.is_empty(), "Grapple Tentacle requires at least one texture assigned to it \n Nodepath: %s" % get_path())
+
 	#draw in world space so the rope ignores the host's movement/rotation
 	if line:
 		line.top_level = true
@@ -50,16 +53,7 @@ func _ready() -> void:
 func _randomize_texture()  -> void:
 	if not line:
 		return
-	var texture = randi_range(0,3)
-	match texture:
-		0:
-			line.texture = preload("res://Assets/Textures/proto_grapple_txtr_1.png")
-		1:
-			line.texture = preload("res://Assets/Textures/proto_grapple_txtr_2.png")
-		2:
-			line.texture = preload("res://Assets/Textures/proto_grapple_txtr_3.png")
-		3:
-			line.texture = preload("res://Assets/Textures/proto_grapple_txtr_4.png")
+	line.texture = grappleTextures[randi_range(0,grappleTextures.size()-1)]
 
 
 ## Fire the grapple. Returns true if it attached to something on worldMask.
@@ -78,7 +72,6 @@ func fire(_origin: Vector2, _dir: Vector2, _maxDist: float = -1.0) -> bool:
 		_build_points(_origin, _origin)   # start collapsed at the muzzle
 		state = State.EXTENDING
 		animT = 0.0
-		isAttached = true
 		return true
 
 	detach()
@@ -90,7 +83,6 @@ func detach() -> void:
 	points.clear()
 	prevPoints.clear()
 	anchorBody = null
-	isAttached = false
 	state = State.IDLE
 	animT = 0.0
 	if line:
@@ -116,14 +108,14 @@ func _build_points(_from: Vector2, _to: Vector2) -> void:
 		prevPoints.append(p)                         # at rest, no initial velocity
 
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	match state:
 		State.EXTENDING:
-			_tick_extend(delta)
+			_tick_extend(_delta)
 		State.ATTACHED:
-			_tick_attached(delta)
+			_tick_attached(_delta)
 		State.RETRACTING:
-			_tick_retract(delta)
+			_tick_retract(_delta)
 
 func start_retract() -> void:
 	if state == State.ATTACHED or state == State.EXTENDING:
@@ -158,12 +150,25 @@ func _tick_attached(delta: float) -> void:
 func _tick_retract(delta: float) -> void:
 	animT = min(1.0, animT + delta / max(retractTime, 0.0001))
 	var target := _muzzle_point()
+	var n := float(points.size()-1)
+
 	for i in points.size():
-		points[i] = points[i].lerp(target, animT)
+		var stagger := float(i)/n # 0.0 at muzzle, 1.0 at anchor
+		var t := clampf(remap(animT, stagger * 0.5, 1.0, 0.0, 1.0), 0.0, 1.0)
+		points[i] = points[i].lerp(target, t)
 	_render()
 	if animT >= 1.0:
 		detach()
 
+## Resize the length of the segments to fit the distance between the muzzle and anchor
+## Changed from adding/removing points to remove jitter effect
+func _resize_to_fit() -> void:
+	var minSegmentLength := 1.0
+	var dist := _muzzle_point().distance_to(_anchor_world_point())
+	segmentLength = maxf(minSegmentLength, dist / float(points.size() - 1))
+
+## OLD RESIZE CODE
+"""
 ## Shrink/grow the point chain to match the current muzzle→anchor distance,
 ## so the rope reels in as the host approaches the anchor.
 func _resize_to_fit() -> void:
@@ -177,17 +182,31 @@ func _resize_to_fit() -> void:
 
 	if desired < points.size():
 		# reeling in — drop points from the middle so the ends stay put
+		# EDIT: Drop points from anchor end to avoid middle twitching
 		while points.size() > desired:
-			var mid := points.size() / 2
-			points.remove_at(mid)
-			prevPoints.remove_at(mid)
+			var idx := 1 # just before anchor
+			points.remove_at(idx)
+			prevPoints.remove_at(idx)
+
+			## MIDPOINT SCALING
+			#var mid := points.size() / 2
+			#points.remove_at(mid)
+			#prevPoints.remove_at(mid)
 	else:
 		# moving away — add points in the middle
+		#EDIT: add points to anchor end to avoid middle twitching
 		while points.size() < desired:
-			var mid := points.size() / 2
-			var newp := (points[mid - 1] + points[mid]) * 0.5
-			points.insert(mid, newp)
-			prevPoints.insert(mid, newp)
+			var idx := 1 #just before anchor
+			var newp := (points[idx-1]+points[idx]) * 0.5
+			points.insert(idx, newp)
+			prevPoints.insert(idx, newp)
+
+			## MIDPOINT SCALING
+			#var mid := points.size() / 2
+			#var newp := (points[mid - 1] + points[mid]) * 0.5
+			#points.insert(mid, newp)
+			#prevPoints.insert(mid, newp)
+"""
 
 ## Verlet integration: implied velocity + gravity.
 func _integrate(delta: float) -> void:
@@ -210,11 +229,11 @@ func _constrain() -> void:
 	for i in range(last):
 		var a := points[i]
 		var b := points[i + 1]
-		var delta := b - a
-		var d := delta.length()
+		var diff := b - a
+		var d := diff.length()
 		if d == 0.0:
 			continue
-		var correction := delta * ((d - segmentLength) / d) * 0.5
+		var correction := diff * ((d - segmentLength) / d) * 0.5
 
 		if i != 0:
 			points[i] = a + correction
@@ -238,11 +257,7 @@ func _collide() -> void:
 
 
 func _render() -> void:
-	if not line:
-		return
-	line.clear_points()
-	for p in points:
-		line.add_point(p)                            # world coords (line is top_level)
+	if line: line.points = PackedVector2Array(points)
 
 
 # ===== ENDPOINTS =====

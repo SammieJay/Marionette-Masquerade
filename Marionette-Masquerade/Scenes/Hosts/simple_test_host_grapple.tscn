@@ -20,6 +20,13 @@
 [ext_resource type="PackedScene" uid="uid://643i1fy5plqk" path="res://Scenes/Host Components/health_bar.tscn" id="17_7nffm"]
 [ext_resource type="Script" uid="uid://b7p18lc7ewkbk" path="res://Scripts/Hosts/Prototypes/grapple_tentacle.gd" id="18_kyw1o"]
 [ext_resource type="Texture2D" uid="uid://v8r23du6qu0a" path="res://Assets/Textures/proto_grapple_txtr_1.png" id="19_4wjoh"]
+[ext_resource type="Texture2D" uid="uid://7qtt8n7igj2c" path="res://Assets/Textures/proto_grapple_txtr_2.png" id="21_jgsmm"]
+[ext_resource type="Script" uid="uid://5qs6dhbwfy6x" path="res://Scripts/Hosts/_Core Components/hit_box.gd" id="21_xudmt"]
+[ext_resource type="Texture2D" uid="uid://d1vqrldr0074r" path="res://Assets/Textures/proto_grapple_txtr_3.png" id="22_gwngg"]
+[ext_resource type="Texture2D" uid="uid://b8ca6w74kcvju" path="res://Assets/Textures/proto_grapple_txtr_4.png" id="23_lj820"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_6f7k1"]
+radius = 10.29563
 
 [sub_resource type="Animation" id="Animation_6hky1"]
 resource_name = "Die"
@@ -635,9 +642,6 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_6f7k1"]
-radius = 10.29563
-
 [sub_resource type="Curve" id="Curve_ni6kr"]
 _data = [Vector2(0.06514659, 1), 0.0, 0.0, 0, 0, Vector2(0.543974, 0.23881578), 0.0, 0.0, 0, 0, Vector2(0.9348535, 0.6065789), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 4
@@ -646,18 +650,27 @@ point_count = 4
 offsets = PackedFloat32Array(0, 0.16728625, 0.4163569, 0.6394052, 1)
 colors = PackedColorArray(0, 0, 0, 1, 0.0433958, 0, 0, 1, 0.14193429, 0, 0, 1, 0.18873787, 0, 0, 1, 1, 0, 0, 1)
 
-[node name="Simple Pistol Host" type="CharacterBody2D" unique_id=1629916961 node_paths=PackedStringArray("enemyController", "playerController", "effectHandler", "weapon", "collider", "visionRay", "maskSprite") groups=["Host"]]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_d477y"]
+radius = 7.0
+height = 34.0
+
+[node name="Grapple Host" type="CharacterBody2D" unique_id=1629916961 node_paths=PackedStringArray("enemyController", "playerController", "effectHandler", "weapon", "collider", "hitbox", "visionRay", "maskSprite") groups=["Host"]]
 script = ExtResource("1_fijjm")
 enemyController = NodePath("SimpleEnemy")
-playerController = NodePath("SimplePlayer")
+playerController = NodePath("GrapplePlayer")
 effectHandler = NodePath("HostEffectHandler")
 weapon = NodePath("Pistol")
 collider = NodePath("Collider")
+hitbox = NodePath("Hitbox")
 visionRay = NodePath("RayCast2D")
 maskSprite = NodePath("Sprites/Head/MaskSprite")
 hostTypeName = "Navigation Test Host"
 moveSpeed = 10.0
 metadata/_custom_type_script = "uid://nxicc26dotw5"
+
+[node name="Collider" type="CollisionShape2D" parent="." unique_id=266863240]
+visible = false
+shape = SubResource("CircleShape2D_6f7k1")
 
 [node name="SimpleEnemy" type="Node" parent="." unique_id=176137161 node_paths=PackedStringArray("idleState", "chaseState", "navAgent")]
 script = ExtResource("2_kyw1o")
@@ -677,7 +690,7 @@ script = ExtResource("4_ni6kr")
 behaviorName = "Basic Idle"
 metadata/_custom_type_script = "uid://cv8a8kqws75se"
 
-[node name="SimplePlayer" type="Node" parent="." unique_id=434831182 node_paths=PackedStringArray("grapple")]
+[node name="GrapplePlayer" type="Node" parent="." unique_id=434831182 node_paths=PackedStringArray("grapple")]
 script = ExtResource("5_4wjoh")
 grapple = NodePath("../GrappleTentacle")
 grappleScene = ExtResource("6_ni6kr")
@@ -744,11 +757,6 @@ sprite_frames = SubResource("SpriteFrames_5m4xc")
 visible = false
 sprite_frames = SubResource("SpriteFrames_u32pb")
 
-[node name="Collider" type="CollisionShape2D" parent="." unique_id=266863240]
-visible = false
-shape = SubResource("CircleShape2D_6f7k1")
-disabled = true
-
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=527083402]
 path_postprocessing = 1
 avoidance_enabled = true
@@ -762,6 +770,7 @@ host = NodePath("..")
 
 [node name="GrappleTentacle" type="Node2D" parent="." unique_id=90439214]
 script = ExtResource("18_kyw1o")
+grappleTextures = Array[Resource]([ExtResource("19_4wjoh"), ExtResource("21_jgsmm"), ExtResource("22_gwngg"), ExtResource("23_lj820")])
 metadata/_custom_type_script = "uid://b7p18lc7ewkbk"
 
 [node name="Line2D" type="Line2D" parent="GrappleTentacle" unique_id=2095761130]
@@ -770,3 +779,10 @@ default_color = Color(0, 0, 0, 1)
 gradient = SubResource("Gradient_xudmt")
 texture = ExtResource("19_4wjoh")
 texture_mode = 2
+
+[node name="Hitbox" type="Area2D" parent="." unique_id=1517211332]
+script = ExtResource("21_xudmt")
+metadata/_custom_type_script = "uid://5qs6dhbwfy6x"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=2084410043]
+shape = SubResource("CapsuleShape2D_d477y")

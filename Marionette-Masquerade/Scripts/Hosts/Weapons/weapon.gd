@@ -12,6 +12,9 @@ class_name Weapon extends Node
 @export_category("Properties")
 @export var forceReloadOnPosession:bool = true
 
+@export_category("DEBUG")
+@export var disableDmg:bool = false
+
 ## ===== OVERRIDE VARIABLES =====
 #Set these in the _ready() function of any inheriting weapon classes
 @onready var damage:float = 1.0 ## Dammage of each projectile for this weapon (default is 1.0)
@@ -53,6 +56,8 @@ func is_reloading()->bool: return reloadTimer > 0.0
 func _ready():
 	projectileParent = get_tree().get_first_node_in_group("ProjectileParent")
 	force_reload()
+
+	if disableDmg: damage = 0.0
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):

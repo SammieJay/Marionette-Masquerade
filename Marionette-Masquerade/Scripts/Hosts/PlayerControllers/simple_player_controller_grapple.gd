@@ -5,7 +5,7 @@
 ## [b]Responsibilities:[/b] [br]
 
 ##   - Act as an example subclass of PlayerController [br]
-class_name SimplePlayerGrapple extends PlayerController
+class_name GrapplingPlayer extends PlayerController
 
 ## Export Vars
 @export var grapple : GrappleTentacle
@@ -32,17 +32,21 @@ func do_player_physics(_delta:float):
 	## === MOVEMENT CODE ===
 	var moveVector = inputHandler.get_move_input() ## retrieve normalized movement input vector from InputHandler
 	# Apply movement
-	host.velocity = moveVector * host.moveSpeed * host.MOVE_SPEED_CONST * _delta
+	host.velocity = moveVector * host.moveSpeed * GlobalDefs.MOVE_SPEED_CONST * _delta
 
 	# === GRAPPLE PULL ===
+	"""
 	if grapple.is_pulling():
 		var toAnchor := grapple.get_anchor() - host.global_position
 		print("pulling, dist=", toAnchor.length(), " vel before=", host.velocity)
 		if toAnchor.length() > pullStopDistance:
 			host.velocity += toAnchor.normalized() * pullSpeed * 2
 		print("vel after=", host.velocity)
-
+	"""
+	
 	host.move_and_slide()
+	
+
 	# --- Rotation (face mouse) ---
 	var aimPos = inputHandler.get_mouse_global_position()
 	var lookDir = (aimPos - host.global_position).normalized()
@@ -50,9 +54,12 @@ func do_player_physics(_delta:float):
 	
 	#inerpolate towards targetDirection
 	host.global_rotation = lerp_angle(host.global_rotation, targetDir, host.rotationSpeed*_delta)
+	
+
 func on_posession()->void:
 	pass
 ## ===== HELPER FUNCTIONS =====
+
 func _fire_grapple() -> void:
 	# prune any freed/finished strands from the previous shot
 	extraStrands = extraStrands.filter(func(g): return is_instance_valid(g))
