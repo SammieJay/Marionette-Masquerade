@@ -86,10 +86,11 @@ func update_movement(_delta:float):
 	if is_moving() and distToTarget > navTargetDist: #if enemy wants to move, do movement code
 		var nextPos = navAgent.get_next_path_position()
 		var dir = (nextPos - host.global_position).normalized()
-		host.velocity = dir * host.moveSpeed * host.MOVE_SPEED_CONST * _delta
+		host.velocity = dir * host.moveSpeed * GlobalDefs.MOVE_SPEED_CONST * _delta
 		_lerp_look_at_pos(_delta, nextPos)
 		host.move_and_slide()
 	elif is_moving(): halt_movement() # terminate movement when desired distance is reached
+
 
 func stun(_durration:float):
 	stunnedTimer = _durration
@@ -101,8 +102,8 @@ func stun(_durration:float):
 func set_active_state(_next:BehaviorState):
 	if activeState == _next: return
 	
-	if activeState: print("Leaving State: ", activeState.name)
-	print("Entering State: ", _next.name)
+	#if activeState: print("Leaving State: ", activeState.name)
+	#print("Entering State: ", _next.name)
 
 	if activeState: activeState.on_state_exit() ## If there is currently an active state, call its exit function
 	activeState = _next
