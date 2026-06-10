@@ -3,34 +3,71 @@
 [ext_resource type="Texture2D" uid="uid://btkn0xsmrin20" path="res://Assets/Textures/parralax proto_sprite_sheet_5.png" id="1_knbmy"]
 [ext_resource type="Texture2D" uid="uid://dremyinjbu7ok" path="res://Assets/Textures/parralax proto_sprite_sheet_1.png" id="1_qw2p0"]
 [ext_resource type="Texture2D" uid="uid://f55r3f5khoby" path="res://Assets/Textures/parralax proto_sprite_sheet_2.png" id="2_cwoop"]
+[ext_resource type="Shader" uid="uid://8s4084pmsrb0" path="res://Assets/Shaders/spotlight.gdshader" id="2_stxru"]
+[ext_resource type="Texture2D" uid="uid://bboqika2vk3ei" path="res://Assets/Textures/blood_txtr_1.png" id="3_fo36h"]
 [ext_resource type="Texture2D" uid="uid://badqysrrd2qy2" path="res://Assets/Textures/parralax proto_sprite_sheet_3.png" id="3_p2qdv"]
 [ext_resource type="Texture2D" uid="uid://maragumnuqc" path="res://Assets/Textures/parralax proto_sprite_sheet_4.png" id="4_7688q"]
 [ext_resource type="Script" uid="uid://c34rnyon20tkn" path="res://Scripts/Hosts/Prototypes/label_shaker.gd" id="5_p2qdv"]
 [ext_resource type="FontFile" uid="uid://vfxniutek0c8" path="res://Assets/Dracutaz.otf" id="6_7688q"]
+[ext_resource type="Shader" uid="uid://jkfvpielepk" path="res://Assets/Shaders/tentacle.gdshader" id="10_fo36h"]
+[ext_resource type="PackedScene" uid="uid://cv6wqa4e8bm8p" path="res://Scenes/DEPRECATED/custom_btn.tscn" id="11_ylv7j"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ylv7j"]
+shader = ExtResource("2_stxru")
+shader_parameter/pixelation = Vector2(128, 128)
+shader_parameter/gradient_steps = 64.0
+shader_parameter/gradient = ExtResource("3_fo36h")
+shader_parameter/spread = 0.22700001008398
+shader_parameter/size = 0.3600000645999999
+shader_parameter/speed = 2.0
+shader_parameter/ray1_density = 9.418000447355
+shader_parameter/ray2_density = 8.1070003850825
+shader_parameter/ray2_intensity = -0.6799999373000001
+shader_parameter/core_intensity = 0.9950000947625
+shader_parameter/hdr = true
+shader_parameter/seed = 1.0
 
 [sub_resource type="LabelSettings" id="LabelSettings_knbmy"]
 font = ExtResource("6_7688q")
 font_size = 100
 font_color = Color(1, 0, 0, 1)
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_s04lk"]
+shader = ExtResource("10_fo36h")
+shader_parameter/tentacle_count = 50
+shader_parameter/speed = 2.0
+shader_parameter/wiggle_strength = 0.2
+shader_parameter/taper = 2.0
+shader_parameter/pixel_size = 260.0
+
 [node name="parralax proto" type="Node2D" unique_id=1083962254]
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=2037311673]
 texture = ExtResource("1_knbmy")
+metadata/_edit_lock_ = true
+
+[node name="shader" type="Sprite2D" parent="." unique_id=868582203]
+material = SubResource("ShaderMaterial_ylv7j")
+position = Vector2(-5, -80)
+scale = Vector2(16, 16)
+texture = ExtResource("3_fo36h")
 
 [node name="Parallax2D4" type="Parallax2D" parent="." unique_id=2014728156]
 repeat_size = Vector2(1152, 0)
 autoscroll = Vector2(50, 0)
 repeat_times = 3
+metadata/_edit_lock_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="Parallax2D4" unique_id=117959752]
 texture_filter = 1
 texture = ExtResource("4_7688q")
+metadata/_edit_lock_ = true
 
 [node name="Parallax2D3" type="Parallax2D" parent="." unique_id=1397438483]
 repeat_size = Vector2(1152, 0)
 autoscroll = Vector2(75, 0)
 repeat_times = 3
+metadata/_edit_lock_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="Parallax2D3" unique_id=1228754784]
 texture_filter = 1
@@ -38,8 +75,9 @@ texture = ExtResource("3_p2qdv")
 
 [node name="Parallax2D2" type="Parallax2D" parent="." unique_id=1209328679]
 repeat_size = Vector2(1152, 0)
-autoscroll = Vector2(100, 0)
+autoscroll = Vector2(150, 0)
 repeat_times = 3
+metadata/_edit_lock_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="Parallax2D2" unique_id=1881763611]
 texture_filter = 1
@@ -47,14 +85,16 @@ texture = ExtResource("2_cwoop")
 
 [node name="Parallax2D" type="Parallax2D" parent="." unique_id=1579798267]
 repeat_size = Vector2(1152, 0)
-autoscroll = Vector2(125, 0)
+autoscroll = Vector2(300, 0)
 repeat_times = 3
+metadata/_edit_lock_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="Parallax2D" unique_id=2099572242]
 texture_filter = 1
 texture = ExtResource("1_qw2p0")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1937854682]
+metadata/_edit_lock_ = true
 
 [node name="Label1" type="Label" parent="." unique_id=495448069]
 offset_left = -562.0
@@ -66,6 +106,7 @@ text = "Marionette
 "
 label_settings = SubResource("LabelSettings_knbmy")
 script = ExtResource("5_p2qdv")
+metadata/_edit_lock_ = true
 
 [node name="Label2" type="Label" parent="." unique_id=274116050]
 offset_left = -369.00003
@@ -76,3 +117,26 @@ rotation = 0.099483766
 text = "Masquerade"
 label_settings = SubResource("LabelSettings_knbmy")
 script = ExtResource("5_p2qdv")
+metadata/_edit_lock_ = true
+
+[node name="shader2" type="Sprite2D" parent="." unique_id=1316812710]
+visible = false
+material = SubResource("ShaderMaterial_s04lk")
+rotation = -3.1415927
+scale = Vector2(36, 36)
+texture = ExtResource("3_fo36h")
+
+[node name="custom_btn" parent="." unique_id=909688719 instance=ExtResource("11_ylv7j")]
+position = Vector2(457.00003, -149.00003)
+rotation = 0.22165681
+lbl_txt = "Start"
+
+[node name="custom_btn2" parent="." unique_id=1148637922 instance=ExtResource("11_ylv7j")]
+position = Vector2(454.00003, -10)
+rotation = -0.09599311
+lbl_txt = "Options"
+
+[node name="custom_btn3" parent="." unique_id=2077670767 instance=ExtResource("11_ylv7j")]
+position = Vector2(448, 144)
+rotation = 0.36128315
+lbl_txt = "Quit"
