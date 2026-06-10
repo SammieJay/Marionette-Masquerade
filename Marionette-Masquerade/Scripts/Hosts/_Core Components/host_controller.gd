@@ -127,6 +127,7 @@ func hurt(_dmg:float)->void:
 ## Kill host and play death effect
 func die()->void:
 	alive = false
+	enemyController.halt_movement()
 	collider.set_deferred("disabled", true)
 	effectHandler.stop()
 	effectHandler.play_death_effect()
