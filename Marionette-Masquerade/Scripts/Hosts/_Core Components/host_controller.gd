@@ -104,7 +104,7 @@ func _physics_process(_delta):
 ## Handles: value changes and effects that occur when switching [b]FROM[/b] this host  [br]
 func un_possess()->void:
 	currentlyPossessed = false
-	effectHandler.play_switch_effect(true)
+	#effectHandler.play_switch_effect(true)
 	maskSprite.hide()
 	enemyController.on_possession_release()
 	
@@ -127,7 +127,9 @@ func hurt(_dmg:float)->void:
 ## Kill host and play death effect
 func die()->void:
 	alive = false
+	enemyController.halt_movement()
 	collider.set_deferred("disabled", true)
+	effectHandler.stop()
 	effectHandler.play_death_effect()
 	if clearOnDeath: clear()
 

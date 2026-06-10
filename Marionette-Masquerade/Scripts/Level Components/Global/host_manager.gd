@@ -21,9 +21,10 @@ class_name HostManager extends Node
 @onready var eligibleHost:HostController
 
 var hostArray:Array[HostController]
+var possessionHistory:Array[HostController] = []
 
 var maxTransferDistFromLook: float = 75.0
-const MAX_TRANSFER_DISTANCE:float = 100.0 ## Maximum distance that player can transfer to a new host in
+const MAX_TRANSFER_DISTANCE:float = 200.0 ## Maximum distance that player can transfer to a new host in
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -37,8 +38,7 @@ func _ready() -> void:
 	_refresh_host_array()
 
 	# Initialize starting host
-	playerHost = startingPlayerHost
-	playerHost.possess()
+	_possess_host(startingPlayerHost)
 	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -50,8 +50,10 @@ func _process(_delta: float) -> void:
 	possessionIndicator.set_target(eligibleHost)
 
 	# Check for player input to switch hosts
-	if inputHandler.is_action_just_pressed("Transfer Hosts"):
-		if eligibleHost != null: switch_to_host(eligibleHost)
+	if inputHandler.is_action_just_pressed("Transfer Hosts") and playerHost.is_alive():
+		if eligibleHost != null:
+			playerHost.effectHandler.play_switch_effect(true)
+			switch_to_host(eligibleHost)
 		else: playerHost.effectHandler.play_switch_effect(false)
 
 
@@ -61,11 +63,23 @@ func switch_to_host(next:HostController):
 	#print("HOST SWITCH")
 	if !playerHost.is_alive(): return ## Return if player is dead
 	playerHost.un_possess()
-	playerHost = next
-	playerHost.possess()
+	_possess_host(next)
+
+## Returns the host at the entry immediately after [param _fromIndex] in possession history. [br]
+## Returns [code]null[/code] if [param _fromIndex] is already the last entry.
+func get_next_host(_fromIndex:int) -> HostController:
+	if _fromIndex < 0 or _fromIndex + 1 >= possessionHistory.size(): return null
+	return possessionHistory[_fromIndex + 1]
+	
 
 
 ## ===== HELPER FUNCTIONS =====
+
+## Possess the given host and record it in possession history [br]
+func _possess_host(_host:HostController):
+	playerHost = _host
+	possessionHistory.append(_host)
+	_host.possess()
 
 ## refresh array of hosts to only include living hosts
 func _refresh_host_array()->void:
@@ -99,11 +113,12 @@ func _check_for_switchable_host()->HostController:
 		var withinTransferDistance:bool = distToPlayer <= MAX_TRANSFER_DISTANCE + playerHost.possessionReach
 		var isAlive:bool = host.is_alive()
 		var isStunned:bool = host.enemyController.is_stunned()
+		var hasLOS:bool = playerHost.has_LOS_to_host(host, MAX_TRANSFER_DISTANCE + playerHost.possessionReach)
 		
 		## Is this the currently closest host so far
 		var closestSoFar:bool = distToCursor < minDist
 		
-		if withinTransferDistance and closestSoFar and inFrontOfPlayer and isNotPlayer and isAlive and !isStunned and closeToLook:
+		if withinTransferDistance and closestSoFar and inFrontOfPlayer and isNotPlayer and isAlive and !isStunned and closeToLook and hasLOS:
 			minDist = distToCursor
 			closestHost = host
 	

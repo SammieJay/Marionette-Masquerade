@@ -33,8 +33,6 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	super._process(_delta) ## Required call to parent _process() function (updates important timers)
-	
-	targetHost = host.hostManager.playerHost ## Set target host to allways be player
 
 func do_enemy_behavior(_delta:float):
 	if !is_stunned():
