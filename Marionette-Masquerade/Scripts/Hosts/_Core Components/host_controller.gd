@@ -128,7 +128,8 @@ func hurt(_dmg:float)->void:
 func die()->void:
 	alive = false
 	enemyController.halt_movement()
-	collider.set_deferred("disabled", true)
+	#collider.set_deferred("disabled", true)
+	set_collision_layer_value(GlobalDefs.HOST_PHYSICS_LAYER, false)
 	effectHandler.stop()
 	effectHandler.play_death_effect()
 	if clearOnDeath: clear()
