@@ -16,13 +16,13 @@ class_name PhysicsEnemy extends EnemyController
 
 @export_category("Physics")
 @export var impulseDamping:float = 2.0 ## How aggressively the host slows down after an impulse is applied
-@export var trackingForce:float = 0.25
-@export var maxTrackingStr:float = 11.0
 @export var reboundForce:float = 0.25
 @export var takeDmgOnCollide:bool = true
+@export var collisionStunThreshold:float = 200.0
+@export var minPhysicsVelocity:float = 1.0
 
 # ----- Physics -----
-@onready var impulseVelocity:Vector2 = Vector2.ZERO
+@onready var physicsVelocity:Vector2 = Vector2.ZERO
 
 ## ===== SCRIPT VARIABLES =====
 # Idle
@@ -30,6 +30,8 @@ var idleTimer := 0.0
 var idleLookTarget:float = 0.0
 
 var grabbed:bool = false
+var physicsMode:bool = false ## If true, AI is disabled and enemy acts as a rigidbody
+var grabberHost:HostController = null
 @onready var cursor:Cursor
 @onready var inputHandler:InputHandler
 
@@ -59,41 +61,34 @@ func _process(_delta):
 	
 	sinceLastImpact += _delta
 
-	if impulseVelocity != Vector2.ZERO: 
-		_update_impulse(_delta)
+	if physicsMode:
+		if physicsVelocity.length() < minPhysicsVelocity and !grabbed:
+			physicsMode = false ## If we have no force enemy should leave physics mode
+			host.currentlyPossesable = true
+		else: update_physics(_delta)
 
 
-	## MOVE TOWARDS CURSOR
-	
-	var distToCursor:float = host.global_position.distance_to(cursor.global_position)
-
-	if inputHandler.is_action_pressed("TestInputKey") and distToCursor <= 30.0 and host.is_alive():
-		grabbed = true
-	
-	if inputHandler.is_action_just_released("TestInputKey"): grabbed = false
-
-	if grabbed:
-		var toCursor:Vector2 = (cursor.global_position - host.global_position)
-
-		var impulseAdd:Vector2 = toCursor*trackingForce
-		var cappedAdd:Vector2 = impulseAdd
-
-		if impulseAdd.length()>maxTrackingStr:
-			cappedAdd = impulseAdd.normalized()*maxTrackingStr
-			
-		print("Impulse Add STR ", cappedAdd.length())
-		give_impulse(cappedAdd)
-	
 	if !host.is_alive(): impulseDamping = 8.0
-	
-	cursor.visible = !grabbed
 
 #func do_enemy_physics(_delta:float):
+
+func grab(_grabber:HostController):
+	grabbed = true
+	physicsMode = true
+	grabberHost = _grabber
+	host.currentlyPossesable = false
+
+func end_grab():
+	var grabingPlayer:ThrowingPlayer = grabberHost.playerController as ThrowingPlayer
+	grabingPlayer.release_enemy()
+
+
+func update_physics(_delta:float):
+	if host.is_possessable(): host.currentlyPossesable = false
+
+	host.velocity = physicsVelocity
+	physicsVelocity = physicsVelocity.lerp(Vector2.ZERO, impulseDamping * _delta)
 	
-func _update_impulse(_delta:float):
-	host.velocity = impulseVelocity
-	impulseVelocity = impulseVelocity.lerp(Vector2.ZERO, impulseDamping * _delta)
-	if impulseVelocity.length()<0.5: impulseVelocity = Vector2.ZERO
 	var beforeVel:= host.velocity
 	host.move_and_slide()
 	_check_collisions(_delta, beforeVel)
@@ -107,29 +102,40 @@ func _check_collisions(_delta:float, _lastFrameVel:Vector2):
 		#print("IMPACT: ", impact_speed)
 		
 		
-		if sinceLastImpact > 0.15 and impact_speed > 2.0:
+		if sinceLastImpact > 0.15 and impact_speed > 100.0:
 			impact_response(impact_speed, col, _lastFrameVel)
 
 func impact_response(_force:float, _col:KinematicCollision2D, _lastVel:Vector2):
-	grabbed = false
+	if grabbed: end_grab()
 	
 	var reflectionDir:Vector2 = _lastVel.bounce(_col.get_normal())
 
-	impulseVelocity = reflectionDir.normalized()*_force * reboundForce
+	physicsVelocity = reflectionDir.normalized()*_force * reboundForce
 	sinceLastImpact = 0.0
 
-	var dmg:float = _force * 0.001
-	print("Take dmg: ", dmg)
+	var dmg:float = _force * 0.002
+	#print("Take dmg: ", dmg)
 	host.hurt(dmg)
 	
+	## STUN
+	if _force >= collisionStunThreshold:
+		if host.is_alive(): stun(2.0)
+		
+		var other := _col.get_collider()
+		if other is HostController:
+			var otherHost:HostController = other as HostController
+			if !otherHost.is_possessed():
+				otherHost.enemyController.stun(2.0)
+				otherHost.hurt(dmg/2.0)
+
 
 func give_impulse(_force:Vector2):
-	impulseVelocity += _force
+	physicsVelocity += _force
 
 
 func do_enemy_behavior(_delta:float):
-	return
-	
+	if physicsMode: return
+
 	if !is_stunned():
 		activeState.do_behavior(_delta) # update active state behavior
 

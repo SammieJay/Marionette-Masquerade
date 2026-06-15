@@ -18,9 +18,6 @@ class_name EnemyController extends Node
 @export_range(0.0, 3.0, 0.1, "scaled from host speed") var enemyMoveSpeedScalar:float = 1.0
 
 
-@export_category("DEBUG")
-@export var disableAI:bool = false
-
 
 ## ===== SCRIPT VARIABLES =====
 # ----- References -----
@@ -93,6 +90,7 @@ func update_movement(_delta:float):
 
 func stun(_durration:float):
 	stunnedTimer = _durration
+	print("STUN")
 
 ## Advances [member targetHost] through the HostManager possession history one step per [member confusionDelayTime]. [br]
 ## Tracks an explicit index into the history array so duplicate host entries are handled correctly. [br]

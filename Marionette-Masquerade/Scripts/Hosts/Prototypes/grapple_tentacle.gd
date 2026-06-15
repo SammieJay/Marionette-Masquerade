@@ -32,10 +32,11 @@ var animT: float = 0.0          ## 0..1 progress for extend/retract
 var fireOrigin: Vector2         ## where the shot started
 
 # ===== STATE =====
-var points: Array[Vector2] = []             ## current world positions
-var prevPoints: Array[Vector2] = []         ## previous world positions (verlet velocity)
-var anchorPoint: Vector2                    ## fixed end (the wall hit point)
-var anchorBody: Object = null               ## what we hit (for moving anchors)
+var points: Array[Vector2] = []             	## current world positions
+var prevPoints: Array[Vector2] = []         	## previous world positions (verlet velocity)
+var anchorPoint: Vector2                    	## fixed end (the wall hit point)
+var anchorBody: Object = null              	 	## what we hit (for moving anchors)
+var anchorLocalOffset:Vector2 = Vector2.ZERO 	## Local coordinate offset of the anchor body
 
 @onready var line: Line2D = $Line2D
 
@@ -67,6 +68,8 @@ func fire(_origin: Vector2, _dir: Vector2, _maxDist: float = -1.0) -> bool:
 	if hit:
 		anchorBody = hit.collider
 		anchorPoint = hit.position
+		if anchorBody is Node2D:
+			anchorLocalOffset = anchorBody.to_local(hit.position)
 		fireOrigin = _origin
 		_randomize_texture()
 		_build_points(_origin, _origin)   # start collapsed at the muzzle
@@ -80,6 +83,7 @@ func fire(_origin: Vector2, _dir: Vector2, _maxDist: float = -1.0) -> bool:
 
 ## Release the rope.
 func detach() -> void:
+	anchorLocalOffset = Vector2.ZERO
 	points.clear()
 	prevPoints.clear()
 	anchorBody = null
@@ -90,6 +94,16 @@ func detach() -> void:
 	if freeOnDetach:
 		queue_free()
 
+func attach_to_node(_node:Node2D, _localOffset: Vector2 = Vector2.ZERO)->void:
+	anchorBody = _node
+	anchorLocalOffset = _localOffset
+	anchorPoint = _node.to_global(_localOffset)
+	fireOrigin = _muzzle_point()
+	_randomize_texture()
+	_build_points(fireOrigin, fireOrigin)
+	state = State.EXTENDING
+	animT = 0.0
+
 
 # ===== SIMULATION =====
 
@@ -99,7 +113,7 @@ func _build_points(_from: Vector2, _to: Vector2) -> void:
 
 	var dist := _from.distance_to(_to)
 	var count := maxi(2, int(dist / segmentLength) + 1)
-	var dir := (_to - _from).normalized()
+	#var dir := (_to - _from).normalized()
 
 	for i in count:
 		var t := float(i) / float(count - 1)        # 0..1 along the rope
@@ -270,9 +284,8 @@ func _muzzle_point() -> Vector2:
 ## Fixed end, tracks the hit body if it moves, else the static hit point.
 func _anchor_world_point() -> Vector2:
 	if anchorBody is Node2D and is_instance_valid(anchorBody):
-		# keep relative offset if the anchor body moves (moving platforms)
-		return anchorPoint
-	return anchorPoint
+		return anchorBody.to_global(anchorLocalOffset)
+	else: return anchorPoint
 	
 func _rebuild_line(_from: Vector2, _to: Vector2) -> void:
 	var dist := _from.distance_to(_to)

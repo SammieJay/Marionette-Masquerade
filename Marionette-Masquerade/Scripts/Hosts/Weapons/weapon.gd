@@ -12,9 +12,6 @@ class_name Weapon extends Node
 @export_category("Properties")
 @export var forceReloadOnPosession:bool = true
 
-@export_category("DEBUG")
-@export var disableDmg:bool = false
-
 ## ===== OVERRIDE VARIABLES =====
 #Set these in the _ready() function of any inheriting weapon classes
 @onready var damage:float = 1.0 ## Dammage of each projectile for this weapon (default is 1.0)
@@ -28,14 +25,14 @@ class_name Weapon extends Node
 ## - y = dist to right of host
 @export var projectileSpawnOffset:Vector2 = Vector2(10.0, 10.0)
 
-
 ## ===== SCRIPT VARIABLES =====
 # ----- References -----
 var host:HostController #set at runtime by HostController
 var projectileParent:Node2D #retrieved via group
 
+var disableWeaponDmg:bool = false
+
 # ----- Values -----
-const PROJECTILE_SPEED_CONST:float = 1200.0
 var ammo:int # current ammunition count of weapon
 
 
@@ -57,10 +54,11 @@ func _ready():
 	projectileParent = get_tree().get_first_node_in_group("ProjectileParent")
 	force_reload()
 
-	if disableDmg: damage = 0.0
+	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
+
 	if shotDelayTimer >= 0.0: shotDelayTimer -= _delta #tick down fire rate timer
 	if reloadTimer > 0.0: reloadTimer -= _delta # tick down reload timer
 
@@ -92,9 +90,11 @@ func instance_projectile(_dir:Vector2, _speed:float, _dmg:float):
 	
 	# Set Projectile member variables
 	proj.direction = dir
-	proj.damage = _dmg
-	proj.speed = _speed * PROJECTILE_SPEED_CONST
+	proj.speed = _speed * GlobalDefs.MOVE_SPEED_CONST
 	proj.host = host
+
+	if disableWeaponDmg: proj.damage = 0.0
+	else: proj.damage = _dmg
 
 
 ## Called by Enemy and Player Controller classes, and attempts to shoot if possible [br]
