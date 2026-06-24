@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://btv1qlblx7a0n"]
+
+[ext_resource type="Script" uid="uid://b7p18lc7ewkbk" path="res://Scripts/Hosts/Prototypes/grapple_tentacle.gd" id="1_i5fnc"]
+[ext_resource type="Texture2D" uid="uid://v8r23du6qu0a" path="res://Assets/Textures/proto_grapple_txtr_1.png" id="2_tvd4y"]
+[ext_resource type="Texture2D" uid="uid://7qtt8n7igj2c" path="res://Assets/Textures/proto_grapple_txtr_2.png" id="3_8nsx0"]
+[ext_resource type="Texture2D" uid="uid://d1vqrldr0074r" path="res://Assets/Textures/proto_grapple_txtr_3.png" id="4_16kj8"]
+[ext_resource type="Texture2D" uid="uid://b8ca6w74kcvju" path="res://Assets/Textures/proto_grapple_txtr_4.png" id="5_gsmrg"]
+
+[sub_resource type="Curve" id="Curve_6qu86"]
+_data = [Vector2(0.06514659, 1), 0.0, 0.0, 0, 0, Vector2(0.543974, 0.23881578), 0.0, 0.0, 0, 0, Vector2(0.9348535, 0.6065789), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="Gradient" id="Gradient_824qr"]
+offsets = PackedFloat32Array(0, 0.16728625, 0.4163569, 0.6394052, 1)
+colors = PackedColorArray(0, 0, 0, 1, 0.0433958, 0, 0, 1, 0.14193429, 0, 0, 1, 0.18873787, 0, 0, 1, 1, 0, 0, 1)
+
+[node name="Grapple Tentacle" type="Node2D" unique_id=1050844531]
+script = ExtResource("1_i5fnc")
+maxDistance = 400.0
+gravity = 0.0
+breakDistance = 220.0
+retractTime = 0.3
+grappleTextures = Array[Resource]([ExtResource("2_tvd4y"), ExtResource("3_8nsx0"), ExtResource("4_16kj8"), ExtResource("5_gsmrg")])
+
+[node name="Line2D" type="Line2D" parent="." unique_id=889056833]
+width_curve = SubResource("Curve_6qu86")
+default_color = Color(0, 0, 0, 1)
+gradient = SubResource("Gradient_824qr")
+texture = ExtResource("2_tvd4y")
+texture_mode = 2

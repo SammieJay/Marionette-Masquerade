@@ -44,12 +44,14 @@ class_name HostController extends CharacterBody2D
 @export_group("Possession")
 @export var possessionReach:float = 0.0 ## How much more than usual reach this host gets to posess other hosts
 
+@export_category("DEBUG")
+@export var disableEnemyAI:bool = false
+@export var disableEnemyWeaponDmg:bool = false
 
 ## ===== SCRIPT VARIABLES =====
 # ----- References -----
 @onready var inputHandler:InputHandler
 @onready var hostManager:HostManager
-
 
 # ----- Possession -----
 @onready var currentlyPossessed:bool = false
@@ -85,17 +87,19 @@ func _ready():
 	_set_physics_layers() # set the physics layers and masks for this host
 	_set_inital_values() #set important initial variable values
 
+	## Debug value setup
+	if disableEnemyWeaponDmg: weapon.disableWeaponDmg = true
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
-	
 	## Call the update function of the relevent Controller
 	if is_possessed() and is_alive(): playerController.do_player_behavior(_delta)
-	elif !enemyController.disableAI and is_alive(): enemyController.do_enemy_behavior(_delta)
+	elif !disableEnemyAI and is_alive(): enemyController._enemyProcess(_delta)
 
 func _physics_process(_delta):
 	## Call the update function of the relevent Controller
 	if is_possessed() and is_alive(): playerController.do_player_physics(_delta)
-	elif !enemyController.disableAI and is_alive(): enemyController.do_enemy_physics(_delta)
+	elif !disableEnemyAI and is_alive(): enemyController._enemyPhysicsProcess(_delta)
 
 
 ## ===== CORE FUNCTIONS CALLED FROM OTHER CLASSES =====
@@ -106,6 +110,7 @@ func un_possess()->void:
 	currentlyPossessed = false
 	#effectHandler.play_switch_effect(true)
 	maskSprite.hide()
+	if disableEnemyWeaponDmg and !weapon.disableWeaponDmg: weapon.disableWeaponDmg = true
 	enemyController.on_possession_release()
 	
 
@@ -115,6 +120,7 @@ func possess()->void:
 	currentlyPossessed = true
 	maskSprite.show()
 	playerController.on_possession()
+	if disableEnemyWeaponDmg and weapon.disableWeaponDmg: weapon.disableWeaponDmg = false
 	if weapon.forceReloadOnPosession: weapon.force_reload() # Force reload weapon if handler has flag enableda
 
 ## Inflict dammage to this host
@@ -128,9 +134,11 @@ func hurt(_dmg:float)->void:
 func die()->void:
 	alive = false
 	enemyController.halt_movement()
-	collider.set_deferred("disabled", true)
+	#collider.set_deferred("disabled", true)
+	set_collision_layer_value(GlobalDefs.HOST_PHYSICS_LAYER, false)
 	effectHandler.stop()
 	effectHandler.play_death_effect()
+	effectHandler.stunActive = false
 	if clearOnDeath: clear()
 
 ## Delete & Clear this host from memory

@@ -7,6 +7,12 @@
 ##   - Retrieves references to other nodes via the HostController [br]
 class_name EnemyController extends Node
 
+enum EnemyState {
+	DEFAULT, 	## Enemy is opperating as normal and doing enemy behavior normally
+	PHYSICS,	## Enemy is unable to move or shoot of their own will, but can be posessed
+	STUN		## Enemy is unable to move, shoot, or be posessed
+}
+
 ## ===== EXPORT VARIABLES =====
 @export_category("References")
 @export_group("REQUIRED")
@@ -17,21 +23,33 @@ class_name EnemyController extends Node
 @export var postPossessionStunTime:float = 3.0 ## How long this host is stunned after player switches to anoter host
 @export_range(0.0, 3.0, 0.1, "scaled from host speed") var enemyMoveSpeedScalar:float = 1.0
 
+@export_category("Physics")
+@export var impulseDamping:float = 2.0 ## How aggressively the host slows down after an impulse is applied
+@export var reboundForce:float = 0.25
+@export var takeDmgOnCollide:bool = true
+@export var collisionStunThreshold:float = 200.0
+@export var minPhysicsVelocity:float = 1.0
 
-@export_category("DEBUG")
-@export var disableAI:bool = false
+## ===== SIGNALS =====
+signal collision(_force:float, _col:KinematicCollision2D, _dir:Vector2) ## Signal emits when host collides with something, signal includes colision information and the force / direction of the collision
 
 
 ## ===== SCRIPT VARIABLES =====
 # ----- References -----
 var host:HostController
 var weapon:Weapon
+var inputHandler:InputHandler
+var cursor:Cursor
 
 # ----- State Machine -----
 var activeState:BehaviorState
 
+# ----- Enemy State ----- 
+var enemyState:EnemyState = EnemyState.DEFAULT
+
 # ----- Stunned -----
 var stunnedTimer:float = 0.0
+
 
 # ----- Navigation -----
 var navTargetPos:Vector2 = Vector2.ZERO ## If navTargetPos == Vector2.ZERO, then enemy will not move
@@ -45,33 +63,99 @@ var confusionTimer:float = 0.0
 var hostHistoryIdx:int = -1
 var targetHost:HostController ## A pointer towards the host that this enemy is hostile to, should be set by subclasses in their _process() functions
 
+# ----- Physics -----
+var physicsVelocity:Vector2 = Vector2.ZERO
+var sinceLastImpact:float = 0.0
+var forcePhysicsState:bool = false ## When true, enemy is forced into physics enemyState
+
 ## ===== BOOLEAN RETURNS =====
 
 func is_confused()->bool: return confusionTimer > 0.0
 func is_stunned()->bool: return stunnedTimer > 0.0
 func is_moving()->bool:return navTargetPos != Vector2.ZERO or navTargetHost != null ## Returns true if enemy is attempting to move towards a pathfinding target (position or host)
+func is_enemyState(_state:EnemyState)->bool: return _state == enemyState
 
+## ===== ENEMY STATE MACHINE FUNCTIONS ======
+func set_enemy_state(_next:EnemyState):
+	if is_enemyState(_next): return ## If state is already set to _next, just return
+	
+	## CODE THAT RUNS WHEN EXITING A STATE
+	match enemyState:
+		EnemyState.DEFAULT:
+			if is_moving(): halt_movement()
+		EnemyState.STUN:
+			host.effectHandler.set_stun(false)
+		EnemyState.PHYSICS:
+			pass
+	
+	enemyState = _next
+
+	## CODE THAT RUNS WHEN ENTERING A STATE
+	match enemyState:
+		EnemyState.DEFAULT:
+			host.currentlyPossesable = true
+		EnemyState.STUN:
+			host.currentlyPossesable = false
+			host.effectHandler.set_stun(true)
+		EnemyState.PHYSICS:
+			host.currentlyPossesable = true
 
 ## ===== CORE FUNCTIONS =====
 
-## MUST BE CALLED FROM INHERITING CLASSES VIA 'super._ready()' [br]
-## Ticks important timers each frame
-func _process(_delta):
+## Process function for the enemy controller specific functionality [br]
+## Called by HostController every frame when enemy is posessed
+func _enemyProcess(_delta:float):
 	## Update Timers
 	if confusionTimer > 0.0: confusionTimer -= _delta
-	if stunnedTimer >= 0.0: stunnedTimer -= _delta
 
-	_update_stun_effect()
 	_update_confusion_target()
-	#elif host.effectHandler.is_playing(): host.effectHandler.stop()
+	
+	## ENEMYSTATE DEPENDANT UPDATES
+	match enemyState:
+		EnemyState.DEFAULT:
+			do_enemy_behavior(_delta)
+		EnemyState.PHYSICS:
+			pass
+		EnemyState.STUN:
+			stunnedTimer -= _delta
+			if stunnedTimer <= 0.0: set_enemy_state(EnemyState.DEFAULT) ## Leave Stunned State
 
-func _physics_process(_delta):
-	if !host.is_possessed() and !is_stunned():
-		update_movement(_delta) ## Do enemy movement
-	elif is_moving(): halt_movement() # interrupt movement if host becomes posessed
+## Process function for the enemy controller specific functionality [br]
+## Called by HostController every physics frame when enemy is posessed
+func _enemyPhysicsProcess(_delta):
+	if forcePhysicsState: set_enemy_state(EnemyState.PHYSICS)
+	
+	match enemyState:
+		EnemyState.DEFAULT:
+			do_enemy_physics(_delta)
+			update_movement(_delta) ## Do enemy movement
+		EnemyState.PHYSICS:
+			## Physics Handling
+			sinceLastImpact += _delta
+	
+			if physicsVelocity.length() < minPhysicsVelocity and !forcePhysicsState:
+				set_enemy_state(EnemyState.DEFAULT) ## switch state
+				return
+			
+			update_physics(_delta)
+		EnemyState.STUN:
+			pass
+
+
+## Updates the physics response of the enemy if in physics mode[br]
+## Called from _physics_process()
+func update_physics(_delta:float):
+	if host.is_possessable(): host.currentlyPossesable = false
+
+	host.velocity = physicsVelocity
+	physicsVelocity = physicsVelocity.lerp(Vector2.ZERO, impulseDamping * _delta)
+	
+	var beforeVel:= host.velocity
+	host.move_and_slide()
+	_check_collisions(_delta, beforeVel)
 
 ## updates movement of enemy every physics frame [br]
-## called from _physics process [br]
+## called from _physics_process [br]
 func update_movement(_delta:float):
 	# update target position as navTargetHost position if avaliable
 	if navTargetHost != null: navTargetPos = navTargetHost.global_position # if navTargetHost != null -> path to targetHost (this overrides navTargetPos)
@@ -90,9 +174,18 @@ func update_movement(_delta:float):
 		host.move_and_slide()
 	elif is_moving(): halt_movement() # terminate movement when desired distance is reached
 
+## Called: By HostController when player leaves this host [br]
+## Handles: Effects and behavior when possession is released [br]
+## Can be overriden but must be called via super.on_possession_release() to perform this functionality
+func on_possession_release()->void:
+	if postPossessionStunTime > 0.0:
+		stun(postPossessionStunTime)
+	else: set_enemy_state(EnemyState.DEFAULT)
+
 
 func stun(_durration:float):
 	stunnedTimer = _durration
+	set_enemy_state(EnemyState.STUN)
 
 ## Advances [member targetHost] through the HostManager possession history one step per [member confusionDelayTime]. [br]
 ## Tracks an explicit index into the history array so duplicate host entries are handled correctly. [br]
@@ -148,10 +241,12 @@ func _update_confusion_target() -> void:
 		## detect the gap and start a fresh confusion delay for the next hop
 
 
-## ===== STATE MACHINE FUNCTIONS =====
+
+
+## ===== BEHAVIOR STATE MACHINE FUNCTIONS =====
 
 ## Called by inheriting classes to set the active behavior state of this enemy
-func set_active_state(_next:BehaviorState):
+func set_behavior_state(_next:BehaviorState):
 	if activeState == _next: return
 	
 	#if activeState: print("Leaving State: ", activeState.name)
@@ -183,21 +278,65 @@ func halt_movement():
 ## ===== VIRTUAL FUNCTIONS TO BE OVERRIDEN =====
 
 ## [b]VIRTUAL[/b][br]
-## Called: By HostController every frame that host is not possessed [br]
+## Called: By EnemyController every frame that host is not possessed [br]
 ## Handles: State machine BehaviorState transitions and enemy thinking [br]
 func do_enemy_behavior(_delta:float): pass
 
 ## [b]VIRTUAL[/b][br]
-## Called: By HostController every PHYSICS frame that host is not possessed [br]
+## Called: By EnemyController every PHYSICS frame that host is not possessed [br]
 ## Handles: State machine BehaviorState transitions and enemy thinking [br]
 func do_enemy_physics(_delta:float): pass
 
+
+
 ## [b]VIRTUAL[/b][br]
-## Called: By HostController when player leaves this host [br]
-## Handles: Effects and behavior when possession is released [br]
-func on_possession_release()->void: pass
+## Called: By EnemyController class when an impact occurs, passes important impact data [br]
+## Handles: Custom collision response by subclasses [br]
+func on_impact(_force:float, _col:KinematicCollision2D, _lastVel:Vector2): pass
 
 
+## ===== PHYSICS FUNCTIONS =====
+
+## Called from update_physics() when in physics mode, to check for colisions
+func _check_collisions(_delta:float, _lastFrameVel:Vector2):
+	for i in host.get_slide_collision_count():
+		var col:KinematicCollision2D = host.get_slide_collision(i)
+		var normal:Vector2 = col.get_normal()
+		
+		var impact_speed:float = abs(_lastFrameVel.dot(normal))
+		#print("IMPACT: ", impact_speed)
+		
+		
+		if sinceLastImpact > 0.15 and impact_speed > 100.0:
+			impact_response(impact_speed, col, _lastFrameVel)
+
+## Called from _check_collisions() if an impact is detected
+func impact_response(_force:float, _col:KinematicCollision2D, _lastVel:Vector2):
+	collision.emit(_force, _col, _lastVel.normalized()) ## Emmit colision signal with relevent information
+	
+	var reflectionDir:Vector2 = _lastVel.bounce(_col.get_normal())
+
+	physicsVelocity = reflectionDir.normalized()*_force * reboundForce
+	sinceLastImpact = 0.0
+
+	var colDmg:float = snappedf(_force * 0.002, 0.1) ## damage of collision (scaled down and rounded)
+	if takeDmgOnCollide:
+		
+		host.hurt(colDmg)
+	
+	## STUN
+	if host.is_alive(): stun(2.0)
+	var other := _col.get_collider()
+	if other is HostController:
+		var otherHost:HostController = other as HostController
+		if !otherHost.is_possessed():
+			otherHost.enemyController.stun(2.0)
+			otherHost.hurt(colDmg/2.0)
+		
+
+
+func give_impulse(_force:Vector2):
+	physicsVelocity += _force
 
 
 ## ===== HELPER FUNCTIONS =====
@@ -216,5 +355,5 @@ func _lerp_look_at_pos(_delta:float, _pos:Vector2):
 func _lerp_look_to_angle(_delta:float, _angle:float):
 	host.global_rotation = lerp_angle(host.global_rotation, _angle, host.rotationSpeed * _delta)
 
-func _update_stun_effect(): if host.effectHandler.stunActive != is_stunned(): host.effectHandler.set_stun(is_stunned())
+
 
