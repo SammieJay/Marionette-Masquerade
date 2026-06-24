@@ -699,6 +699,7 @@ grapple = NodePath("../GrappleTentacle")
 grappleScene = ExtResource("6_qgsm1")
 strandScatter = 0.8
 trackingForce = 0.3
+grabMovementPenaltyScalar = 0.65
 metadata/_custom_type_script = "uid://ba687u8artox1"
 
 [node name="Pistol" type="Node" parent="." unique_id=2060538332]
