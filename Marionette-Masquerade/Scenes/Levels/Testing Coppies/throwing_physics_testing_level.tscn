@@ -366,7 +366,6 @@ startingPlayerHost = NodePath("../TileMapLayer/Hosts/Thrower Host")
 metadata/_custom_type_script = "uid://bh46kqsbbrvwg"
 
 [node name="Cursor" parent="." unique_id=1696245876 instance=ExtResource("7_mgd1m")]
-position = Vector2(290, -70)
 
 [node name="PossessionIndicator" parent="." unique_id=2037520429 instance=ExtResource("8_8r40t")]
 
