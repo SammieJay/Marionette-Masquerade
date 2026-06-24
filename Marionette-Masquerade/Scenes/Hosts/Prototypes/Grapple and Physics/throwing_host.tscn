@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cmwcmalkd1tr"]
 
 [ext_resource type="Script" uid="uid://nxicc26dotw5" path="res://Scripts/Hosts/_Core Components/host_controller.gd" id="1_8emba"]
-[ext_resource type="Script" uid="uid://dahhv5h6jcpxr" path="res://Scripts/Hosts/EnemyControllers/physics_enemy.gd" id="2_8emba"]
+[ext_resource type="Script" uid="uid://1ax0i7rdnhfx" path="res://Scripts/Hosts/EnemyControllers/simple_enemy_controller.gd" id="2_1khr3"]
 [ext_resource type="Script" uid="uid://b3d4s0vc84osu" path="res://Scripts/Hosts/EnemyControllers/Behavior States/Simple Host/simple_chase_behavior.gd" id="3_jdsc1"]
 [ext_resource type="Script" uid="uid://cv8a8kqws75se" path="res://Scripts/Hosts/EnemyControllers/Behavior States/Simple Host/simple_idle_behavior.gd" id="4_wiyko"]
 [ext_resource type="Script" uid="uid://ba687u8artox1" path="res://Scripts/Hosts/PlayerControllers/throwing_player_controller.gd" id="5_8emba"]
@@ -650,13 +650,15 @@ point_count = 4
 offsets = PackedFloat32Array(0, 0.16728625, 0.4163569, 0.6394052, 1)
 colors = PackedColorArray(0, 0, 0, 1, 0.0433958, 0, 0, 1, 0.14193429, 0, 0, 1, 0.18873787, 0, 0, 1, 1, 0, 0, 1)
 
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_8emba"]
+
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_d477y"]
 radius = 7.0
 height = 34.0
 
 [node name="Thrower Host" type="CharacterBody2D" unique_id=1629916961 node_paths=PackedStringArray("enemyController", "playerController", "effectHandler", "weapon", "collider", "hitbox", "visionRay", "maskSprite") groups=["Host"]]
 script = ExtResource("1_8emba")
-enemyController = NodePath("SimpleEnemy")
+enemyController = NodePath("Simple Enemy")
 playerController = NodePath("GrapplePlayer")
 effectHandler = NodePath("HostEffectHandler")
 weapon = NodePath("Pistol")
@@ -673,20 +675,20 @@ metadata/_custom_type_script = "uid://nxicc26dotw5"
 visible = false
 shape = SubResource("CircleShape2D_6f7k1")
 
-[node name="SimpleEnemy" type="Node" parent="." unique_id=1046967278 node_paths=PackedStringArray("idleState", "chaseState", "navAgent")]
-script = ExtResource("2_8emba")
+[node name="Simple Enemy" type="Node" parent="." unique_id=1950151852 node_paths=PackedStringArray("idleState", "chaseState", "navAgent")]
+script = ExtResource("2_1khr3")
 idleState = NodePath("SimpleIdleBehavior")
 chaseState = NodePath("SimpleChaseBehavior")
 navAgent = NodePath("../NavigationAgent2D")
 enemyMoveSpeedScalar = 0.7
-metadata/_custom_type_script = "uid://dahhv5h6jcpxr"
+metadata/_custom_type_script = "uid://1ax0i7rdnhfx"
 
-[node name="SimpleChaseBehavior" type="Node" parent="SimpleEnemy" unique_id=162683506]
+[node name="SimpleChaseBehavior" type="Node" parent="Simple Enemy" unique_id=162683506]
 script = ExtResource("3_jdsc1")
 behaviorName = "Basic Chase And Attack"
 metadata/_custom_type_script = "uid://b3d4s0vc84osu"
 
-[node name="SimpleIdleBehavior" type="Node" parent="SimpleEnemy" unique_id=562801330]
+[node name="SimpleIdleBehavior" type="Node" parent="Simple Enemy" unique_id=562801330]
 script = ExtResource("4_wiyko")
 behaviorName = "Basic Idle"
 metadata/_custom_type_script = "uid://cv8a8kqws75se"
@@ -791,4 +793,5 @@ script = ExtResource("24_sndig")
 metadata/_custom_type_script = "uid://5qs6dhbwfy6x"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=2084410043]
+material = SubResource("CanvasItemMaterial_8emba")
 shape = SubResource("CapsuleShape2D_d477y")

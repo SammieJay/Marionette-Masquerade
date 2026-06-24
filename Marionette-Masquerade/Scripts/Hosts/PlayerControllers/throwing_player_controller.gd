@@ -13,15 +13,18 @@ class_name ThrowingPlayer extends PlayerController
 @export var pullStopDistance: float = 16.0     # stop pulling once this close
 
 @export_category("Grabber Properties")
-@export var trackingForce:float = 0.25
+@export var trackingForce:float = 0.05
 @export var maxTrackingStr:float = 11.0
 @export var grabRange:float = 200.0
+@export_range(0.0,1.2,0.05,"Movement Scalar when grappling") 
+var grabMovementPenaltyScalar:float = 1.0
 
 
-## SCRIPT VARIABLES
+## ===== SCRIPT VARIABLES ===== ##
 var extraStrands: Array[GrappleTentacle] = []   # spawned copies
 
 var grabbedHost:HostController = null
+var grabbedEnemy:EnemyController = null
 var cursor:Cursor = null
 
 ## ===== FUNCTION OVERRIDES =====
@@ -29,13 +32,7 @@ func do_player_behavior(_delta:float):
 	## === WEAPON CODE ===
 	if inputHandler.is_action_just_pressed("Shoot"):
 		weapon.request_shoot(host.get_forward())
-	"""
-	if inputHandler.is_action_just_pressed("Grapple"):
-		if grapple.state == grapple.State.IDLE or grapple.state == grapple.State.RETRACTING:
-			_fire_grapple()
-		else:
-			_detach_all()
-	"""
+
 	if grabbedHost: update_grab(_delta)
 
 func _ready():
@@ -51,7 +48,9 @@ func do_player_physics(_delta:float):
 	## === MOVEMENT CODE ===
 	var moveVector = inputHandler.get_move_input() ## retrieve normalized movement input vector from InputHandler
 	# Apply movement
-	host.velocity = moveVector * host.moveSpeed * GlobalDefs.MOVE_SPEED_CONST * _delta
+	var moddedMoveSpeed:float = host.moveSpeed * GlobalDefs.MOVE_SPEED_CONST * _delta
+	if grabbedEnemy: moddedMoveSpeed *= grabMovementPenaltyScalar
+	host.velocity = moveVector * moddedMoveSpeed
 
 	# === GRAPPLE PULL ===
 	host.move_and_slide()
@@ -73,21 +72,22 @@ func on_posession()->void:
 
 func grab_enemy(_host:HostController)->void:
 	grabbedHost = _host
-	(grabbedHost.enemyController as PhysicsEnemy).grab(host)
+	grabbedEnemy = _host.enemyController
+	grabbedEnemy.forcePhysicsState = true
+	grabbedEnemy.collision.connect(_on_enemy_collision) ##When collision signal is emitted, release the enemy
 	grapple.attach_to_node(_host)
 	
 
 func release_enemy():
-	var enemy:PhysicsEnemy = grabbedHost.enemyController as PhysicsEnemy
-	enemy.grabbed = false
+	grabbedEnemy.forcePhysicsState = false
+	grabbedEnemy.collision.disconnect(_on_enemy_collision)
 	grabbedHost = null
+	grabbedEnemy = null
 	grapple.start_retract()
 
 
 
 func update_grab(_delta:float):
-	var enemy:PhysicsEnemy = grabbedHost.enemyController as PhysicsEnemy
-
 	var distToEnemy:float = host.global_position.distance_to(grabbedHost.global_position)
 
 	if distToEnemy > grabRange or inputHandler.is_action_just_released("Grapple"):
@@ -103,7 +103,7 @@ func update_grab(_delta:float):
 		cappedAdd = impulseAdd.normalized()*maxTrackingStr
 			
 	#print("Impulse Add STR ", cappedAdd.length())
-	enemy.give_impulse(cappedAdd)
+	grabbedEnemy.give_impulse(cappedAdd)
 
 
 
@@ -132,3 +132,7 @@ func _detach_all() -> void:
 	for g in extraStrands:
 		if is_instance_valid(g):
 			g.start_retract()
+
+## Singal receiver function, currently just releases grapple when collision occurs
+func _on_enemy_collision(_force:float, _col:KinematicCollision2D, _dir:Vector2):
+	release_enemy()

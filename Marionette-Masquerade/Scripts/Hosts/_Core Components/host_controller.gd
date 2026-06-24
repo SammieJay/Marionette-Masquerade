@@ -92,15 +92,14 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
-	
 	## Call the update function of the relevent Controller
 	if is_possessed() and is_alive(): playerController.do_player_behavior(_delta)
-	elif !disableEnemyAI and is_alive(): enemyController.do_enemy_behavior(_delta)
+	elif !disableEnemyAI and is_alive(): enemyController._enemyProcess(_delta)
 
 func _physics_process(_delta):
 	## Call the update function of the relevent Controller
 	if is_possessed() and is_alive(): playerController.do_player_physics(_delta)
-	elif !disableEnemyAI and is_alive(): enemyController.do_enemy_physics(_delta)
+	elif !disableEnemyAI and is_alive(): enemyController._enemyPhysicsProcess(_delta)
 
 
 ## ===== CORE FUNCTIONS CALLED FROM OTHER CLASSES =====
@@ -139,6 +138,7 @@ func die()->void:
 	set_collision_layer_value(GlobalDefs.HOST_PHYSICS_LAYER, false)
 	effectHandler.stop()
 	effectHandler.play_death_effect()
+	effectHandler.stunActive = false
 	if clearOnDeath: clear()
 
 ## Delete & Clear this host from memory

@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://8nqbrpawidg4" path="res://Scripts/Level Components/Global/player_camera.gd" id="1_a47sj"]
 [ext_resource type="Texture2D" uid="uid://kb6edbvea3lc" path="res://Assets/Textures/proto_light_temp_txtr_1.png" id="2_h28ho"]
 [ext_resource type="Texture2D" uid="uid://bjkrw2uyxy02e" path="res://Assets/Textures/tile_set_1_new.png" id="2_uyt4f"]
-[ext_resource type="PackedScene" uid="uid://cto5aoxw4f8ul" path="res://Scenes/Hosts/test_host.tscn" id="3_h28ho"]
+[ext_resource type="PackedScene" uid="uid://cto5aoxw4f8ul" path="res://Scenes/Hosts/Prototypes/test_host.tscn" id="3_h28ho"]
 [ext_resource type="PackedScene" uid="uid://bo1ob03elif7n" path="res://Scenes/Hosts/simple_test_host.tscn" id="4_ftkfg"]
 [ext_resource type="Script" uid="uid://dymdfu6tebr3h" path="res://Scripts/Level Components/Global/host_manager.gd" id="5_6jwtw"]
 [ext_resource type="PackedScene" uid="uid://bx5jc6exewmsk" path="res://Scenes/In-Scene Singleton Objects/cursor.tscn" id="6_lff7h"]

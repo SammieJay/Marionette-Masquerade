@@ -31,7 +31,11 @@ func _process(delta):
 
 ## Update the value of the healthbar to the proportional value of the host's health
 func update_healthbar_value():
-	if(host.currentHealth <= 0):
+	if host.currentHealth <= 0:
 		value = 0.0
+		visible = false
+	elif host.currentHealth == host.MAX_HEALTH:
+		visible = false
 	else:
+		visible = true
 		value = host.currentHealth/host.MAX_HEALTH

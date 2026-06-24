@@ -12,7 +12,7 @@ func _process(_delta: float) -> void:
 	super._process(_delta)
 
 	if eligibleHost != eligibleGrab:
-		if eligibleHost and eligibleHost.enemyController is PhysicsEnemy:
+		if eligibleHost:
 			eligibleGrab = eligibleHost
 		else: eligibleGrab = null
 

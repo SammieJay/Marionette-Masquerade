@@ -27,12 +27,13 @@ func _ready():
 	assert(chaseState, "Enemy %s has no reference to required Chase State BehaviorState node" %name)
 
 	## Set default state
-	set_active_state(idleState)
+	set_behavior_state(idleState)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
-	super._process(_delta) ## Required call to parent _process() function (updates important timers)
+	#super._process(_delta) ## Required call to parent _process() function (updates important timers)
+	pass
 
 func do_enemy_behavior(_delta:float):
 	if !is_stunned():
@@ -50,12 +51,12 @@ func do_enemy_behavior(_delta:float):
 				BehaviorState.BehaviorStatus.INCOMPLETE: pass
 				BehaviorState.BehaviorStatus.SUCCESS:
 					if targetHost and targetHost.is_alive():
-						set_active_state(chaseState)
+						set_behavior_state(chaseState)
 					else: pass
 		chaseState:
 			match stateStatus:
 				BehaviorState.BehaviorStatus.INCOMPLETE: pass
-				BehaviorState.BehaviorStatus.SUCCESS: set_active_state(idleState)
+				BehaviorState.BehaviorStatus.SUCCESS: set_behavior_state(idleState)
 
 
 
