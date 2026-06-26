@@ -52,6 +52,7 @@ class_name HostController extends CharacterBody2D
 # ----- References -----
 @onready var inputHandler:InputHandler
 @onready var hostManager:HostManager
+@onready var cursor:Cursor
 
 # ----- Possession -----
 @onready var currentlyPossessed:bool = false
@@ -80,6 +81,7 @@ func _ready():
 	## Retrieve references from groups
 	inputHandler = get_tree().get_first_node_in_group("InputHandler")
 	hostManager = get_tree().get_first_node_in_group("HostManager")
+	cursor = get_tree().get_first_node_in_group("Cursor")
 	
 	## Call setup functions
 	_verify_core_references() #verify that all required modules/nodes are present and linked
@@ -90,7 +92,7 @@ func _ready():
 	## Debug value setup
 	if disableEnemyWeaponDmg: weapon.disableWeaponDmg = true
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
+## Process functions just update the PlayerController or EnemyController based on posession status
 func _process(_delta):
 	## Call the update function of the relevent Controller
 	if is_possessed() and is_alive(): playerController.do_player_behavior(_delta)
@@ -165,6 +167,7 @@ func _distribute_references()->void:
 	playerController.host = self
 	playerController.weapon = weapon
 	playerController.inputHandler = inputHandler
+	playerController.cursor = cursor
 
 	# --- EnemyController ---
 	enemyController.host = self
