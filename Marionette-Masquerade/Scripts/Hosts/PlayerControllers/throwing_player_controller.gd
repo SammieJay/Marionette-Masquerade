@@ -25,7 +25,6 @@ var extraStrands: Array[GrappleTentacle] = []   # spawned copies
 
 var grabbedHost:HostController = null
 var grabbedEnemy:EnemyController = null
-var cursor:Cursor = null
 
 ## ===== FUNCTION OVERRIDES =====
 func do_player_behavior(_delta:float):
@@ -37,8 +36,6 @@ func do_player_behavior(_delta:float):
 
 func _ready():
 	super._ready() ## Parent ready call
-	
-	cursor = get_tree().get_first_node_in_group("Cursor")
 
 	grapple.maxDistance = grabRange
 	grapple.breakDistance = grabRange
@@ -57,7 +54,7 @@ func do_player_physics(_delta:float):
 	
 
 	# --- Rotation (face mouse) ---
-	var aimPos = inputHandler.get_mouse_global_position()
+	var aimPos = cursor.global_position
 	var lookDir = (aimPos - host.global_position).normalized()
 	var targetDir = lookDir.angle()
 	
@@ -75,6 +72,7 @@ func grab_enemy(_host:HostController)->void:
 	grabbedEnemy = _host.enemyController
 	grabbedEnemy.forcePhysicsState = true
 	grabbedEnemy.collision.connect(_on_enemy_collision) ##When collision signal is emitted, release the enemy
+	cursor.set_global_pos(grabbedHost.global_position)
 	grapple.attach_to_node(_host)
 	
 
