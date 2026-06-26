@@ -45,6 +45,7 @@ HostManager="Contains single HostManager class for level"
 ProjectileParent="Contains reference to parent node of all projectiles"
 Cursor="Contains reference to singleton Cursor class"
 PossessionIndicator=""
+Camera=""
 
 [input]
 

@@ -17,6 +17,7 @@ var mouseDelta: Vector2 = Vector2.ZERO ## The change in mouse position since the
 func _input(event: InputEvent)->void:
 	if event is InputEventMouseMotion: mouseDelta = event.relative
 
+func _ready(): process_priority = 100 #run last to ensure we aren't wiping mouseDelta before it can be retrieved
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta): 

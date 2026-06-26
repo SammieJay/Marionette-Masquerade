@@ -11,3 +11,7 @@ const HITBOX_PHYSICS_LAYER := 4 ## This layer contains all damage receiving hitb
 ## MOVEMENT
 
 const MOVE_SPEED_CONST:float = 1200.0
+
+## CONTROLS
+
+const MOUSE_SENSITIVITY:float = 0.25
