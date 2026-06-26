@@ -21,7 +21,7 @@ func do_player_physics(_delta:float):
 	host.move_and_slide()
 
 	# --- Rotation (face mouse) ---
-	var aimPos = inputHandler.get_mouse_global_position()
+	var aimPos = cursor.global_position
 	var lookDir = (aimPos - host.global_position).normalized()
 	var targetDir = lookDir.angle()
 	
