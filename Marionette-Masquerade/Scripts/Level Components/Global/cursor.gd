@@ -19,6 +19,8 @@ func _ready() -> void:
 	camera = get_tree().get_first_node_in_group("Camera")
 	
 	#global_position = inputHandler.get_mouse_global_position() ## Initial position is set in HostManager class _ready()
+	### This is for actual implementation only, dont use it unless want to have in game feel, its annoying to test with
+	#Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -28,6 +30,8 @@ func _process(_delta: float) -> void:
 
 	if hostManager.playerHost:
 		basePosition = camera.global_position
+	#for debug (this way ur mouse isnt stuck in the window):
+	global_position = get_global_mouse_position()
 	
 	if cursorLock: relativePosition += inputHandler.get_mouse_delta() * GlobalDefs.MOUSE_SENSITIVITY # DELTA NOT NEEDED HERE
 	
