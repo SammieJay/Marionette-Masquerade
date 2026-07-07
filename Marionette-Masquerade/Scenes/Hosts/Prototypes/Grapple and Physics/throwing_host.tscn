@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://nxicc26dotw5" path="res://Scripts/Hosts/_Core Components/host_controller.gd" id="1_8emba"]
 [ext_resource type="Script" uid="uid://1ax0i7rdnhfx" path="res://Scripts/Hosts/EnemyControllers/simple_enemy_controller.gd" id="2_1khr3"]
-[ext_resource type="Script" uid="uid://b3d4s0vc84osu" path="res://Scripts/Hosts/EnemyControllers/Behavior States/Simple Host/simple_chase_behavior.gd" id="3_jdsc1"]
+[ext_resource type="Script" uid="uid://crlu357f3ij1t" path="res://Scripts/Hosts/EnemyControllers/Behavior States/throwing_chase_behavior.gd" id="4_1khr3"]
 [ext_resource type="Script" uid="uid://cv8a8kqws75se" path="res://Scripts/Hosts/EnemyControllers/Behavior States/Simple Host/simple_idle_behavior.gd" id="4_wiyko"]
 [ext_resource type="Script" uid="uid://ba687u8artox1" path="res://Scripts/Hosts/PlayerControllers/throwing_player_controller.gd" id="5_8emba"]
 [ext_resource type="PackedScene" uid="uid://btv1qlblx7a0n" path="res://Scenes/Prototypes/grapple_tentacle.tscn" id="6_qgsm1"]
@@ -26,11 +26,11 @@
 [ext_resource type="Script" uid="uid://5qs6dhbwfy6x" path="res://Scripts/Hosts/_Core Components/hit_box.gd" id="24_sndig"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_6f7k1"]
-radius = 10.29563
+radius = 7.0
 
 [sub_resource type="Animation" id="Animation_6hky1"]
 resource_name = "Die"
-length = 0.03333667
+length = 3.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -50,10 +50,10 @@ tracks/1/path = NodePath("Sprites/Corpse Sprite:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0, 3),
+"transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [true]
+"values": [true, false]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -669,7 +669,6 @@ maskSprite = NodePath("Sprites/Head/MaskSprite")
 hostTypeName = "Throwing Host"
 moveSpeed = 10.0
 rotationSpeed = 9.0
-disableEnemyWeaponDmg = true
 metadata/_custom_type_script = "uid://nxicc26dotw5"
 
 [node name="Collider" type="CollisionShape2D" parent="." unique_id=266863240]
@@ -679,30 +678,30 @@ shape = SubResource("CircleShape2D_6f7k1")
 [node name="Simple Enemy" type="Node" parent="." unique_id=1950151852 node_paths=PackedStringArray("idleState", "chaseState", "navAgent")]
 script = ExtResource("2_1khr3")
 idleState = NodePath("SimpleIdleBehavior")
-chaseState = NodePath("SimpleChaseBehavior")
+chaseState = NodePath("ThrowingChaseBehavior")
 navAgent = NodePath("../NavigationAgent2D")
 enemyMoveSpeedScalar = 0.7
 metadata/_custom_type_script = "uid://1ax0i7rdnhfx"
-
-[node name="SimpleChaseBehavior" type="Node" parent="Simple Enemy" unique_id=162683506]
-script = ExtResource("3_jdsc1")
-behaviorName = "Basic Chase And Attack"
-metadata/_custom_type_script = "uid://b3d4s0vc84osu"
 
 [node name="SimpleIdleBehavior" type="Node" parent="Simple Enemy" unique_id=562801330]
 script = ExtResource("4_wiyko")
 behaviorName = "Basic Idle"
 metadata/_custom_type_script = "uid://cv8a8kqws75se"
 
+[node name="ThrowingChaseBehavior" type="Node" parent="Simple Enemy" unique_id=134893257]
+script = ExtResource("4_1khr3")
+metadata/_custom_type_script = "uid://crlu357f3ij1t"
+
 [node name="GrapplePlayer" type="Node" parent="." unique_id=1654257834 node_paths=PackedStringArray("grapple")]
 script = ExtResource("5_8emba")
 grapple = NodePath("../GrappleTentacle")
 grappleScene = ExtResource("6_qgsm1")
 strandScatter = 0.8
-trackingForce = 3.0
-grabMovementPenaltyScalar = 0.65
+trackingForce = 10.0
+grabMovementPenaltyScalar = 0.7
 holdDistance = 40.0
-maxHoldStr = 10.0
+maxHoldStr = 25.0
+holdRotationSpeed = 20.0
 metadata/_custom_type_script = "uid://ba687u8artox1"
 
 [node name="Pistol" type="Node" parent="." unique_id=2060538332]
@@ -781,6 +780,7 @@ host = NodePath("..")
 [node name="GrappleTentacle" type="Node2D" parent="." unique_id=90439214]
 script = ExtResource("19_wp7h3")
 gravity = 0.0
+constraintIterations = 20
 grappleTextures = Array[Resource]([ExtResource("20_rogyo"), ExtResource("21_c5ca6"), ExtResource("22_ujkqg"), ExtResource("23_iefwt")])
 metadata/_custom_type_script = "uid://b7p18lc7ewkbk"
 
