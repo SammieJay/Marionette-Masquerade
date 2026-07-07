@@ -11,17 +11,17 @@ class_name GrappleTentacle
 ## TODO:
 ## randomize txtr each time
 # ===== EXPORTS =====
-@export var segmentLength: float = 8.0      ## spacing between rope points
-@export var worldMask: int = 1              ## collision layer of walls (layer 2 = bitmask 2)
-@export var maxDistance: float = 100.0      ## default grapple range
-@export var gravity: float = 80.0           ## downward pull → sag/wave (0 = dead straight)
-@export var constraintIterations: int = 16  ## higher = stiffer, less stretchy
-@export var damping: float = 0.98           ## <1 calms jitter; near 1 = livelier
-@export var collisionPush: float = 6.0      ## how hard points are shoved out of walls
-@export var muzzle: Node2D                  ## optional: player end follows this; else this node
-@export var breakDistance: float = 120.0    ## this is how far you can move without it snapping
-@export var extendTime: float = 0.08    ## seconds for the rope to shoot out
-@export var retractTime: float = 0.10   ## seconds for the snap-back
+@export var defaultSegmentLength: float = 8.0   ## spacing between rope points
+@export var worldMask: int = 1              	## collision layer of walls (layer 2 = bitmask 2)
+@export var maxDistance: float = 100.0      	## default grapple range
+@export var gravity: float = 80.0           	## downward pull → sag/wave (0 = dead straight)
+@export var constraintIterations: int = 16  	## higher = stiffer, less stretchy
+@export var damping: float = 0.98           	## <1 calms jitter; near 1 = livelier
+@export var collisionPush: float = 6.0      	## how hard points are shoved out of walls
+@export var muzzle: Node2D                 		## optional: player end follows this; else this node
+@export var breakDistance: float = 120.0    	## this is how far you can move without it snapping
+@export var extendTime: float = 0.08    		## seconds for the rope to shoot out
+@export var retractTime: float = 0.10   		## seconds for the snap-back
 @export var freeOnDetach: bool = false
 
 @export var grappleTextures:Array[Resource] = []
@@ -31,11 +31,13 @@ var state: State = State.IDLE
 var animT: float = 0.0          ## 0..1 progress for extend/retract
 var fireOrigin: Vector2         ## where the shot started
 
+var segmentLength: float = 8.0      		## current spacing between rope points
+
 # ===== STATE =====
 var points: Array[Vector2] = []             	## current world positions
 var prevPoints: Array[Vector2] = []         	## previous world positions (verlet velocity)
 var anchorPoint: Vector2                    	## fixed end (the wall hit point)
-var anchorBody: Object = null              	 	## what we hit (for moving anchors)
+var anchorBody: Node2D = null              	 	## what we hit (for moving anchors)
 var anchorLocalOffset:Vector2 = Vector2.ZERO 	## Local coordinate offset of the anchor body
 
 @onready var line: Line2D = $Line2D
@@ -50,6 +52,15 @@ func _ready() -> void:
 		line.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST  # crisp pixels, no blur
 	else:
 		push_error("GrappleTentacle: no Line2D child found!")
+
+func _physics_process(_delta: float) -> void:
+	match state:
+		State.EXTENDING:
+			_tick_extend(_delta)
+		State.ATTACHED:
+			_tick_attached(_delta)
+		State.RETRACTING:
+			_tick_retract(_delta)
 
 func _randomize_texture()  -> void:
 	if not line:
@@ -83,6 +94,7 @@ func fire(_origin: Vector2, _dir: Vector2, _maxDist: float = -1.0) -> bool:
 
 ## Release the rope.
 func detach() -> void:
+	#print("DETATCH")
 	anchorLocalOffset = Vector2.ZERO
 	points.clear()
 	prevPoints.clear()
@@ -110,9 +122,11 @@ func attach_to_node(_node:Node2D, _localOffset: Vector2 = Vector2.ZERO)->void:
 func _build_points(_from: Vector2, _to: Vector2) -> void:
 	points.clear()
 	prevPoints.clear()
+	
+	segmentLength = defaultSegmentLength
 
 	var dist := _from.distance_to(_to)
-	var count := maxi(2, int(dist / segmentLength) + 1)
+	var count := mini(20, int(dist / segmentLength) + 1)
 	#var dir := (_to - _from).normalized()
 
 	for i in count:
@@ -121,15 +135,6 @@ func _build_points(_from: Vector2, _to: Vector2) -> void:
 		points.append(p)
 		prevPoints.append(p)                         # at rest, no initial velocity
 
-
-func _physics_process(_delta: float) -> void:
-	match state:
-		State.EXTENDING:
-			_tick_extend(_delta)
-		State.ATTACHED:
-			_tick_attached(_delta)
-		State.RETRACTING:
-			_tick_retract(_delta)
 
 func start_retract() -> void:
 	if state == State.ATTACHED or state == State.EXTENDING:
@@ -149,7 +154,7 @@ func _tick_extend(delta: float) -> void:
 func _tick_attached(delta: float) -> void:
 	var d := _muzzle_point().distance_to(_anchor_world_point())
 	if d >= breakDistance:
-		state = State.RETRACTING
+		start_retract()
 		animT = 0.0
 		return
 
@@ -177,50 +182,14 @@ func _tick_retract(delta: float) -> void:
 ## Resize the length of the segments to fit the distance between the muzzle and anchor
 ## Changed from adding/removing points to remove jitter effect
 func _resize_to_fit() -> void:
+	
 	var minSegmentLength := 1.0
 	var dist := _muzzle_point().distance_to(_anchor_world_point())
+	#print("RESIZING TO: ", dist)
 	segmentLength = maxf(minSegmentLength, dist / float(points.size() - 1))
+	#print("Num Points: ", points.size())
 
-## OLD RESIZE CODE
-"""
-## Shrink/grow the point chain to match the current muzzle→anchor distance,
-## so the rope reels in as the host approaches the anchor.
-func _resize_to_fit() -> void:
-	var from := _muzzle_point()
-	var to := _anchor_world_point()
-	var dist := from.distance_to(to)
-	var desired := maxi(2, int(dist / segmentLength) + 1)
 
-	if desired == points.size():
-		return
-
-	if desired < points.size():
-		# reeling in — drop points from the middle so the ends stay put
-		# EDIT: Drop points from anchor end to avoid middle twitching
-		while points.size() > desired:
-			var idx := 1 # just before anchor
-			points.remove_at(idx)
-			prevPoints.remove_at(idx)
-
-			## MIDPOINT SCALING
-			#var mid := points.size() / 2
-			#points.remove_at(mid)
-			#prevPoints.remove_at(mid)
-	else:
-		# moving away — add points in the middle
-		#EDIT: add points to anchor end to avoid middle twitching
-		while points.size() < desired:
-			var idx := 1 #just before anchor
-			var newp := (points[idx-1]+points[idx]) * 0.5
-			points.insert(idx, newp)
-			prevPoints.insert(idx, newp)
-
-			## MIDPOINT SCALING
-			#var mid := points.size() / 2
-			#var newp := (points[mid - 1] + points[mid]) * 0.5
-			#points.insert(mid, newp)
-			#prevPoints.insert(mid, newp)
-"""
 
 ## Verlet integration: implied velocity + gravity.
 func _integrate(delta: float) -> void:
@@ -283,13 +252,13 @@ func _muzzle_point() -> Vector2:
 
 ## Fixed end, tracks the hit body if it moves, else the static hit point.
 func _anchor_world_point() -> Vector2:
-	if anchorBody is Node2D and is_instance_valid(anchorBody):
-		return anchorBody.to_global(anchorLocalOffset)
+	if anchorBody:
+		return anchorBody.global_position
 	else: return anchorPoint
 	
 func _rebuild_line(_from: Vector2, _to: Vector2) -> void:
 	var dist := _from.distance_to(_to)
-	var count := maxi(2, int(dist / segmentLength) + 1)
+	var count := mini(20, int(dist / segmentLength) + 1)
 	points.resize(count)
 	prevPoints.resize(count)
 	for i in count:

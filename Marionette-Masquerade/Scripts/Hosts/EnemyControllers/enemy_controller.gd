@@ -182,6 +182,11 @@ func on_possession_release()->void:
 		stun(postPossessionStunTime)
 	else: set_enemy_state(EnemyState.DEFAULT)
 
+## [b]VIRTUAL[/b][br]
+## Called: By HostController when player enters this host [br]
+## Handles: Effects and behavior when enemy becomes posesssed
+func on_possession()->void: pass
+
 
 func stun(_durration:float):
 	stunnedTimer = _durration

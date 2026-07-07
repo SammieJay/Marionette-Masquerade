@@ -34,4 +34,10 @@ func do_player_physics(_delta:float): pass
 func on_possession()->void: pass
 
 
+## [b]VIRTUAL[/b][br]
+## Called: By HostController when player stops posessing this host [br]
+## Handles: Effects and behavior when this host returns to enemy control [br]
+func on_possession_release()->void:pass
+
+
 ## ===== HELPER FUNCTIONS =====
