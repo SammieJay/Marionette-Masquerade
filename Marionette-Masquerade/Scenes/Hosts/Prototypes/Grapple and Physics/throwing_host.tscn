@@ -668,6 +668,7 @@ visionRay = NodePath("RayCast2D")
 maskSprite = NodePath("Sprites/Head/MaskSprite")
 hostTypeName = "Throwing Host"
 moveSpeed = 10.0
+rotationSpeed = 9.0
 disableEnemyWeaponDmg = true
 metadata/_custom_type_script = "uid://nxicc26dotw5"
 
@@ -698,8 +699,10 @@ script = ExtResource("5_8emba")
 grapple = NodePath("../GrappleTentacle")
 grappleScene = ExtResource("6_qgsm1")
 strandScatter = 0.8
-trackingForce = 0.3
+trackingForce = 3.0
 grabMovementPenaltyScalar = 0.65
+holdDistance = 40.0
+maxHoldStr = 10.0
 metadata/_custom_type_script = "uid://ba687u8artox1"
 
 [node name="Pistol" type="Node" parent="." unique_id=2060538332]

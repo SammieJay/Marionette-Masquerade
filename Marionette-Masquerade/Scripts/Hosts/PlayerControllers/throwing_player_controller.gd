@@ -7,10 +7,9 @@ class_name ThrowingPlayer extends PlayerController
 ## Export Vars
 @export_category("Tentacle Properties")
 @export var grapple : GrappleTentacle
-@export var grappleScene: PackedScene          # GrappleTentacle.tscn
-@export var strandScatter: float = 0.08        # aim spread in radians per extra strand
-@export var pullSpeed: float = 300.0           # how hard the grapple reels you in
-@export var pullStopDistance: float = 16.0     # stop pulling once this close
+@export var grappleScene: PackedScene         	# GrappleTentacle.tscn
+@export var strandScatter: float = 0.08        	# aim spread in radians per extra strand
+@export var pullStopDistance: float = 16.0		# stop pulling once this close
 
 @export_category("Grabber Properties")
 @export var trackingForce:float = 0.05
@@ -18,6 +17,14 @@ class_name ThrowingPlayer extends PlayerController
 @export var grabRange:float = 200.0
 @export_range(0.0,1.2,0.05,"Movement Scalar when grappling") 
 var grabMovementPenaltyScalar:float = 1.0
+
+@export_category("Hold Properties")
+@export var holdDistance:float = 120.0			# distance from player the enemy is held at
+@export var maxHoldStr:float = 2000.0        	# cap on correction velocity when snapping to hold position (px/sec)
+@export var holdRotationSpeed:float = 10.0     	# how fast held enemy turns to face aimDir
+
+@export_category("Shove Properties")
+@export var shoveForce: float = 800.0
 
 
 ## ===== SCRIPT VARIABLES ===== ##
@@ -28,11 +35,15 @@ var grabbedEnemy:EnemyController = null
 
 ## ===== FUNCTION OVERRIDES =====
 func do_player_behavior(_delta:float):
+	
+	if grabbedHost: update_grab(_delta)
+	
 	## === WEAPON CODE ===
 	if inputHandler.is_action_just_pressed("Shoot"):
-		weapon.request_shoot(host.get_forward())
+		if grabbedHost: shove_enemy(_get_aim_dir())
+		else: weapon.request_shoot(host.get_forward())
 
-	if grabbedHost: update_grab(_delta)
+	
 
 func _ready():
 	super._ready() ## Parent ready call
@@ -72,7 +83,7 @@ func grab_enemy(_host:HostController)->void:
 	grabbedEnemy = _host.enemyController
 	grabbedEnemy.forcePhysicsState = true
 	grabbedEnemy.collision.connect(_on_enemy_collision) ##When collision signal is emitted, release the enemy
-	cursor.set_global_pos(grabbedHost.global_position)
+	#cursor.set_global_pos(grabbedHost.global_position)
 	grapple.attach_to_node(_host)
 	
 
@@ -82,27 +93,6 @@ func release_enemy():
 	grabbedHost = null
 	grabbedEnemy = null
 	grapple.start_retract()
-
-
-
-func update_grab(_delta:float):
-	var distToEnemy:float = host.global_position.distance_to(grabbedHost.global_position)
-
-	if distToEnemy > grabRange or inputHandler.is_action_just_released("Grapple"):
-		release_enemy()
-		return
-
-	var toCursor:Vector2 = (cursor.global_position - grabbedHost.global_position)
-
-	var impulseAdd:Vector2 = toCursor*trackingForce
-	var cappedAdd:Vector2 = impulseAdd
-
-	if impulseAdd.length()>maxTrackingStr:
-		cappedAdd = impulseAdd.normalized()*maxTrackingStr
-			
-	#print("Impulse Add STR ", cappedAdd.length())
-	grabbedEnemy.give_impulse(cappedAdd)
-
 
 
 func _fire_grapple() -> void:
@@ -134,3 +124,69 @@ func _detach_all() -> void:
 ## Singal receiver function, currently just releases grapple when collision occurs
 func _on_enemy_collision(_force:float, _col:KinematicCollision2D, _dir:Vector2):
 	release_enemy()
+
+
+## ===== GRAPPLE AND THROW FUNCTIONS ===== ##
+
+## Called every frame while a host is grabbed. [br]
+## Holds the grabbed host at holdDistance from the player, aimed towards the cursor, [br]
+## and lets the player shove it away on input.
+func update_grab(_delta:float):
+	""" ## OLD CODE FOR GRAB
+	var distToEnemy:float = host.global_position.distance_to(grabbedHost.global_position)
+
+	if distToEnemy > grabRange or inputHandler.is_action_just_released("Grapple"):
+		release_enemy()
+		return
+
+	var toCursor:Vector2 = (cursor.global_position - grabbedHost.global_position)
+
+	var impulseAdd:Vector2 = toCursor*trackingForce
+	var cappedAdd:Vector2 = impulseAdd
+
+	if impulseAdd.length()>maxTrackingStr:
+		cappedAdd = impulseAdd.normalized()*maxTrackingStr
+			
+	#print("Impulse Add STR ", cappedAdd.length())
+	grabbedEnemy.give_impulse(cappedAdd)
+	"""
+
+
+	if inputHandler.is_action_just_released("Grapple"):
+		release_enemy()
+		return
+	
+	var aimDir:Vector2 = _get_aim_dir()
+
+	var targetPos:Vector2 = host.global_position + aimDir * holdDistance
+	_move_grabbed_host_towards(targetPos, _delta)
+
+	grabbedEnemy._lerp_look_at_pos(_delta, grabbedHost.global_position + aimDir)
+
+
+func shove_enemy(_dir:Vector2):
+	grabbedEnemy.give_impulse(_dir * shoveForce)
+	release_enemy()
+
+
+## Drives the grabbed host towards _targetPos this frame via velocity + move_and_slide, [br]
+## so it still respects walls/collisions rather than teleporting through them.
+func _move_grabbed_host_towards(_target_pos:Vector2, _delta:float):
+	if _delta <= 0.0: return
+	
+	var toTarget:Vector2 = _target_pos - grabbedHost.global_position
+	var desiredVelocity:Vector2 = toTarget * toTarget.length() * trackingForce
+
+	print(toTarget.length())
+
+	# Cap adjusting velocity
+	if desiredVelocity.length() > maxHoldStr:
+		desiredVelocity = desiredVelocity.normalized() * maxHoldStr
+	
+	
+	grabbedEnemy.give_impulse(desiredVelocity)
+
+func _get_aim_dir()->Vector2:
+	var toCursor:Vector2 = cursor.global_position - host.global_position
+	if toCursor.length() < 0.001: return host.get_forward()
+	return toCursor.normalized()
