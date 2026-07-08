@@ -1,12 +1,13 @@
-[gd_scene format=4 uid="uid://ferlh76l63ao"]
+[gd_scene format=4 uid="uid://b7fbfmx1ubjai"]
 
-[ext_resource type="Script" uid="uid://8nqbrpawidg4" path="res://Scripts/Level Components/Global/player_camera.gd" id="1_23n6c"]
-[ext_resource type="Texture2D" uid="uid://bjkrw2uyxy02e" path="res://Assets/Textures/tile_set_1_new.png" id="2_rwfj8"]
-[ext_resource type="PackedScene" uid="uid://cmwcmalkd1tr" path="res://Scenes/Hosts/Prototypes/Grapple and Physics/throwing_host_pistol.tscn" id="5_23n6c"]
-[ext_resource type="Script" uid="uid://bh46kqsbbrvwg" path="res://Scripts/Level Components/Global/Testing Coppies/throwing_host_manager.gd" id="6_23n6c"]
-[ext_resource type="PackedScene" uid="uid://bx5jc6exewmsk" path="res://Scenes/In-Scene Singleton Objects/cursor.tscn" id="7_mgd1m"]
-[ext_resource type="PackedScene" uid="uid://6lt0i311l7b1" path="res://Scenes/In-Scene Singleton Objects/posession_indicator.tscn" id="8_8r40t"]
-[ext_resource type="Script" uid="uid://cca2yiacp0mcp" path="res://Scripts/Hosts/_Core Components/input_handler.gd" id="9_lb54g"]
+[ext_resource type="Script" uid="uid://8nqbrpawidg4" path="res://Scripts/Level Components/Global/player_camera.gd" id="1_wlg1x"]
+[ext_resource type="Texture2D" uid="uid://bjkrw2uyxy02e" path="res://Assets/Textures/tile_set_1_new.png" id="2_3efvy"]
+[ext_resource type="PackedScene" uid="uid://cmwcmalkd1tr" path="res://Scenes/Hosts/Prototypes/Grapple and Physics/throwing_host_pistol.tscn" id="3_fdnob"]
+[ext_resource type="PackedScene" uid="uid://cmnkby8kbeqq6" path="res://Scenes/Hosts/Prototypes/Grapple and Physics/throwing_host_shotgun.tscn" id="4_3efvy"]
+[ext_resource type="Script" uid="uid://bh46kqsbbrvwg" path="res://Scripts/Level Components/Global/Testing Coppies/throwing_host_manager.gd" id="4_evdkh"]
+[ext_resource type="PackedScene" uid="uid://bx5jc6exewmsk" path="res://Scenes/In-Scene Singleton Objects/cursor.tscn" id="5_yoapo"]
+[ext_resource type="PackedScene" uid="uid://6lt0i311l7b1" path="res://Scenes/In-Scene Singleton Objects/posession_indicator.tscn" id="6_o5a2f"]
+[ext_resource type="Script" uid="uid://cca2yiacp0mcp" path="res://Scripts/Hosts/_Core Components/input_handler.gd" id="7_lipcn"]
 
 [sub_resource type="Gradient" id="Gradient_pi6y5"]
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
@@ -131,7 +132,7 @@ outlines = Array[PackedVector2Array]([PackedVector2Array(-11, -16, 16, -16, 16, 
 agent_radius = 0.0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_6q8xr"]
-texture = ExtResource("2_rwfj8")
+texture = ExtResource("2_3efvy")
 texture_region_size = Vector2i(32, 32)
 0:0/0 = 0
 0:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_8qdyi")
@@ -296,7 +297,7 @@ sources/0 = SubResource("TileSetAtlasSource_6q8xr")
 
 [node name="PlayerCamera" type="Camera2D" parent="." unique_id=1861531291 groups=["Camera"]]
 zoom = Vector2(2, 2)
-script = ExtResource("1_23n6c")
+script = ExtResource("1_wlg1x")
 metadata/_custom_type_script = "uid://8nqbrpawidg4"
 
 [node name="PointLight2D" type="PointLight2D" parent="PlayerCamera" unique_id=1700083685]
@@ -318,58 +319,61 @@ metadata/_edit_lock_ = true
 
 [node name="Projectiles" type="Node2D" parent="TileMapLayer/Hosts" unique_id=860021879 groups=["ProjectileParent"]]
 
-[node name="Thrower Host" parent="TileMapLayer/Hosts" unique_id=1629916961 instance=ExtResource("5_23n6c")]
+[node name="Thrower Host" parent="TileMapLayer/Hosts" unique_id=1629916961 instance=ExtResource("3_fdnob")]
 position = Vector2(-599, 205)
 
-[node name="Thrower Host2" parent="TileMapLayer/Hosts" unique_id=1829705497 instance=ExtResource("5_23n6c")]
-position = Vector2(-5, 67)
-
-[node name="Thrower Host3" parent="TileMapLayer/Hosts" unique_id=1205082785 instance=ExtResource("5_23n6c")]
+[node name="Thrower Host3" parent="TileMapLayer/Hosts" unique_id=1205082785 instance=ExtResource("3_fdnob")]
 position = Vector2(146, -112)
 
-[node name="Thrower Host4" parent="TileMapLayer/Hosts" unique_id=309471663 instance=ExtResource("5_23n6c")]
-position = Vector2(144, -14)
-
-[node name="Thrower Host5" parent="TileMapLayer/Hosts" unique_id=1076051418 instance=ExtResource("5_23n6c")]
+[node name="Thrower Host5" parent="TileMapLayer/Hosts" unique_id=1076051418 instance=ExtResource("3_fdnob")]
 position = Vector2(272, 172)
 
-[node name="Thrower Host6" parent="TileMapLayer/Hosts" unique_id=1935708393 instance=ExtResource("5_23n6c")]
+[node name="Thrower Host6" parent="TileMapLayer/Hosts" unique_id=1935708393 instance=ExtResource("3_fdnob")]
 position = Vector2(-16, 206)
 
-[node name="Thrower Host7" parent="TileMapLayer/Hosts" unique_id=143468973 instance=ExtResource("5_23n6c")]
+[node name="Thrower Host7" parent="TileMapLayer/Hosts" unique_id=143468973 instance=ExtResource("3_fdnob")]
 position = Vector2(207, 276)
 
-[node name="Thrower Host8" parent="TileMapLayer/Hosts" unique_id=1475126400 instance=ExtResource("5_23n6c")]
+[node name="Thrower Host8" parent="TileMapLayer/Hosts" unique_id=1475126400 instance=ExtResource("3_fdnob")]
 position = Vector2(369, 337)
 
-[node name="Thrower Host9" parent="TileMapLayer/Hosts" unique_id=667743770 instance=ExtResource("5_23n6c")]
+[node name="Thrower Host9" parent="TileMapLayer/Hosts" unique_id=667743770 instance=ExtResource("3_fdnob")]
 position = Vector2(658, 302)
 
-[node name="Thrower Host10" parent="TileMapLayer/Hosts" unique_id=1354463952 instance=ExtResource("5_23n6c")]
+[node name="Thrower Host10" parent="TileMapLayer/Hosts" unique_id=1354463952 instance=ExtResource("3_fdnob")]
 position = Vector2(718, 174)
 
-[node name="Thrower Host11" parent="TileMapLayer/Hosts" unique_id=1924644493 instance=ExtResource("5_23n6c")]
+[node name="Thrower Host11" parent="TileMapLayer/Hosts" unique_id=1924644493 instance=ExtResource("3_fdnob")]
 position = Vector2(592, 177)
 
-[node name="Thrower Host12" parent="TileMapLayer/Hosts" unique_id=857503841 instance=ExtResource("5_23n6c")]
+[node name="Thrower Host12" parent="TileMapLayer/Hosts" unique_id=857503841 instance=ExtResource("3_fdnob")]
 position = Vector2(-176, 303)
 
-[node name="Thrower Host13" parent="TileMapLayer/Hosts" unique_id=1763543184 instance=ExtResource("5_23n6c")]
+[node name="Thrower Host13" parent="TileMapLayer/Hosts" unique_id=1763543184 instance=ExtResource("3_fdnob")]
 position = Vector2(-339, 365)
 
-[node name="Thrower Host14" parent="TileMapLayer/Hosts" unique_id=233076614 instance=ExtResource("5_23n6c")]
+[node name="Thrower Host14" parent="TileMapLayer/Hosts" unique_id=233076614 instance=ExtResource("3_fdnob")]
 position = Vector2(-500, 334)
 
+[node name="Thrower Host Pistol" parent="TileMapLayer/Hosts" unique_id=256164421 instance=ExtResource("4_3efvy")]
+position = Vector2(-204, -97)
+
 [node name="ThrowTestingHostManager" type="Node" parent="." unique_id=183666844 node_paths=PackedStringArray("startingPlayerHost") groups=["HostManager"]]
-script = ExtResource("6_23n6c")
-startingPlayerHost = NodePath("../TileMapLayer/Hosts/Thrower Host")
+script = ExtResource("4_evdkh")
+startingPlayerHost = NodePath("../TileMapLayer/Hosts/Thrower Host Pistol")
 metadata/_custom_type_script = "uid://bh46kqsbbrvwg"
 
-[node name="Cursor" parent="." unique_id=1696245876 instance=ExtResource("7_mgd1m")]
+[node name="Cursor" parent="." unique_id=1696245876 instance=ExtResource("5_yoapo")]
 
-[node name="PossessionIndicator" parent="." unique_id=2037520429 instance=ExtResource("8_8r40t")]
+[node name="PossessionIndicator" parent="." unique_id=2037520429 instance=ExtResource("6_o5a2f")]
 
 [node name="InputHandler" type="Node2D" parent="." unique_id=1413815275 groups=["InputHandler"]]
 position = Vector2(-26, -56)
-script = ExtResource("9_lb54g")
+script = ExtResource("7_lipcn")
 metadata/_custom_type_script = "uid://cca2yiacp0mcp"
+
+[node name="Thrower Host Pistol" parent="." unique_id=706358487 instance=ExtResource("4_3efvy")]
+position = Vector2(-4, 63)
+
+[node name="Thrower Host Pistol2" parent="." unique_id=2064215931 instance=ExtResource("4_3efvy")]
+position = Vector2(356, -9)
