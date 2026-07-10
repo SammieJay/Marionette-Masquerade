@@ -727,6 +727,7 @@ debug_use_custom = true
 debug_path_custom_color = Color(1, 0, 1, 1)
 
 [node name="RayCast2D" type="RayCast2D" parent="." unique_id=678213811]
+visible = false
 
 [node name="health_bar" parent="." unique_id=1227717340 node_paths=PackedStringArray("host") instance=ExtResource("19_nxclx")]
 host = NodePath("..")
