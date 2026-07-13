@@ -15,9 +15,10 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 [application]
 
 config/name="Marionette Masquerade"
+run/main_scene="uid://ltweu6pso4dt"
 config/features=PackedStringArray("4.6", "Forward Plus")
 boot_splash/bg_color=Color(0.26850447, 0, 0.0028242643, 1)
-boot_splash/image="uid://cyd4558448y7p"
+boot_splash/image="uid://8ngonlai5ssa"
 config/icon="res://icon.svg"
 
 [autoload]
