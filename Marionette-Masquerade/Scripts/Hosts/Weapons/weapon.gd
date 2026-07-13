@@ -73,7 +73,6 @@ func _process(_delta):
 ## Creates an instance of provided projectile scene [br]
 ## [b]Expects:[/b] projectileScene and projectileSpawnPoint export variables to be set [br]
 func instance_projectile(_dir:Vector2, _speed:float, _dmg:float):
-	ammo -= 1
 	
 	var dir = _dir.normalized() #normalize direction just in case
 	

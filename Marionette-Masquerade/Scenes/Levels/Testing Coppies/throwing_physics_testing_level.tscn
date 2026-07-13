@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://8nqbrpawidg4" path="res://Scripts/Level Components/Global/player_camera.gd" id="1_23n6c"]
 [ext_resource type="Texture2D" uid="uid://bjkrw2uyxy02e" path="res://Assets/Textures/tile_set_1_new.png" id="2_rwfj8"]
-[ext_resource type="PackedScene" uid="uid://cmwcmalkd1tr" path="res://Scenes/Hosts/Prototypes/Grapple and Physics/throwing_host.tscn" id="5_23n6c"]
+[ext_resource type="PackedScene" uid="uid://cmwcmalkd1tr" path="res://Scenes/Hosts/Prototypes/Grapple and Physics/throwing_host_pistol.tscn" id="5_23n6c"]
 [ext_resource type="Script" uid="uid://bh46kqsbbrvwg" path="res://Scripts/Level Components/Global/Testing Coppies/throwing_host_manager.gd" id="6_23n6c"]
 [ext_resource type="PackedScene" uid="uid://bx5jc6exewmsk" path="res://Scenes/In-Scene Singleton Objects/cursor.tscn" id="7_mgd1m"]
 [ext_resource type="PackedScene" uid="uid://6lt0i311l7b1" path="res://Scenes/In-Scene Singleton Objects/posession_indicator.tscn" id="8_8r40t"]

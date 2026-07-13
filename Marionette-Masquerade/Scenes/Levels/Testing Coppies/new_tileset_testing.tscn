@@ -9,7 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://dbmn4jxcutdg5" path="res://Assets/Textures/top_layer_SUPLEMENT_txtr_3.png" id="7_160gc"]
 [ext_resource type="Texture2D" uid="uid://eyfnl816w0rp" path="res://Assets/Textures/fan_sprite_sheet_1.png" id="8_0h26p"]
 [ext_resource type="Texture2D" uid="uid://c25leic00q0v6" path="res://Assets/Textures/TILE PROTO.png" id="9_juso6"]
-[ext_resource type="PackedScene" uid="uid://cmwcmalkd1tr" path="res://Scenes/Hosts/Prototypes/Grapple and Physics/throwing_host.tscn" id="10_0bhvx"]
+[ext_resource type="PackedScene" uid="uid://cmwcmalkd1tr" path="res://Scenes/Hosts/Prototypes/Grapple and Physics/throwing_host_pistol.tscn" id="10_0bhvx"]
 [ext_resource type="Script" uid="uid://bh46kqsbbrvwg" path="res://Scripts/Level Components/Global/Testing Coppies/throwing_host_manager.gd" id="11_n6ah6"]
 [ext_resource type="PackedScene" uid="uid://bx5jc6exewmsk" path="res://Scenes/In-Scene Singleton Objects/cursor.tscn" id="12_ywfmv"]
 [ext_resource type="PackedScene" uid="uid://6lt0i311l7b1" path="res://Scenes/In-Scene Singleton Objects/posession_indicator.tscn" id="13_0675m"]
