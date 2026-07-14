@@ -629,6 +629,8 @@ script = ExtResource("2_0bg0o")
 idleState = NodePath("SimpleIdleBehavior")
 chaseState = NodePath("ThrowingChaseBehavior")
 navAgent = NodePath("../NavigationAgent2D")
+confusionDelayTime = 1.0
+postPossessionStunTime = 1.5
 enemyMoveSpeedScalar = 0.7
 metadata/_custom_type_script = "uid://1ax0i7rdnhfx"
 
@@ -639,6 +641,8 @@ metadata/_custom_type_script = "uid://cv8a8kqws75se"
 
 [node name="ThrowingChaseBehavior" type="Node" parent="Simple Enemy" unique_id=134893257]
 script = ExtResource("4_3i26u")
+stopChaseDistance = 700.0
+attackDelay = 1.0
 metadata/_custom_type_script = "uid://crlu357f3ij1t"
 
 [node name="GrapplePlayer With Resource Tracking" type="Node" parent="." unique_id=1086532686 node_paths=PackedStringArray("resourceTracker", "grapple")]
