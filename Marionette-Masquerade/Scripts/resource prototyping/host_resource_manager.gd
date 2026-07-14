@@ -1,6 +1,8 @@
+## GLOBAL COST VERSION of the HostResourceManager [br]
+## This class is more relevant in the localized resource system, here it checks if the global resource class has enough to spend on an ability
 class_name HostResourceManager extends Node
 
-var resource:float = 1.0
+#var resource:float = 1.0
 
 var resourceManager:ResourceManager
 
@@ -10,21 +12,22 @@ func _ready():
 
 func has_resource(_val:float)->bool:
 	var value := clampf(_val, 0.0, 1.0)
+	var managerResource:= resourceManager.resource
 	
-	if resource >= value: return true
+	if managerResource >= value: return true
 	else: return false
 
-## Returns true if resource is high enough to spend, otherwise returns false
 func spend_resource(_val:float):
 	var value := clampf(_val, 0.0, 1.0)
 	if has_resource(value):
-		resource -= value
-		print("Resource is now: ", resource)
-		updateManager()
+		#print("Resource is now: ", resource)
+		resourceManager.spend_resource(value)
+		#updateManager()
 
 func reset_resource(): 
-	resource = 1.0
+	#resource = 1.0
 	updateManager()
 
 func updateManager():
-	resourceManager.setCurrentResource(resource)
+	#resourceManager.setCurrentResource(resource)
+	pass

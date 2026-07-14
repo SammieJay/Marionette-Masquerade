@@ -2,6 +2,7 @@ class_name ResourceManager extends Node
 
 @export var grabCost:float = 0.25
 @export var throwCost:float = 0.25
+@export var resourceRegenRate:float = 0.01
 
 @export var resourceDisplay:ProgressBar
 
@@ -20,11 +21,18 @@ func clamp_resource():
 func reset_resource(): resource = 1.0
 
 func _process(_delta:float):
+	resource += _delta * resourceRegenRate
+	
 	clamp_resource()
 	if resourceDisplay: 
 		update_resource_display()
 
 func update_resource_display():
-	if resourceDisplay.value != resource: print("Setting bar to: ", resource)
+	#if resourceDisplay.value != resource: print("Setting bar to: ", resource)
 	resourceDisplay.value = resource
+
+func spend_resource(_val:float):
+	var value:= clampf(_val, 0.0, 1.0)
+	if resource >= value:
+		resource -= value
 

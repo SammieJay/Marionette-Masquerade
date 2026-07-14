@@ -642,7 +642,7 @@ metadata/_custom_type_script = "uid://cv8a8kqws75se"
 [node name="ThrowingChaseBehavior" type="Node" parent="Simple Enemy" unique_id=134893257]
 script = ExtResource("4_m78yw")
 stopChaseDistance = 700.0
-attackDelay = 1.0
+attackDelay = 0.7
 metadata/_custom_type_script = "uid://crlu357f3ij1t"
 
 [node name="GrapplePlayer With Resource Tracking" type="Node" parent="." unique_id=1086532686 node_paths=PackedStringArray("resourceTracker", "grapple")]
