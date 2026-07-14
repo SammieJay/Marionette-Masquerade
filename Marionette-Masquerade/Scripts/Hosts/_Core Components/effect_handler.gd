@@ -69,8 +69,3 @@ func play_stun_effect(): update_effect(stunEffectName)
 
 # Stun effect setter
 func set_stun(_active:bool): stunActive = _active ## Set whether the stun sprite should be active or not
-
-
-
-
-
