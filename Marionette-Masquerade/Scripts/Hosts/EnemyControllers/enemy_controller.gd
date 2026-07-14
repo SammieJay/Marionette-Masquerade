@@ -104,7 +104,7 @@ func set_enemy_state(_next:EnemyState):
 
 ## Process function for the enemy controller specific functionality [br]
 ## Called by HostController every frame when enemy is posessed
-func _enemyProcess(_delta:float):
+func _enemy_process(_delta:float):
 	## Update Timers
 	if confusionTimer > 0.0: confusionTimer -= _delta
 
@@ -122,7 +122,7 @@ func _enemyProcess(_delta:float):
 
 ## Process function for the enemy controller specific functionality [br]
 ## Called by HostController every physics frame when enemy is posessed
-func _enemyPhysicsProcess(_delta):
+func _enemy_physics_process(_delta):
 	if forcePhysicsState: set_enemy_state(EnemyState.PHYSICS)
 	
 	match enemyState:

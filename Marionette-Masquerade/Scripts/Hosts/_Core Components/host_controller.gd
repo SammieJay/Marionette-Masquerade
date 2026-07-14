@@ -98,12 +98,12 @@ func _ready():
 func _process(_delta):
 	## Call the update function of the relevent Controller
 	if is_possessed() and is_alive(): playerController.do_player_behavior(_delta)
-	elif !disableEnemyAI and is_alive(): enemyController._enemyProcess(_delta)
+	elif !disableEnemyAI and is_alive(): enemyController._enemy_process(_delta)
 
 func _physics_process(_delta):
 	## Call the update function of the relevent Controller
 	if is_possessed() and is_alive(): playerController.do_player_physics(_delta)
-	elif !disableEnemyAI and is_alive(): enemyController._enemyPhysicsProcess(_delta)
+	elif !disableEnemyAI and is_alive(): enemyController._enemy_physics_process(_delta)
 
 
 ## ===== CORE FUNCTIONS CALLED FROM OTHER CLASSES =====
