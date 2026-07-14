@@ -70,7 +70,7 @@ func do_player_physics(_delta:float):
 
 	if grabbedHost: update_grab(_delta)
 
-func on_posession()->void:
+func on_possession()->void:
 	pass
 
 func on_possession_release()->void:
