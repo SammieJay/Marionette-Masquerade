@@ -6,7 +6,8 @@ func _ready():
 	maxAmmo = 12
 	reloadTime = 2.0
 	damage = 1.0
-	projectileSpeed = 1.75
+	projectileSpeed = 1.25
+
 	fire_rate = 0.25
 	
 
