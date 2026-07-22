@@ -17,21 +17,19 @@ enum EnemyState {
 @export_category("References")
 @export_group("REQUIRED")
 @export var navAgent:NavigationAgent2D
+@export var impulseBody:ImpulseBody
 
 @export_category("Enemy Propperties")
 @export var confusionDelayTime:float = 1.2 ## How long this host takes to target the player after they switch hosts
 @export var postPossessionStunTime:float = 3.0 ## How long this host is stunned after player switches to anoter host
 @export_range(0.0, 3.0, 0.1, "scaled from host speed") var enemyMoveSpeedScalar:float = 1.0
 
-@export_category("Physics")
-@export var impulseDamping:float = 2.0 ## How aggressively the host slows down after an impulse is applied
-@export var reboundForce:float = 0.25
+@export_category("Collisions")
 @export var takeDmgOnCollide:bool = true
 @export var collisionStunThreshold:float = 200.0
-@export var minPhysicsVelocity:float = 1.0
 
 ## ===== SIGNALS =====
-signal collision(_force:float, _col:KinematicCollision2D, _dir:Vector2) ## Signal emits when host collides with something, signal includes colision information and the force / direction of the collision
+# no signals yet
 
 
 ## ===== SCRIPT VARIABLES =====
@@ -74,6 +72,11 @@ func is_confused()->bool: return confusionTimer > 0.0
 func is_stunned()->bool: return stunnedTimer > 0.0
 func is_moving()->bool:return navTargetPos != Vector2.ZERO or navTargetHost != null ## Returns true if enemy is attempting to move towards a pathfinding target (position or host)
 func is_enemyState(_state:EnemyState)->bool: return _state == enemyState
+
+
+func _ready():
+	impulseBody.impact.connect(impact_response)
+
 
 ## ===== ENEMY STATE MACHINE FUNCTIONS ======
 func set_enemy_state(_next:EnemyState):
@@ -123,36 +126,25 @@ func _enemyProcess(_delta:float):
 ## Process function for the enemy controller specific functionality [br]
 ## Called by HostController every physics frame when enemy is posessed
 func _enemyPhysicsProcess(_delta):
-	if forcePhysicsState: set_enemy_state(EnemyState.PHYSICS)
+	# Update physics system if it is forced active (when grabbed)
+	if forcePhysicsState: 
+		set_enemy_state(EnemyState.PHYSICS)
+		impulseBody.forceActive = true
+	else:
+		impulseBody.forceActive = false
 	
 	match enemyState:
 		EnemyState.DEFAULT:
 			do_enemy_physics(_delta)
 			update_movement(_delta) ## Do enemy movement
 		EnemyState.PHYSICS:
-			## Physics Handling
-			sinceLastImpact += _delta
-	
-			if physicsVelocity.length() < minPhysicsVelocity and !forcePhysicsState:
+			if !impulseBody.active:
 				set_enemy_state(EnemyState.DEFAULT) ## switch state
 				return
-			
-			update_physics(_delta)
 		EnemyState.STUN:
 			pass
 
 
-## Updates the physics response of the enemy if in physics mode[br]
-## Called from _physics_process()
-func update_physics(_delta:float):
-	if host.is_possessable(): host.currentlyPossesable = false
-
-	host.velocity = physicsVelocity
-	physicsVelocity = physicsVelocity.lerp(Vector2.ZERO, impulseDamping * _delta)
-	
-	var beforeVel:= host.velocity
-	host.move_and_slide()
-	_check_collisions(_delta, beforeVel)
 
 ## updates movement of enemy every physics frame [br]
 ## called from _physics_process [br]
@@ -288,41 +280,22 @@ func halt_movement():
 func do_enemy_behavior(_delta:float): pass
 
 ## [b]VIRTUAL[/b][br]
+## Custom physics code for this EnemyController subclass
 ## Called: By EnemyController every PHYSICS frame that host is not possessed [br]
 ## Handles: State machine BehaviorState transitions and enemy thinking [br]
 func do_enemy_physics(_delta:float): pass
 
 
-
 ## [b]VIRTUAL[/b][br]
 ## Called: By EnemyController class when an impact occurs, passes important impact data [br]
 ## Handles: Custom collision response by subclasses [br]
-func on_impact(_force:float, _col:KinematicCollision2D, _lastVel:Vector2): pass
+func on_impact(_force:float, _col:KinematicCollision2D, _pre_vel:Vector2): pass
 
 
 ## ===== PHYSICS FUNCTIONS =====
 
-## Called from update_physics() when in physics mode, to check for colisions
-func _check_collisions(_delta:float, _lastFrameVel:Vector2):
-	for i in host.get_slide_collision_count():
-		var col:KinematicCollision2D = host.get_slide_collision(i)
-		var normal:Vector2 = col.get_normal()
-		
-		var impact_speed:float = abs(_lastFrameVel.dot(normal))
-		#print("IMPACT: ", impact_speed)
-		
-		
-		if sinceLastImpact > 0.15 and impact_speed > 100.0:
-			impact_response(impact_speed, col, _lastFrameVel)
-
 ## Called from _check_collisions() if an impact is detected
 func impact_response(_force:float, _col:KinematicCollision2D, _lastVel:Vector2):
-	collision.emit(_force, _col, _lastVel.normalized()) ## Emmit colision signal with relevent information
-	
-	var reflectionDir:Vector2 = _lastVel.bounce(_col.get_normal())
-
-	physicsVelocity = reflectionDir.normalized()*_force * reboundForce
-	sinceLastImpact = 0.0
 
 	var colDmg:float = snappedf(_force * 0.002, 0.1) ## damage of collision (scaled down and rounded)
 	if takeDmgOnCollide:
@@ -337,11 +310,6 @@ func impact_response(_force:float, _col:KinematicCollision2D, _lastVel:Vector2):
 		if !otherHost.is_possessed():
 			otherHost.enemyController.stun(2.0)
 			otherHost.hurt(colDmg/2.0)
-		
-
-
-func give_impulse(_force:Vector2):
-	physicsVelocity += _force
 
 
 ## ===== HELPER FUNCTIONS =====
@@ -349,6 +317,7 @@ func give_impulse(_force:Vector2):
 ## Verify if required references are present in host
 func _verify_refrences()->void:
 	assert(navAgent != null, "EnemyController for %s is missing reference to required NavigationAgent2D" % host.hostTypeName)
+	assert(impulseBody != null, "EnemyController for %s is missing reference to required ImpulseBody node" % host.hostTypeName)
 
 ## Interpolate host rotation to look towards the given position in world space (global_position)
 func _lerp_look_at_pos(_delta:float, _pos:Vector2):

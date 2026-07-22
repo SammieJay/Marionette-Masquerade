@@ -23,6 +23,8 @@ var idleLookTarget:float = 0.0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	super._ready()
+
 	assert(idleState, "Enemy %s has no reference to required Idle State BehaviorState node" %name)
 	assert(chaseState, "Enemy %s has no reference to required Chase State BehaviorState node" %name)
 

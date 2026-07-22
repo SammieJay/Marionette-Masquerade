@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://nxicc26dotw5" path="res://Scripts/Hosts/_Core Components/host_controller.gd" id="1_g2ao1"]
 [ext_resource type="Script" uid="uid://1ax0i7rdnhfx" path="res://Scripts/Hosts/EnemyControllers/simple_enemy_controller.gd" id="2_pdm1d"]
+[ext_resource type="Script" uid="uid://bomiv4l7ajhl3" path="res://Scripts/Multi-Use Components/impulse_body.gd" id="2_s3eiq"]
 [ext_resource type="Script" uid="uid://cv8a8kqws75se" path="res://Scripts/Hosts/EnemyControllers/Behavior States/Simple Host/simple_idle_behavior.gd" id="3_s3eiq"]
 [ext_resource type="Script" uid="uid://crlu357f3ij1t" path="res://Scripts/Hosts/EnemyControllers/Behavior States/throwing_chase_behavior.gd" id="4_musj3"]
 [ext_resource type="Script" uid="uid://ba687u8artox1" path="res://Scripts/Hosts/PlayerControllers/throwing_player_controller.gd" id="5_x75p0"]
@@ -619,15 +620,21 @@ moveSpeed = 12.0
 rotationSpeed = 9.0
 metadata/_custom_type_script = "uid://nxicc26dotw5"
 
+[node name="ImpulseBody" type="Node" parent="." unique_id=557664616]
+script = ExtResource("2_s3eiq")
+impulseDamping = 3.0
+metadata/_custom_type_script = "uid://bomiv4l7ajhl3"
+
 [node name="Collider" type="CollisionShape2D" parent="." unique_id=266863240]
 visible = false
 shape = SubResource("CircleShape2D_6f7k1")
 
-[node name="Simple Enemy" type="Node" parent="." unique_id=1950151852 node_paths=PackedStringArray("idleState", "chaseState", "navAgent")]
+[node name="Simple Enemy" type="Node" parent="." unique_id=1950151852 node_paths=PackedStringArray("idleState", "chaseState", "navAgent", "impulseBody")]
 script = ExtResource("2_pdm1d")
 idleState = NodePath("SimpleIdleBehavior")
 chaseState = NodePath("ThrowingChaseBehavior")
 navAgent = NodePath("../NavigationAgent2D")
+impulseBody = NodePath("../ImpulseBody")
 enemyMoveSpeedScalar = 0.7
 metadata/_custom_type_script = "uid://1ax0i7rdnhfx"
 
