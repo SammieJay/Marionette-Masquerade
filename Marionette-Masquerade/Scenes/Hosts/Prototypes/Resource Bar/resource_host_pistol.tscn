@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://1mhj7xkqr578"]
 
 [ext_resource type="Script" uid="uid://nxicc26dotw5" path="res://Scripts/Hosts/_Core Components/host_controller.gd" id="1_irwxx"]
+[ext_resource type="Script" uid="uid://bomiv4l7ajhl3" path="res://Scripts/Multi-Use Components/impulse_body.gd" id="2_xpaxk"]
 [ext_resource type="Script" uid="uid://1ax0i7rdnhfx" path="res://Scripts/Hosts/EnemyControllers/simple_enemy_controller.gd" id="2_y7fhf"]
 [ext_resource type="Script" uid="uid://cv8a8kqws75se" path="res://Scripts/Hosts/EnemyControllers/Behavior States/Simple Host/simple_idle_behavior.gd" id="3_dcboe"]
 [ext_resource type="Script" uid="uid://crlu357f3ij1t" path="res://Scripts/Hosts/EnemyControllers/Behavior States/throwing_chase_behavior.gd" id="4_m78yw"]
@@ -620,15 +621,21 @@ moveSpeed = 12.0
 rotationSpeed = 9.0
 metadata/_custom_type_script = "uid://nxicc26dotw5"
 
+[node name="ImpulseBody" type="Node" parent="." unique_id=1053590962]
+script = ExtResource("2_xpaxk")
+impulseDamping = 3.0
+metadata/_custom_type_script = "uid://bomiv4l7ajhl3"
+
 [node name="Collider" type="CollisionShape2D" parent="." unique_id=266863240]
 visible = false
 shape = SubResource("CircleShape2D_6f7k1")
 
-[node name="Simple Enemy" type="Node" parent="." unique_id=1950151852 node_paths=PackedStringArray("idleState", "chaseState", "navAgent")]
+[node name="Simple Enemy" type="Node" parent="." unique_id=1950151852 node_paths=PackedStringArray("idleState", "chaseState", "navAgent", "impulseBody")]
 script = ExtResource("2_y7fhf")
 idleState = NodePath("SimpleIdleBehavior")
 chaseState = NodePath("ThrowingChaseBehavior")
 navAgent = NodePath("../NavigationAgent2D")
+impulseBody = NodePath("../ImpulseBody")
 confusionDelayTime = 1.0
 postPossessionStunTime = 1.5
 enemyMoveSpeedScalar = 0.7

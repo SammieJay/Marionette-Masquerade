@@ -31,6 +31,7 @@ var grabMovementPenaltyScalar:float = 1.0
 
 var grabbedHost:HostController = null
 var grabbedEnemy:EnemyController = null
+var grabbedImpulseBody:ImpulseBody = null
 
 ## ===== FUNCTION OVERRIDES =====
 func do_player_behavior(_delta:float):
@@ -85,9 +86,11 @@ func on_possession_release()->void:
 func grab_enemy(_host:HostController)->void:
 	grabbedHost = _host
 	grabbedEnemy = _host.enemyController
+	grabbedImpulseBody = grabbedEnemy.impulseBody
+
 	grabbedEnemy.forcePhysicsState = true
-	grabbedEnemy.collision.connect(_on_enemy_collision) ##When collision signal is emitted, release the enemy
-	#cursor.set_global_pos(grabbedHost.global_position)
+	grabbedImpulseBody.impact.connect(_on_enemy_collision) ##When collision signal is emitted, release the enemy
+	cursor.set_global_pos(grabbedHost.global_position)
 	grapple.attach_to_node(grabbedHost)
 	grabbedHost.giveTempHP(2.0)
 	grabbedHost.collider.set_deferred("disabled", true) # DISABLE COLLIDER DURRING GRAB FOR TESTING EASE
@@ -97,9 +100,10 @@ func release_enemy():
 	grabbedHost.collider.set_deferred("disabled", false) # RE-ENABLE COLLIDER AFTER DISABLING FOR TESTING EASE
 	grabbedHost.clearTempHP()
 	grabbedEnemy.forcePhysicsState = false
-	grabbedEnemy.collision.disconnect(_on_enemy_collision)
+	grabbedImpulseBody.impact.disconnect(_on_enemy_collision)
 	grabbedHost = null
 	grabbedEnemy = null
+	grabbedImpulseBody = null
 	grapple.detach()
 
 ## Called every frame while a host is grabbed. [br]
@@ -111,44 +115,25 @@ func update_grab(_delta:float):
 	
 	var aimDir:Vector2 = _get_aim_dir()
 
-	var targetPos:Vector2 = host.global_position + aimDir * holdDistance
-	_move_grabbed_host_towards(targetPos, _delta)
+	var targetPos:Vector2 = host.global_position + (aimDir * holdDistance) + (host.velocity * 0.2)
+	grabbedImpulseBody.move_towards_position(targetPos, _delta, trackingForce)
 
-	grabbedEnemy._lerp_look_at_pos(_delta, grabbedHost.global_position + aimDir)
+	grabbedImpulseBody.turn_towards_direction(aimDir, _delta)
 
 	if !grabbedHost.is_alive(): release_enemy()
 
 
 func shove_enemy(_dir:Vector2):
-	grabbedEnemy.give_impulse(_dir * shoveForce)
+	grabbedImpulseBody.give_impulse(_dir * shoveForce)
 	release_enemy()
 
 
-## Drives the grabbed host towards _targetPos this frame via velocity + move_and_slide, [br]
-## so it still respects walls/collisions rather than teleporting through them.
-func _move_grabbed_host_towards(_target_pos:Vector2, _delta:float):
-	if _delta <= 0.0: return
-	
-	var toTarget:Vector2 = (grabbedHost.global_position - _target_pos) - (host.velocity*0.2)
-	
-	var currentVel:Vector2 = grabbedEnemy.physicsVelocity
 
-	var stiffness:float = trackingForce * trackingForce
-	var neededDamping:float = 2.0 * trackingForce
-
-	##Damping needed on top of what is applied by default in EnemyController
-	var addedDamping:float = max(0.0, neededDamping - grabbedEnemy.impulseDamping)
-
-
-	var accel:Vector2 = -stiffness * toTarget - addedDamping * currentVel
-	
-	
-	grabbedEnemy.give_impulse(accel * _delta)
 
 ## ===== HELPER FUNCTIONS =====
 
 ## Singal receiver function, currently just releases grapple when collision occurs
-func _on_enemy_collision(_force:float, _col:KinematicCollision2D, _dir:Vector2):
+func _on_enemy_collision(_force:float, _col:KinematicCollision2D, _vel:Vector2):
 	release_enemy()
 
 ## Returns the direction from the player to the cursor as a normalized Vector2
