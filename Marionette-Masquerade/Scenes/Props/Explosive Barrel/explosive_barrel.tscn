@@ -99,8 +99,12 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="ExplosiveBarrels" type="CharacterBody2D" unique_id=1637080150]
+[node name="ExplosiveBarrels" type="CharacterBody2D" unique_id=1637080150 node_paths=PackedStringArray("body", "explosionHurtbox", "explosionAnimation")]
 script = ExtResource("1_j0tkb")
+body = NodePath("ImpulseBody")
+explodeOnImpact = true
+explosionHurtbox = NodePath("Hurtbox")
+explosionAnimation = NodePath("AnimationPlayer")
 
 [node name="ImpulseBody" type="Node" parent="." unique_id=980988732]
 script = ExtResource("1_rsq53")
