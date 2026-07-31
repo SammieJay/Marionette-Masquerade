@@ -1,0 +1,133 @@
+[gd_scene format=3 uid="uid://c5ugen7ed5twt"]
+
+[ext_resource type="Script" uid="uid://dyyjvmwcsux24" path="res://Scripts/Level Components/props/prop.gd" id="1_j0tkb"]
+[ext_resource type="Script" uid="uid://bomiv4l7ajhl3" path="res://Scripts/Multi-Use Components/impulse_body.gd" id="1_rsq53"]
+[ext_resource type="Texture2D" uid="uid://bvacbcvrwa18c" path="res://Assets/Textures/props_txtr_1.png" id="2_awkqp"]
+[ext_resource type="Script" uid="uid://chuyor1e34ho8" path="res://Scripts/Level Components/Hazards/hurtbox.gd" id="3_awkqp"]
+[ext_resource type="Shader" uid="uid://vomjwr3v32kx" path="res://Scenes/Props/Explosive Barrel/explosive_barrel.gdshader" id="4_qgtum"]
+[ext_resource type="Texture2D" uid="uid://c5sk3c1ky01p3" path="res://Assets/Textures/muzzle_flash_txtr_1.png" id="5_j0tkb"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_scryg"]
+atlas = ExtResource("2_awkqp")
+region = Rect2(0, 0, 24, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qgtum"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_scryg")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_j0tkb"]
+radius = 7.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_scryg"]
+radius = 27.0
+
+[sub_resource type="Animation" id="Animation_qgtum"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Explosion Sprite:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_rx8xk"]
+resource_name = "explode"
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Hurtbox")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"activate"
+}, {
+"args": [],
+"method": &"deactivate"
+}]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Explosion Sprite:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_tgj1s"]
+_data = {
+&"RESET": SubResource("Animation_qgtum"),
+&"explode": SubResource("Animation_rx8xk")
+}
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_q3nbo"]
+shader = ExtResource("4_qgtum")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7lxn7"]
+atlas = ExtResource("5_j0tkb")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_8712f"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7lxn7")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="ExplosiveBarrels" type="CharacterBody2D" unique_id=1637080150]
+script = ExtResource("1_j0tkb")
+
+[node name="ImpulseBody" type="Node" parent="." unique_id=980988732]
+script = ExtResource("1_rsq53")
+metadata/_custom_type_script = "uid://bomiv4l7ajhl3"
+
+[node name="Barrel Sprite" type="AnimatedSprite2D" parent="." unique_id=1717024353]
+sprite_frames = SubResource("SpriteFrames_qgtum")
+offset = Vector2(-3.5, -3.5)
+
+[node name="Collider" type="CollisionShape2D" parent="." unique_id=42959267]
+shape = SubResource("CircleShape2D_j0tkb")
+
+[node name="Hurtbox" type="Area2D" parent="." unique_id=1764142897]
+script = ExtResource("3_awkqp")
+hurtType = 1
+damage = 2.0
+startActive = false
+metadata/_custom_type_script = "uid://chuyor1e34ho8"
+
+[node name="ExplosionArea" type="CollisionShape2D" parent="Hurtbox" unique_id=1085426599]
+shape = SubResource("CircleShape2D_scryg")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1186453158]
+libraries/ = SubResource("AnimationLibrary_tgj1s")
+
+[node name="Explosion Sprite" type="AnimatedSprite2D" parent="." unique_id=813580081]
+material = SubResource("ShaderMaterial_q3nbo")
+position = Vector2(5.999996, -5)
+scale = Vector2(11.0703125, 3.4594727)
+sprite_frames = SubResource("SpriteFrames_8712f")
