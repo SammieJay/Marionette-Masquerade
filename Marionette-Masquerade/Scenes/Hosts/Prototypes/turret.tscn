@@ -1,5 +1,6 @@
-[gd_scene format=3 uid="uid://cadawxqxmwaw7"]
+[gd_scene format=3 uid="uid://ck4twxbkr1p5s"]
 
+[ext_resource type="Script" uid="uid://cbayerwgdkmb4" path="res://Scripts/Level Components/turret.gd" id="1_lbbfk"]
 [ext_resource type="Texture2D" uid="uid://p8asc6yqdgbf" path="res://Assets/Textures/turret_idle_sprite_sheet_1.png" id="1_nuldc"]
 [ext_resource type="Texture2D" uid="uid://cmus7c0dyap4f" path="res://Assets/Textures/turret_shoot_sprite_sheet_1.png" id="2_lbbfk"]
 [ext_resource type="Texture2D" uid="uid://fxvi38gm5o16" path="res://Assets/Textures/turret_wakeup_sprite_sheet_1.png" id="3_gwf1q"]
@@ -170,7 +171,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_81opr")
 }],
-"loop": true,
+"loop": false,
 "name": &"shoot",
 "speed": 10.0
 }, {
@@ -225,12 +226,16 @@ animations = [{
 }]
 
 [node name="Turret" type="Node2D" unique_id=1018697575]
+script = ExtResource("1_lbbfk")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1260163176]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=522155023]
-position = Vector2(0, -1)
 sprite_frames = SubResource("SpriteFrames_gaw4y")
 animation = &"shoot"
 autoplay = "woken_idle"
 frame_progress = 0.44800454
+
+[node name="RayCast2D" type="RayCast2D" parent="." unique_id=950688575]
+target_position = Vector2(636, 0)
+collision_mask = 3
