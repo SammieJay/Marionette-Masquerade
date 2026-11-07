@@ -20,9 +20,11 @@ enum EnemyState {
 @export var impulseBody:ImpulseBody
 
 @export_category("Enemy Propperties")
+@export var hasPhysics:bool = true
 @export var confusionDelayTime:float = 1.2 ## How long this host takes to target the player after they switch hosts
 @export var postPossessionStunTime:float = 3.0 ## How long this host is stunned after player switches to anoter host
-@export_range(0.0, 3.0, 0.1, "scaled from host speed") var enemyMoveSpeedScalar:float = 1.0
+@export_range(0.0, 3.0, 0.1, "scaled from host speed") var enemyMoveSpeedScalar:float = 1.0 ## Scalar applied to HostController move speed value
+
 
 @export_category("Collisions")
 @export var takeDmgOnCollide:bool = true
@@ -62,8 +64,6 @@ var hostHistoryIdx:int = -1
 var targetHost:HostController ## A pointer towards the host that this enemy is hostile to, should be set by subclasses in their _process() functions
 
 # ----- Physics -----
-var physicsVelocity:Vector2 = Vector2.ZERO
-var sinceLastImpact:float = 0.0
 var forcePhysicsState:bool = false ## When true, enemy is forced into physics enemyState
 
 ## ===== BOOLEAN RETURNS =====
@@ -317,7 +317,7 @@ func impact_response(_force:float, _col:KinematicCollision2D, _lastVel:Vector2):
 ## Verify if required references are present in host
 func _verify_refrences()->void:
 	assert(navAgent != null, "EnemyController for %s is missing reference to required NavigationAgent2D" % host.hostTypeName)
-	assert(impulseBody != null, "EnemyController for %s is missing reference to required ImpulseBody node" % host.hostTypeName)
+	assert((hasPhysics and impulseBody != null) or !hasPhysics, "EnemyController for %s requires reference to ImpulseBody, or set [hasPhysics] to false" % host.hostTypeName)
 
 ## Interpolate host rotation to look towards the given position in world space (global_position)
 func _lerp_look_at_pos(_delta:float, _pos:Vector2):
