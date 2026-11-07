@@ -26,6 +26,8 @@ var possessionHistory:Array[HostController] = []
 var maxTransferDistFromLook: float = 75.0
 const MAX_TRANSFER_DISTANCE:float = 200.0 ## Maximum distance that player can transfer to a new host in
 
+var restartingLevel:bool = false
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	# Initialize required nodes
@@ -55,6 +57,17 @@ func _process(_delta: float) -> void:
 			playerHost.effectHandler.play_switch_effect(true)
 			switch_to_host(eligibleHost)
 		else: playerHost.effectHandler.play_switch_effect(false)
+	
+
+	## LEVEL RESTART CODE ##
+
+	if inputHandler.is_action_just_pressed("Restart Level"):
+		reloadLevel()
+
+	if !playerHost.is_alive() and !restartingLevel:
+		restartingLevel = true
+		await get_tree().create_timer(2.0).timeout
+		reloadLevel()
 
 
 ## Instructs relevent HostController classes to update possession status [br]
@@ -71,7 +84,8 @@ func get_next_host(_fromIndex:int) -> HostController:
 	if _fromIndex < 0 or _fromIndex + 1 >= possessionHistory.size(): return null
 	return possessionHistory[_fromIndex + 1]
 	
-
+func reloadLevel():
+	get_tree().reload_current_scene()
 
 ## ===== HELPER FUNCTIONS =====
 

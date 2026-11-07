@@ -1,36 +1,39 @@
-[gd_scene format=3 uid="uid://cmwcmalkd1tr"]
+[gd_scene format=3 uid="uid://cjg2k2s8qq53u"]
 
-[ext_resource type="Script" uid="uid://nxicc26dotw5" path="res://Scripts/Hosts/_Core Components/host_controller.gd" id="1_8emba"]
-[ext_resource type="Script" uid="uid://1ax0i7rdnhfx" path="res://Scripts/Hosts/EnemyControllers/simple_enemy_controller.gd" id="2_1khr3"]
-[ext_resource type="Script" uid="uid://b3d4s0vc84osu" path="res://Scripts/Hosts/EnemyControllers/Behavior States/Simple Host/simple_chase_behavior.gd" id="3_jdsc1"]
-[ext_resource type="Script" uid="uid://cv8a8kqws75se" path="res://Scripts/Hosts/EnemyControllers/Behavior States/Simple Host/simple_idle_behavior.gd" id="4_wiyko"]
-[ext_resource type="Script" uid="uid://ba687u8artox1" path="res://Scripts/Hosts/PlayerControllers/throwing_player_controller.gd" id="5_8emba"]
-[ext_resource type="PackedScene" uid="uid://btv1qlblx7a0n" path="res://Scenes/Prototypes/grapple_tentacle.tscn" id="6_qgsm1"]
-[ext_resource type="Script" uid="uid://p3cxr8dlwlar" path="res://Scripts/Hosts/Weapons/pistol.gd" id="7_wd0ec"]
-[ext_resource type="PackedScene" uid="uid://baibytdlfegxn" path="res://Scenes/DEPRECATED/bullet.tscn" id="8_ikjsj"]
-[ext_resource type="Script" uid="uid://dg5xecjo4r84p" path="res://Scripts/Hosts/_Core Components/effect_handler.gd" id="9_fatht"]
-[ext_resource type="Texture2D" uid="uid://c7h5c0lsfsd7v" path="res://Assets/Textures/host_body_legs_txtr_3.5.png" id="10_tk87u"]
-[ext_resource type="Texture2D" uid="uid://8kg26inkmr7s" path="res://Assets/Textures/host_body_legs_txtr_1.png" id="11_y4mtb"]
-[ext_resource type="Texture2D" uid="uid://l1qlcfv8p4vs" path="res://Assets/Textures/dead_body_txtr_1.png" id="12_m4ied"]
-[ext_resource type="Texture2D" uid="uid://cls4cgfujftcs" path="res://Assets/Textures/target_halo_txtr_1.png" id="13_w4wb3"]
-[ext_resource type="Texture2D" uid="uid://dmn5kc8sixtcf" path="res://Assets/Textures/stun_txtr_1.png" id="14_3275r"]
-[ext_resource type="Texture2D" uid="uid://cwitwfw2bxj6l" path="res://Assets/Textures/possession_txtr_1.png" id="15_nmdxm"]
-[ext_resource type="Texture2D" uid="uid://bqe1206itpo46" path="res://Assets/Textures/possession_miss_txtr_2.png" id="16_brjhg"]
-[ext_resource type="Texture2D" uid="uid://q0dsysjv6sqs" path="res://Assets/Textures/mask_txtr_1.png" id="17_6qgta"]
-[ext_resource type="PackedScene" uid="uid://643i1fy5plqk" path="res://Scenes/Host Components/health_bar.tscn" id="18_v7p6h"]
-[ext_resource type="Script" uid="uid://b7p18lc7ewkbk" path="res://Scripts/Hosts/Prototypes/grapple_tentacle.gd" id="19_wp7h3"]
-[ext_resource type="Texture2D" uid="uid://v8r23du6qu0a" path="res://Assets/Textures/proto_grapple_txtr_1.png" id="20_rogyo"]
-[ext_resource type="Texture2D" uid="uid://7qtt8n7igj2c" path="res://Assets/Textures/proto_grapple_txtr_2.png" id="21_c5ca6"]
-[ext_resource type="Texture2D" uid="uid://d1vqrldr0074r" path="res://Assets/Textures/proto_grapple_txtr_3.png" id="22_ujkqg"]
-[ext_resource type="Texture2D" uid="uid://b8ca6w74kcvju" path="res://Assets/Textures/proto_grapple_txtr_4.png" id="23_iefwt"]
-[ext_resource type="Script" uid="uid://5qs6dhbwfy6x" path="res://Scripts/Hosts/_Core Components/hit_box.gd" id="24_sndig"]
+[ext_resource type="Script" uid="uid://nxicc26dotw5" path="res://Scripts/Hosts/_Core Components/host_controller.gd" id="1_acoxt"]
+[ext_resource type="Script" uid="uid://1ax0i7rdnhfx" path="res://Scripts/Hosts/EnemyControllers/simple_enemy_controller.gd" id="2_0bg0o"]
+[ext_resource type="Script" uid="uid://bomiv4l7ajhl3" path="res://Scripts/Multi-Use Components/impulse_body.gd" id="2_pkn0q"]
+[ext_resource type="Script" uid="uid://cv8a8kqws75se" path="res://Scripts/Hosts/EnemyControllers/Behavior States/Simple Host/simple_idle_behavior.gd" id="3_pkn0q"]
+[ext_resource type="Script" uid="uid://crlu357f3ij1t" path="res://Scripts/Hosts/EnemyControllers/Behavior States/throwing_chase_behavior.gd" id="4_3i26u"]
+[ext_resource type="Script" uid="uid://3trdvimng1so" path="res://Scripts/resource prototyping/resource_player_controller.gd" id="5_kgvbh"]
+[ext_resource type="PackedScene" uid="uid://btv1qlblx7a0n" path="res://Scenes/Prototypes/grapple_tentacle.tscn" id="6_5aaar"]
+[ext_resource type="Script" uid="uid://boivllwfd3kst" path="res://Scripts/resource prototyping/host_resource_manager.gd" id="7_hx8rm"]
+[ext_resource type="Script" uid="uid://drb8ds4xtn2p4" path="res://Scripts/Hosts/Weapons/double_barrel_shotgun.gd" id="8_acoxt"]
+[ext_resource type="PackedScene" uid="uid://baibytdlfegxn" path="res://Scenes/DEPRECATED/bullet.tscn" id="9_iy1c6"]
+[ext_resource type="Script" uid="uid://dg5xecjo4r84p" path="res://Scripts/Hosts/_Core Components/effect_handler.gd" id="10_awllt"]
+[ext_resource type="Texture2D" uid="uid://bystppqj4feak" path="res://Assets/Textures/host_gun_txtr_1.png" id="11_acoxt"]
+[ext_resource type="Texture2D" uid="uid://c7h5c0lsfsd7v" path="res://Assets/Textures/host_body_legs_txtr_3.5.png" id="12_y5h2t"]
+[ext_resource type="Texture2D" uid="uid://8kg26inkmr7s" path="res://Assets/Textures/host_body_legs_txtr_1.png" id="13_ob7fa"]
+[ext_resource type="Texture2D" uid="uid://l1qlcfv8p4vs" path="res://Assets/Textures/dead_body_txtr_1.png" id="14_jpgw0"]
+[ext_resource type="Texture2D" uid="uid://cls4cgfujftcs" path="res://Assets/Textures/target_halo_txtr_1.png" id="15_rprhm"]
+[ext_resource type="Texture2D" uid="uid://dmn5kc8sixtcf" path="res://Assets/Textures/stun_txtr_1.png" id="16_deb5k"]
+[ext_resource type="Texture2D" uid="uid://cwitwfw2bxj6l" path="res://Assets/Textures/possession_txtr_1.png" id="17_sqxqx"]
+[ext_resource type="Texture2D" uid="uid://bqe1206itpo46" path="res://Assets/Textures/possession_miss_txtr_2.png" id="18_norr0"]
+[ext_resource type="Texture2D" uid="uid://q0dsysjv6sqs" path="res://Assets/Textures/mask_txtr_1.png" id="19_gei38"]
+[ext_resource type="PackedScene" uid="uid://643i1fy5plqk" path="res://Scenes/Host Components/health_bar.tscn" id="20_qtawn"]
+[ext_resource type="Script" uid="uid://b7p18lc7ewkbk" path="res://Scripts/Hosts/Prototypes/grapple_tentacle.gd" id="21_kco0y"]
+[ext_resource type="Texture2D" uid="uid://v8r23du6qu0a" path="res://Assets/Textures/proto_grapple_txtr_1.png" id="22_4rna1"]
+[ext_resource type="Texture2D" uid="uid://7qtt8n7igj2c" path="res://Assets/Textures/proto_grapple_txtr_2.png" id="23_fxjgu"]
+[ext_resource type="Texture2D" uid="uid://d1vqrldr0074r" path="res://Assets/Textures/proto_grapple_txtr_3.png" id="24_8oka1"]
+[ext_resource type="Texture2D" uid="uid://b8ca6w74kcvju" path="res://Assets/Textures/proto_grapple_txtr_4.png" id="25_6xnyk"]
+[ext_resource type="Script" uid="uid://5qs6dhbwfy6x" path="res://Scripts/Hosts/_Core Components/hit_box.gd" id="26_uod8l"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_6f7k1"]
-radius = 10.29563
+radius = 7.0
 
 [sub_resource type="Animation" id="Animation_6hky1"]
 resource_name = "Die"
-length = 0.03333667
+length = 3.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -50,10 +53,10 @@ tracks/1/path = NodePath("Sprites/Corpse Sprite:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0, 3),
+"transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [true]
+"values": [true, false]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -62,6 +65,18 @@ tracks/2/path = NodePath("Sprites/Head/MaskSprite:visible")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Sprites/Gun Sprite:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
@@ -178,6 +193,18 @@ tracks/4/keys = {
 "update": 0,
 "values": [0.0]
 }
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Sprites/Gun Sprite:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_s5883"]
 resource_name = "Stunned"
@@ -217,7 +244,7 @@ _data = {
 }
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gddql"]
-atlas = ExtResource("10_tk87u")
+atlas = ExtResource("12_y5h2t")
 region = Rect2(0, 0, 32, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_8ykeq"]
@@ -232,27 +259,27 @@ animations = [{
 }]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_l6ii7"]
-atlas = ExtResource("11_y4mtb")
+atlas = ExtResource("13_ob7fa")
 region = Rect2(32, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_sgcf4"]
-atlas = ExtResource("11_y4mtb")
+atlas = ExtResource("13_ob7fa")
 region = Rect2(64, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ajlxa"]
-atlas = ExtResource("11_y4mtb")
+atlas = ExtResource("13_ob7fa")
 region = Rect2(0, 32, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_g450d"]
-atlas = ExtResource("11_y4mtb")
+atlas = ExtResource("13_ob7fa")
 region = Rect2(32, 32, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gv15l"]
-atlas = ExtResource("11_y4mtb")
+atlas = ExtResource("13_ob7fa")
 region = Rect2(64, 32, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xvh0h"]
-atlas = ExtResource("11_y4mtb")
+atlas = ExtResource("13_ob7fa")
 region = Rect2(0, 64, 32, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_ifp3e"]
@@ -282,11 +309,11 @@ animations = [{
 }]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fp7kc"]
-atlas = ExtResource("12_m4ied")
+atlas = ExtResource("14_jpgw0")
 region = Rect2(0, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_t4oqf"]
-atlas = ExtResource("12_m4ied")
+atlas = ExtResource("14_jpgw0")
 region = Rect2(0, 32, 32, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_0pxml"]
@@ -304,39 +331,39 @@ animations = [{
 }]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hr40e"]
-atlas = ExtResource("13_w4wb3")
+atlas = ExtResource("15_rprhm")
 region = Rect2(0, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jooxe"]
-atlas = ExtResource("13_w4wb3")
+atlas = ExtResource("15_rprhm")
 region = Rect2(32, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_npo4j"]
-atlas = ExtResource("13_w4wb3")
+atlas = ExtResource("15_rprhm")
 region = Rect2(64, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8kn3l"]
-atlas = ExtResource("13_w4wb3")
+atlas = ExtResource("15_rprhm")
 region = Rect2(0, 32, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_nojt8"]
-atlas = ExtResource("13_w4wb3")
+atlas = ExtResource("15_rprhm")
 region = Rect2(32, 32, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jexp4"]
-atlas = ExtResource("13_w4wb3")
+atlas = ExtResource("15_rprhm")
 region = Rect2(64, 32, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_j3yob"]
-atlas = ExtResource("13_w4wb3")
+atlas = ExtResource("15_rprhm")
 region = Rect2(0, 64, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jyn6v"]
-atlas = ExtResource("13_w4wb3")
+atlas = ExtResource("15_rprhm")
 region = Rect2(32, 64, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_oplxw"]
-atlas = ExtResource("13_w4wb3")
+atlas = ExtResource("15_rprhm")
 region = Rect2(64, 64, 32, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_pha8e"]
@@ -375,7 +402,7 @@ animations = [{
 }]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fnrbc"]
-atlas = ExtResource("14_3275r")
+atlas = ExtResource("16_deb5k")
 region = Rect2(0, 0, 32, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_6g5nk"]
@@ -390,75 +417,75 @@ animations = [{
 }]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vx1hx"]
-atlas = ExtResource("15_nmdxm")
+atlas = ExtResource("17_sqxqx")
 region = Rect2(0, 0, 96, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_l1pde"]
-atlas = ExtResource("15_nmdxm")
+atlas = ExtResource("17_sqxqx")
 region = Rect2(96, 0, 96, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_e1clp"]
-atlas = ExtResource("15_nmdxm")
+atlas = ExtResource("17_sqxqx")
 region = Rect2(0, 32, 96, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_c3rcb"]
-atlas = ExtResource("15_nmdxm")
+atlas = ExtResource("17_sqxqx")
 region = Rect2(96, 32, 96, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2q5v4"]
-atlas = ExtResource("15_nmdxm")
+atlas = ExtResource("17_sqxqx")
 region = Rect2(0, 64, 96, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_oodfr"]
-atlas = ExtResource("15_nmdxm")
+atlas = ExtResource("17_sqxqx")
 region = Rect2(96, 64, 96, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bxqfq"]
-atlas = ExtResource("15_nmdxm")
+atlas = ExtResource("17_sqxqx")
 region = Rect2(0, 96, 96, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gcn73"]
-atlas = ExtResource("16_brjhg")
+atlas = ExtResource("18_norr0")
 region = Rect2(0, 0, 96, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mtrwa"]
-atlas = ExtResource("16_brjhg")
+atlas = ExtResource("18_norr0")
 region = Rect2(96, 0, 96, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_marug"]
-atlas = ExtResource("16_brjhg")
+atlas = ExtResource("18_norr0")
 region = Rect2(0, 32, 96, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tkyxx"]
-atlas = ExtResource("16_brjhg")
+atlas = ExtResource("18_norr0")
 region = Rect2(96, 32, 96, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ytk1s"]
-atlas = ExtResource("16_brjhg")
+atlas = ExtResource("18_norr0")
 region = Rect2(0, 64, 96, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_s4ke2"]
-atlas = ExtResource("16_brjhg")
+atlas = ExtResource("18_norr0")
 region = Rect2(96, 64, 96, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ckfdw"]
-atlas = ExtResource("16_brjhg")
+atlas = ExtResource("18_norr0")
 region = Rect2(0, 96, 96, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6vhsg"]
-atlas = ExtResource("16_brjhg")
+atlas = ExtResource("18_norr0")
 region = Rect2(96, 96, 96, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_47h8q"]
-atlas = ExtResource("16_brjhg")
+atlas = ExtResource("18_norr0")
 region = Rect2(0, 128, 96, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_t0tj7"]
-atlas = ExtResource("16_brjhg")
+atlas = ExtResource("18_norr0")
 region = Rect2(96, 128, 96, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4qmeu"]
-atlas = ExtResource("16_brjhg")
+atlas = ExtResource("18_norr0")
 region = Rect2(0, 160, 96, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_6wman"]
@@ -529,7 +556,7 @@ animations = [{
 }]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4qlbl"]
-atlas = ExtResource("17_6qgta")
+atlas = ExtResource("19_gei38")
 region = Rect2(0, 0, 32, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_5m4xc"]
@@ -544,11 +571,11 @@ animations = [{
 }]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6hky1"]
-atlas = ExtResource("12_m4ied")
+atlas = ExtResource("14_jpgw0")
 region = Rect2(0, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_s5883"]
-atlas = ExtResource("12_m4ied")
+atlas = ExtResource("14_jpgw0")
 region = Rect2(0, 32, 32, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_u32pb"]
@@ -579,61 +606,78 @@ colors = PackedColorArray(0, 0, 0, 1, 0.0433958, 0, 0, 1, 0.14193429, 0, 0, 1, 0
 radius = 7.0
 height = 34.0
 
-[node name="Thrower Host" type="CharacterBody2D" unique_id=1629916961 node_paths=PackedStringArray("enemyController", "playerController", "effectHandler", "weapon", "collider", "hitbox", "visionRay", "maskSprite") groups=["Host"]]
-script = ExtResource("1_8emba")
+[node name="Resource Thrower Host With Shotgun" type="CharacterBody2D" unique_id=1629916961 node_paths=PackedStringArray("enemyController", "playerController", "effectHandler", "weapon", "collider", "hitbox", "visionRay", "maskSprite") groups=["Host"]]
+script = ExtResource("1_acoxt")
 enemyController = NodePath("Simple Enemy")
-playerController = NodePath("GrapplePlayer")
+playerController = NodePath("GrapplePlayer With Resource Tracking")
 effectHandler = NodePath("HostEffectHandler")
-weapon = NodePath("Pistol")
+weapon = NodePath("Shotgun")
 collider = NodePath("Collider")
 hitbox = NodePath("Hitbox")
 visionRay = NodePath("RayCast2D")
 maskSprite = NodePath("Sprites/Head/MaskSprite")
-hostTypeName = "Throwing Host"
-moveSpeed = 10.0
-disableEnemyWeaponDmg = true
+hostTypeName = "Throwing Host With Resource"
+moveSpeed = 12.0
+rotationSpeed = 9.0
 metadata/_custom_type_script = "uid://nxicc26dotw5"
+
+[node name="ImpulseBody" type="Node" parent="." unique_id=1805527109]
+script = ExtResource("2_pkn0q")
+impulseDamping = 3.0
+metadata/_custom_type_script = "uid://bomiv4l7ajhl3"
 
 [node name="Collider" type="CollisionShape2D" parent="." unique_id=266863240]
 visible = false
 shape = SubResource("CircleShape2D_6f7k1")
 
-[node name="Simple Enemy" type="Node" parent="." unique_id=1950151852 node_paths=PackedStringArray("idleState", "chaseState", "navAgent")]
-script = ExtResource("2_1khr3")
+[node name="Simple Enemy" type="Node" parent="." unique_id=1950151852 node_paths=PackedStringArray("idleState", "chaseState", "navAgent", "impulseBody")]
+script = ExtResource("2_0bg0o")
 idleState = NodePath("SimpleIdleBehavior")
-chaseState = NodePath("SimpleChaseBehavior")
+chaseState = NodePath("ThrowingChaseBehavior")
 navAgent = NodePath("../NavigationAgent2D")
+impulseBody = NodePath("../ImpulseBody")
+confusionDelayTime = 1.0
+postPossessionStunTime = 1.5
 enemyMoveSpeedScalar = 0.7
 metadata/_custom_type_script = "uid://1ax0i7rdnhfx"
 
-[node name="SimpleChaseBehavior" type="Node" parent="Simple Enemy" unique_id=162683506]
-script = ExtResource("3_jdsc1")
-behaviorName = "Basic Chase And Attack"
-metadata/_custom_type_script = "uid://b3d4s0vc84osu"
-
 [node name="SimpleIdleBehavior" type="Node" parent="Simple Enemy" unique_id=562801330]
-script = ExtResource("4_wiyko")
+script = ExtResource("3_pkn0q")
 behaviorName = "Basic Idle"
 metadata/_custom_type_script = "uid://cv8a8kqws75se"
 
-[node name="GrapplePlayer" type="Node" parent="." unique_id=1654257834 node_paths=PackedStringArray("grapple")]
-script = ExtResource("5_8emba")
-grapple = NodePath("../GrappleTentacle")
-grappleScene = ExtResource("6_qgsm1")
-strandScatter = 0.8
-trackingForce = 0.3
-grabMovementPenaltyScalar = 0.65
-metadata/_custom_type_script = "uid://ba687u8artox1"
+[node name="ThrowingChaseBehavior" type="Node" parent="Simple Enemy" unique_id=134893257]
+script = ExtResource("4_3i26u")
+stopChaseDistance = 700.0
+attackDelay = 1.0
+metadata/_custom_type_script = "uid://crlu357f3ij1t"
 
-[node name="Pistol" type="Node" parent="." unique_id=2060538332]
-script = ExtResource("7_wd0ec")
-projectileScene = ExtResource("8_ikjsj")
+[node name="GrapplePlayer With Resource Tracking" type="Node" parent="." unique_id=1086532686 node_paths=PackedStringArray("resourceTracker", "grapple")]
+script = ExtResource("5_kgvbh")
+resourceTracker = NodePath("HostResourceManager")
+grapple = NodePath("../GrappleTentacle")
+grappleScene = ExtResource("6_5aaar")
+strandScatter = 0.8
+trackingForce = 10.0
+grabMovementPenaltyScalar = 0.7
+holdDistance = 40.0
+maxHoldStr = 25.0
+holdRotationSpeed = 20.0
+metadata/_custom_type_script = "uid://3trdvimng1so"
+
+[node name="HostResourceManager" type="Node" parent="GrapplePlayer With Resource Tracking" unique_id=266613231]
+script = ExtResource("7_hx8rm")
+metadata/_custom_type_script = "uid://boivllwfd3kst"
+
+[node name="Shotgun" type="Node" parent="." unique_id=235019280]
+script = ExtResource("8_acoxt")
+projectileScene = ExtResource("9_iy1c6")
 projectileSpawnOffset = Vector2(10, 0)
-metadata/_custom_type_script = "uid://p3cxr8dlwlar"
+metadata/_custom_type_script = "uid://drb8ds4xtn2p4"
 
 [node name="HostEffectHandler" type="AnimationPlayer" parent="." unique_id=201645870 node_paths=PackedStringArray("stunSprite")]
 libraries/ = SubResource("AnimationLibrary_lyfnh")
-script = ExtResource("9_fatht")
+script = ExtResource("10_awllt")
 switchHostEffectName = "Possess Other"
 switchHostMissEffectName = "Possess Other (Miss)"
 stunEffectName = "Stunned"
@@ -642,6 +686,12 @@ stunSprite = NodePath("../Sprites/Stun Effect Sprite")
 metadata/_custom_type_script = "uid://dg5xecjo4r84p"
 
 [node name="Sprites" type="Node2D" parent="." unique_id=66944869]
+
+[node name="Gun Sprite" type="Sprite2D" parent="Sprites" unique_id=76310845]
+position = Vector2(-2, -1)
+rotation = 1.5707964
+texture = ExtResource("11_acoxt")
+offset = Vector2(-1, -8)
 
 [node name="Body" type="AnimatedSprite2D" parent="Sprites" unique_id=1837149936]
 rotation = 1.5707964
@@ -695,13 +745,14 @@ debug_path_custom_color = Color(1, 0, 1, 1)
 
 [node name="RayCast2D" type="RayCast2D" parent="." unique_id=678213811]
 
-[node name="health_bar" parent="." unique_id=1227717340 node_paths=PackedStringArray("host") instance=ExtResource("18_v7p6h")]
+[node name="health_bar" parent="." unique_id=1227717340 node_paths=PackedStringArray("host") instance=ExtResource("20_qtawn")]
 host = NodePath("..")
 
 [node name="GrappleTentacle" type="Node2D" parent="." unique_id=90439214]
-script = ExtResource("19_wp7h3")
+script = ExtResource("21_kco0y")
 gravity = 0.0
-grappleTextures = Array[Resource]([ExtResource("20_rogyo"), ExtResource("21_c5ca6"), ExtResource("22_ujkqg"), ExtResource("23_iefwt")])
+constraintIterations = 20
+grappleTextures = Array[Resource]([ExtResource("22_4rna1"), ExtResource("23_fxjgu"), ExtResource("24_8oka1"), ExtResource("25_6xnyk")])
 metadata/_custom_type_script = "uid://b7p18lc7ewkbk"
 
 [node name="Line2D" type="Line2D" parent="GrappleTentacle" unique_id=2095761130]
@@ -709,11 +760,12 @@ width = 20.0
 width_curve = SubResource("Curve_ni6kr")
 default_color = Color(0, 0, 0, 1)
 gradient = SubResource("Gradient_xudmt")
-texture = ExtResource("20_rogyo")
+texture = ExtResource("22_4rna1")
 texture_mode = 2
 
 [node name="Hitbox" type="Area2D" parent="." unique_id=1517211332]
-script = ExtResource("24_sndig")
+visible = false
+script = ExtResource("26_uod8l")
 metadata/_custom_type_script = "uid://5qs6dhbwfy6x"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=2084410043]

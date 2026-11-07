@@ -60,6 +60,8 @@ class_name HostController extends CharacterBody2D
 # ----- Health -----
 @onready var alive:bool = true
 @onready var currentHealth:float
+@onready var tempHealth:float = 0.0
+@onready var tempMaxHealth:float = 0.0
 
 
 ## ===== BOOLEAN RETURN FUNCTIONS =====
@@ -114,6 +116,7 @@ func un_possess()->void:
 	maskSprite.hide()
 	if disableEnemyWeaponDmg and !weapon.disableWeaponDmg: weapon.disableWeaponDmg = true
 	enemyController.on_possession_release()
+	playerController.on_possession_release()
 	
 
 ## Called by HostManager when player switches to a different host [br]
@@ -127,17 +130,33 @@ func possess()->void:
 
 ## Inflict dammage to this host
 func hurt(_dmg:float)->void:
-	currentHealth -= _dmg
+	if tempHealth > 0.0:
+		tempHealth -= _dmg
+		if tempHealth <= 0.0: #case: temp health runs out
+			currentHealth += tempHealth # if temp heatlh is now negative, add to currentHealth to apply dmg there
+			tempMaxHealth = 0.0
+	else: currentHealth -= _dmg
 	
 	if currentHealth <= 0.0:
 		die()
+
+##Give temporary hitpoints to this host
+func giveTempHP(_hp:float):
+	tempHealth = maxf(_hp, tempHealth) # tempHP is not additive
+	tempMaxHealth = tempHealth
+
+##Clear temporary hitpoints from this host
+func clearTempHP():
+	tempHealth = 0.0
+	tempMaxHealth = 0.0
 
 ## Kill host and play death effect
 func die()->void:
 	alive = false
 	enemyController.halt_movement()
-	#collider.set_deferred("disabled", true)
-	set_collision_layer_value(GlobalDefs.HOST_PHYSICS_LAYER, false)
+	playerController.on_possession_release()
+	collider.set_deferred("disabled", true)
+	hitbox.set_deferred("monitorable", false)
 	effectHandler.stop()
 	effectHandler.play_death_effect()
 	effectHandler.stunActive = false
@@ -203,6 +222,7 @@ func _set_physics_layers()->void:
 	visionRay.set_collision_mask_value(GlobalDefs.HOST_PHYSICS_LAYER, false)
 	visionRay.set_collision_mask_value(GlobalDefs.HAZARD_PHYSICS_LAYER, false)
 	visionRay.set_collision_mask_value(GlobalDefs.HITBOX_PHYSICS_LAYER, true) # Detect colisions with host Hitboxes
+
 
 	
 

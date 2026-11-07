@@ -1,0 +1,58 @@
+[gd_scene format=3 uid="uid://i2mg3xbqixic"]
+
+[ext_resource type="Script" uid="uid://chuyor1e34ho8" path="res://Scripts/Level Components/Hazards/hurtbox.gd" id="1_qyc76"]
+[ext_resource type="Texture2D" uid="uid://kuyylv0cvu7w" path="res://Assets/Textures/blood_sprites_txtr_1.png" id="2_iw66i"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vw720"]
+atlas = ExtResource("2_iw66i")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8ap6p"]
+atlas = ExtResource("2_iw66i")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5t7ve"]
+atlas = ExtResource("2_iw66i")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nukh2"]
+atlas = ExtResource("2_iw66i")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_tkp4w"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vw720")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8ap6p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5t7ve")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nukh2")
+}],
+"loop": true,
+"name": &"default",
+"speed": 9.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ve81t"]
+radius = 15.033297
+
+[node name="ExampleHazard" type="Area2D" unique_id=554634275]
+script = ExtResource("1_qyc76")
+hurtType = 2
+damage = 0.5
+tickInterval = 0.25
+metadata/_custom_type_script = "uid://chuyor1e34ho8"
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1476519633]
+sprite_frames = SubResource("SpriteFrames_tkp4w")
+autoplay = "default"
+frame_progress = 0.27766907
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=479275698]
+shape = SubResource("CircleShape2D_ve81t")

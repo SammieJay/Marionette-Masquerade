@@ -6,10 +6,12 @@ func _ready():
 	maxAmmo = 12
 	reloadTime = 2.0
 	damage = 1.0
-	projectileSpeed = 1.75
+	projectileSpeed = 1.25
+
 	fire_rate = 0.25
 	
 
 ## Override of the fire_shot function, just summons a projectile and passes the relevent information throught the instance_projectile function
 func fire_shot(_dir:Vector2)->void:
 	instance_projectile(_dir, projectileSpeed, damage)
+	ammo-=1
