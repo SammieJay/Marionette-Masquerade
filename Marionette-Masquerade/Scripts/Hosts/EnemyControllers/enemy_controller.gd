@@ -16,6 +16,7 @@ enum EnemyState {
 ## ===== EXPORT VARIABLES =====
 @export_category("References")
 @export_group("REQUIRED")
+@export var host:HostController
 @export var navAgent:NavigationAgent2D
 @export var impulseBody:ImpulseBody
 
@@ -36,7 +37,6 @@ enum EnemyState {
 
 ## ===== SCRIPT VARIABLES =====
 # ----- References -----
-var host:HostController
 var weapon:Weapon
 var inputHandler:InputHandler
 var cursor:Cursor
@@ -75,6 +75,8 @@ func is_enemyState(_state:EnemyState)->bool: return _state == enemyState
 
 
 func _ready():
+	host.on_possession_start.connect(on_possession)
+	host.on_possession_end.connect(on_possession_release)
 	impulseBody.impact.connect(impact_response)
 
 
@@ -328,6 +330,3 @@ func _lerp_look_at_pos(_delta:float, _pos:Vector2):
 ## Interpolate host rotation towards given angle (in radians)
 func _lerp_look_to_angle(_delta:float, _angle:float):
 	host.global_rotation = lerp_angle(host.global_rotation, _angle, host.rotationSpeed * _delta)
-
-
-

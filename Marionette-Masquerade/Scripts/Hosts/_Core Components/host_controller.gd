@@ -48,8 +48,13 @@ class_name HostController extends CharacterBody2D
 @export var disableEnemyAI:bool = false
 @export var disableEnemyWeaponDmg:bool = false
 
+## ==== SIGNALS SENT ==== 
+signal on_possession_start(host:HostController)
+signal on_possession_end(host:HostController)
+signal on_death()
+
 ## ===== SCRIPT VARIABLES =====
-# ----- References -----
+# ----- Singleton References -----
 @onready var inputHandler:InputHandler
 @onready var hostManager:HostManager
 @onready var cursor:Cursor
@@ -111,20 +116,18 @@ func _physics_process(_delta):
 ## Called by HostManager when player switches to a different host [br]
 ## Handles: value changes and effects that occur when switching [b]FROM[/b] this host  [br]
 func un_possess()->void:
+	on_possession_end.emit(self)
 	currentlyPossessed = false
-	#effectHandler.play_switch_effect(true)
 	maskSprite.hide()
 	if disableEnemyWeaponDmg and !weapon.disableWeaponDmg: weapon.disableWeaponDmg = true
-	enemyController.on_possession_release()
-	playerController.on_possession_release()
 	
 
 ## Called by HostManager when player switches to a different host [br]
 ## Handles: value changes and effects that occur when switching [b]TO[/b] this host  [br]
 func possess()->void:
+	on_possession_start.emit(self)
 	currentlyPossessed = true
 	maskSprite.show()
-	playerController.on_possession()
 	if disableEnemyWeaponDmg and weapon.disableWeaponDmg: weapon.disableWeaponDmg = false
 	if weapon.forceReloadOnPosession: weapon.force_reload() # Force reload weapon if handler has flag enableda
 
@@ -161,6 +164,7 @@ func die()->void:
 	effectHandler.play_death_effect()
 	effectHandler.stunActive = false
 	if clearOnDeath: clear()
+	on_death.emit()
 
 ## Delete & Clear this host from memory
 func clear()->void:
@@ -183,13 +187,12 @@ func _verify_core_references()->void:
 ## Pass references to mandatory modules to nodes that require them at runtime
 func _distribute_references()->void:
 	# --- PlayerController ---
-	playerController.host = self
+	playerController.host = self # TODO: Require this to be an export
 	playerController.weapon = weapon
 	playerController.inputHandler = inputHandler
 	playerController.cursor = cursor
 
 	# --- EnemyController ---
-	enemyController.host = self
 	enemyController.weapon = weapon
 
 	# --- Weapon ---

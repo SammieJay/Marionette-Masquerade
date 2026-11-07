@@ -6,14 +6,17 @@
 ##   - Handles effects for when player possesses this host [br]
 class_name PlayerController extends Node
 
+@export var host:HostController
+
 ## ===== SCRIPT VARIABLES =====
-var host:HostController
 var weapon:Weapon
 var inputHandler:InputHandler
 var cursor:Cursor
 
 # Called when the node enters the scene tree for the first time.
-func _ready(): pass
+func _ready(): 
+	host.on_possession_start.connect(on_possession)
+	host.on_possession_end.connect(on_possession_release)
 
 
 ## ===== VIRTUAL FUNCTIONS TO OVERRIDE =====
@@ -38,6 +41,3 @@ func on_possession()->void: pass
 ## Called: By HostController when player stops posessing this host [br]
 ## Handles: Effects and behavior when this host returns to enemy control [br]
 func on_possession_release()->void:pass
-
-
-## ===== HELPER FUNCTIONS =====
