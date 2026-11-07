@@ -26,7 +26,7 @@
 [ext_resource type="Texture2D" uid="uid://7qtt8n7igj2c" path="res://Assets/Textures/proto_grapple_txtr_2.png" id="23_fxjgu"]
 [ext_resource type="Texture2D" uid="uid://d1vqrldr0074r" path="res://Assets/Textures/proto_grapple_txtr_3.png" id="24_8oka1"]
 [ext_resource type="Texture2D" uid="uid://b8ca6w74kcvju" path="res://Assets/Textures/proto_grapple_txtr_4.png" id="25_6xnyk"]
-[ext_resource type="Script" uid="uid://5qs6dhbwfy6x" path="res://Scripts/Hosts/_Core Components/hit_box.gd" id="26_uod8l"]
+[ext_resource type="Script" uid="uid://5qs6dhbwfy6x" path="res://Scripts/Hosts/_Core Components/hitbox.gd" id="26_uod8l"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_6f7k1"]
 radius = 7.0

@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://i2mg3xbqixic"]
 
-[ext_resource type="Script" uid="uid://chuyor1e34ho8" path="res://Scripts/Level Components/Hazards/hurtbox.gd" id="1_qyc76"]
+[ext_resource type="Script" uid="uid://chuyor1e34ho8" path="res://Scripts/Multi-Use Components/hurtbox.gd" id="1_qyc76"]
 [ext_resource type="Texture2D" uid="uid://kuyylv0cvu7w" path="res://Assets/Textures/blood_sprites_txtr_1.png" id="2_iw66i"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vw720"]

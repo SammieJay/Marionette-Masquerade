@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://bjkrw2uyxy02e" path="res://Assets/Textures/tile_set_1_new.png" id="2_4elxu"]
 [ext_resource type="PackedScene" uid="uid://cjg2k2s8qq53u" path="res://Scenes/Hosts/Prototypes/Resource Bar/resource_host_shotgun.tscn" id="3_anw2x"]
 [ext_resource type="PackedScene" uid="uid://1mhj7xkqr578" path="res://Scenes/Hosts/Prototypes/Resource Bar/resource_host_pistol.tscn" id="4_l3sdu"]
+[ext_resource type="PackedScene" uid="uid://c5ugen7ed5twt" path="res://Scenes/Props/Explosive Barrel/explosive_barrel.tscn" id="5_anw2x"]
 [ext_resource type="Script" uid="uid://bh46kqsbbrvwg" path="res://Scripts/Level Components/Global/Testing Coppies/throwing_host_manager.gd" id="5_pj8c7"]
 [ext_resource type="Script" uid="uid://dtoev8nnerpci" path="res://Scripts/resource prototyping/resource_manager.gd" id="6_5lsyw"]
 [ext_resource type="PackedScene" uid="uid://bx5jc6exewmsk" path="res://Scenes/In-Scene Singleton Objects/cursor.tscn" id="7_2w63y"]
@@ -357,6 +358,14 @@ disableEnemyWeaponDmg = true
 [node name="Resource Thrower Host With Pistol10" parent="TileMapLayer/Hosts" unique_id=2106524632 instance=ExtResource("4_l3sdu")]
 position = Vector2(430, 15)
 disableEnemyWeaponDmg = true
+
+[node name="ExplosiveBarrels" parent="TileMapLayer" unique_id=1637080150 instance=ExtResource("5_anw2x")]
+position = Vector2(226, -144)
+explodeOnHit = true
+
+[node name="ExplosiveBarrels2" parent="TileMapLayer" unique_id=1792057075 instance=ExtResource("5_anw2x")]
+position = Vector2(311, -18)
+explodeOnHit = true
 
 [node name="ThrowTestingHostManager" type="Node" parent="." unique_id=183666844 node_paths=PackedStringArray("startingPlayerHost") groups=["HostManager"]]
 script = ExtResource("5_pj8c7")
