@@ -8,7 +8,7 @@
 [ext_resource type="Script" uid="uid://ba687u8artox1" path="res://Scripts/Hosts/PlayerControllers/throwing_player_controller.gd" id="5_8emba"]
 [ext_resource type="PackedScene" uid="uid://btv1qlblx7a0n" path="res://Scenes/Prototypes/grapple_tentacle.tscn" id="6_qgsm1"]
 [ext_resource type="Script" uid="uid://p3cxr8dlwlar" path="res://Scripts/Hosts/Weapons/pistol.gd" id="7_wd0ec"]
-[ext_resource type="PackedScene" uid="uid://baibytdlfegxn" path="res://Scenes/DEPRECATED/bullet.tscn" id="8_ikjsj"]
+[ext_resource type="PackedScene" uid="uid://baibytdlfegxn" path="res://Scenes/Projectiles/bullet.tscn" id="8_ikjsj"]
 [ext_resource type="Script" uid="uid://dg5xecjo4r84p" path="res://Scripts/Hosts/_Core Components/effect_handler.gd" id="9_fatht"]
 [ext_resource type="Texture2D" uid="uid://c7h5c0lsfsd7v" path="res://Assets/Textures/host_body_legs_txtr_3.5.png" id="10_tk87u"]
 [ext_resource type="Texture2D" uid="uid://8kg26inkmr7s" path="res://Assets/Textures/host_body_legs_txtr_1.png" id="11_y4mtb"]
@@ -25,7 +25,7 @@
 [ext_resource type="Texture2D" uid="uid://7qtt8n7igj2c" path="res://Assets/Textures/proto_grapple_txtr_2.png" id="21_c5ca6"]
 [ext_resource type="Texture2D" uid="uid://d1vqrldr0074r" path="res://Assets/Textures/proto_grapple_txtr_3.png" id="22_ujkqg"]
 [ext_resource type="Texture2D" uid="uid://b8ca6w74kcvju" path="res://Assets/Textures/proto_grapple_txtr_4.png" id="23_iefwt"]
-[ext_resource type="Script" uid="uid://5qs6dhbwfy6x" path="res://Scripts/Hosts/_Core Components/hitbox.gd" id="24_sndig"]
+[ext_resource type="Script" uid="uid://5qs6dhbwfy6x" path="res://Scripts/Multi-Use Components/hitbox.gd" id="24_sndig"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_6f7k1"]
 radius = 7.0

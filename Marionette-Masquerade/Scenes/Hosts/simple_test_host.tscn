@@ -7,7 +7,7 @@
 [ext_resource type="Script" uid="uid://cv8a8kqws75se" path="res://Scripts/Hosts/EnemyControllers/Behavior States/Simple Host/simple_idle_behavior.gd" id="4_karfb"]
 [ext_resource type="Script" uid="uid://1ax0i7rdnhfx" path="res://Scripts/Hosts/EnemyControllers/simple_enemy_controller.gd" id="4_sha6y"]
 [ext_resource type="Script" uid="uid://p3cxr8dlwlar" path="res://Scripts/Hosts/Weapons/pistol.gd" id="5_karfb"]
-[ext_resource type="PackedScene" uid="uid://baibytdlfegxn" path="res://Scenes/DEPRECATED/bullet.tscn" id="6_fojgf"]
+[ext_resource type="PackedScene" uid="uid://baibytdlfegxn" path="res://Scenes/Projectiles/bullet.tscn" id="6_fojgf"]
 [ext_resource type="Texture2D" uid="uid://c7h5c0lsfsd7v" path="res://Assets/Textures/host_body_legs_txtr_3.5.png" id="7_1h6k6"]
 [ext_resource type="Texture2D" uid="uid://8kg26inkmr7s" path="res://Assets/Textures/host_body_legs_txtr_1.png" id="8_b5noq"]
 [ext_resource type="Texture2D" uid="uid://q0dsysjv6sqs" path="res://Assets/Textures/mask_txtr_1.png" id="9_gsxhj"]
@@ -17,7 +17,7 @@
 [ext_resource type="Texture2D" uid="uid://cls4cgfujftcs" path="res://Assets/Textures/target_halo_txtr_1.png" id="13_avgi2"]
 [ext_resource type="Texture2D" uid="uid://dmn5kc8sixtcf" path="res://Assets/Textures/stun_txtr_1.png" id="14_ugblm"]
 [ext_resource type="PackedScene" uid="uid://643i1fy5plqk" path="res://Scenes/Host Components/health_bar.tscn" id="17_s5883"]
-[ext_resource type="Script" uid="uid://5qs6dhbwfy6x" path="res://Scripts/Hosts/_Core Components/hitbox.gd" id="18_u32pb"]
+[ext_resource type="Script" uid="uid://5qs6dhbwfy6x" path="res://Scripts/Multi-Use Components/hitbox.gd" id="18_u32pb"]
 
 [sub_resource type="Animation" id="Animation_6hky1"]
 resource_name = "Die"

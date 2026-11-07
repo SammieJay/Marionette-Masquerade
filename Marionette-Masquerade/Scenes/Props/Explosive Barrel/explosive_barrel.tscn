@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://bvacbcvrwa18c" path="res://Assets/Textures/props_txtr_1.png" id="2_awkqp"]
 [ext_resource type="Script" uid="uid://chuyor1e34ho8" path="res://Scripts/Multi-Use Components/hurtbox.gd" id="3_awkqp"]
 [ext_resource type="Shader" uid="uid://vomjwr3v32kx" path="res://Scenes/Props/Explosive Barrel/explosive_barrel.gdshader" id="4_qgtum"]
-[ext_resource type="Script" uid="uid://5qs6dhbwfy6x" path="res://Scripts/Hosts/_Core Components/hitbox.gd" id="4_rx8xk"]
+[ext_resource type="Script" uid="uid://5qs6dhbwfy6x" path="res://Scripts/Multi-Use Components/hitbox.gd" id="4_rx8xk"]
 [ext_resource type="Texture2D" uid="uid://c5sk3c1ky01p3" path="res://Assets/Textures/muzzle_flash_txtr_1.png" id="5_j0tkb"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_scryg"]
