@@ -47,6 +47,7 @@ ProjectileParent="Contains reference to parent node of all projectiles"
 Cursor="Contains reference to singleton Cursor class"
 PossessionIndicator=""
 Camera=""
+ResourceManager="manages host resource for abilities"
 
 [input]
 

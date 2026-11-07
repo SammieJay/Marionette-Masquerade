@@ -21,7 +21,7 @@
 [ext_resource type="Script" uid="uid://b7p18lc7ewkbk" path="res://Scripts/Hosts/Prototypes/grapple_tentacle.gd" id="18_kyw1o"]
 [ext_resource type="Texture2D" uid="uid://v8r23du6qu0a" path="res://Assets/Textures/proto_grapple_txtr_1.png" id="19_4wjoh"]
 [ext_resource type="Texture2D" uid="uid://7qtt8n7igj2c" path="res://Assets/Textures/proto_grapple_txtr_2.png" id="21_jgsmm"]
-[ext_resource type="Script" uid="uid://5qs6dhbwfy6x" path="res://Scripts/Hosts/_Core Components/hit_box.gd" id="21_xudmt"]
+[ext_resource type="Script" uid="uid://5qs6dhbwfy6x" path="res://Scripts/Hosts/_Core Components/hitbox.gd" id="21_xudmt"]
 [ext_resource type="Texture2D" uid="uid://d1vqrldr0074r" path="res://Assets/Textures/proto_grapple_txtr_3.png" id="22_gwngg"]
 [ext_resource type="Texture2D" uid="uid://b8ca6w74kcvju" path="res://Assets/Textures/proto_grapple_txtr_4.png" id="23_lj820"]
 
